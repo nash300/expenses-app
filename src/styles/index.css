@@ -1,0 +1,43 @@
+body {
+  margin: 0;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: "Josefin Sans", sans-serif;
+  font-optical-sizing: auto;
+  font-style: normal;
+  background-color: black;
+}
+
+form input {
+  border: none;
+  border-radius: 2px;
+  height: 25px;
+}
+
+.Button {
+  /* display: inline-block; */
+  margin-top: 5px;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+  text-transform: uppercase;
+  background-color: #000;
+  color: #fff;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  max-width: 100%;
+}
+
+.Button:hover {
+  opacity: 0.8;
+}
+
+.Msg-box {
+  background-color: rgb(173, 186, 211);
+  box-shadow: 0 0 30px rgba(0, 0, 0, 0.377);
+  border-radius: 3px;
+}
