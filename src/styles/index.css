@@ -8,12 +8,12 @@ body {
   font-family: "Josefin Sans", sans-serif;
   font-optical-sizing: auto;
   font-style: normal;
-  background-color: black;
+  background-color: rgb(255, 255, 255);
 }
 
 form input {
-  border: none;
-  border-radius: 2px;
+  border: 1px solid rgb(175, 175, 175);
+  border-radius: 3px;
   height: 25px;
 }
 
@@ -34,10 +34,4 @@ form input {
 
 .Button:hover {
   opacity: 0.8;
-}
-
-.Msg-box {
-  background-color: rgb(173, 186, 211);
-  box-shadow: 0 0 30px rgba(0, 0, 0, 0.377);
-  border-radius: 3px;
 }

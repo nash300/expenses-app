@@ -1,28 +1,37 @@
-import "./styles/App.css";
-import { Helmet } from "react-helmet";
 import LoginPage from "./pages/LoginPage";
 import HomePage from "./pages/HomePage";
-import {
-  BrowserRouter as Router,
-  Route,
-  Routes,
-  Navigate,
-} from "react-router-dom";
+import { useState } from "react";
+import { Navigate } from "react-router-dom";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
 function App() {
+  const [isLoggedIn, setIsLoggedIn] = useState(false); // State to track authentication status
+  console.log(isLoggedIn);
+
+  // Function to handle successful authentication
+  const handleLoginSuccess = () => {
+    setIsLoggedIn(true);
+  };
+
   return (
     <Router>
-      <Helmet>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-        <link
-          href="https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,100..700;1,100..700&family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap"
-          rel="stylesheet"
-        />
-      </Helmet>
+      {/* Move Navigate outside of Routes */}
+      {isLoggedIn ? (
+        <Navigate to="/home" replace />
+      ) : (
+        <Navigate to="/login" replace />
+      )}
       <Routes>
-        <Route path="/login" element={<LoginPage />} />
+        {/* Render LoginPage and pass handleLoginSuccess function */}
+        <Route
+          path="/login"
+          element={<LoginPage handleLoginSuccess={handleLoginSuccess} />}
+        />
+
+        {/* If authenticated, render HomePage */}
         <Route path="/home" element={<HomePage />} />
+
+        {/* Redirect to login page if not authenticated */}
         <Route path="/" element={<Navigate to="/login" replace />} />
       </Routes>
     </Router>
