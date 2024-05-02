@@ -1,5 +1,5 @@
 import LoginPage from "./pages/LoginPage";
-import HomePage from "./pages/HomePage";
+import BudjetCalculator from "./pages/BudjetCalculator.js";
 import { useState } from "react";
 import { Navigate } from "react-router-dom";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
@@ -29,7 +29,7 @@ function App() {
         />
 
         {/* If authenticated, render HomePage */}
-        <Route path="/home" element={<HomePage />} />
+        <Route path="/home" element={<BudjetCalculator />} />
 
         {/* Redirect to login page if not authenticated */}
         <Route path="/" element={<Navigate to="/login" replace />} />

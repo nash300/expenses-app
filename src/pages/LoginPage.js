@@ -8,7 +8,6 @@ function LoginPage({ handleLoginSuccess }) {
   const [statusText, setStatusText] = useState("");
 
   const handleLogin = async (event) => {
-    console.log("started...", "username :", username, "password:", password);
     event.preventDefault();
 
     // Query Supabase to fetch user information
@@ -28,7 +27,7 @@ function LoginPage({ handleLoginSuccess }) {
       return;
     }
     if (password !== data.password) {
-      setStatusText("Invalid password");
+      setStatusText("Check password");
       return;
     }
     handleLoginSuccess();
@@ -40,7 +39,7 @@ function LoginPage({ handleLoginSuccess }) {
         <div id="log-in-status-message-text">{statusText}</div>
         <form id="log-in-form" onSubmit={handleLogin}>
           <div>
-            <label htmlFor="username">Username:</label>
+            <label htmlFor="username">Username</label>
             <input
               type="text"
               id="username"
@@ -51,7 +50,7 @@ function LoginPage({ handleLoginSuccess }) {
             />
           </div>
           <div>
-            <label htmlFor="password">Password:</label>
+            <label htmlFor="password">Password</label>
             <input
               type="password"
               id="password"

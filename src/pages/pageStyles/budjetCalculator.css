@@ -1,0 +1,40 @@
+#budjet-calculator-page {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  overflow: hidden;
+  background: linear-gradient(to bottom right, #571074, #99ccff);
+  justify-content: center;
+}
+
+#calculator-page-wrapper {
+  width: 95%;
+  flex-direction: column;
+  margin-top: 30px;
+}
+
+#menu-section {
+  height: 100px;
+  background-image: linear-gradient(to bottom right, #000000b4, #00000057);
+  border-radius: 50px 50px 0px 0px;
+  margin-bottom: 2px;
+}
+
+#content-wrapper {
+  display: flex;
+  flex-direction: row;
+  height: 100%;
+}
+
+#payee-section {
+  flex: 3;
+  background-color: #ffffff;
+  overflow: auto;
+  padding-top: 50px;
+}
+
+#statistics-section {
+  flex: 1;
+  background-color: #ffffff;
+  padding-top: 50px;
+}
