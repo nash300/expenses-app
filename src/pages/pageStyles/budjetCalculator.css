@@ -11,7 +11,14 @@
   width: 95%;
   flex-direction: column;
   margin-top: 30px;
+  border-radius: 50px 50px 0px 0px;
+
+  box-shadow: 0 0 10px 5px rgba(0, 0, 0, 0.5); /* Glowing shadow effect */
 }
+
+/*////////////////////////////////////////////*/
+/*             MENU SECTION - START           */
+/*////////////////////////////////////////////*/
 
 #menu-section {
   height: 100px;
@@ -19,20 +26,88 @@
   border-radius: 50px 50px 0px 0px;
   margin-bottom: 2px;
 }
+/* -------------menu section end --------------*/
 
 #content-wrapper {
   display: flex;
   flex-direction: row;
   height: 100%;
+  width: auto;
 }
 
+/*//////////////////////////////////////////*/
+/* ---------  PAYEE SECTION ----------------*/
+/*//////////////////////////////////////////*/
 #payee-section {
-  flex: 3;
+  display: grid;
+  width: 80%;
   background-color: #ffffff;
-  overflow: auto;
-  padding-top: 50px;
+  border: 1px solid rgb(247, 11, 11);
+  position: relative;
 }
 
+#payee-section-headers {
+  display: flex;
+  flex-direction: row;
+  height: 50px;
+  width: 75.5%;
+  position: fixed;
+}
+
+#fixed-bills-section-header {
+  display: flex;
+  width: 50%;
+  text-align: center;
+  justify-content: center;
+  background-image: linear-gradient(to bottom right, #000000b4, #00000057);
+  border: 1px solid white;
+  border-radius: 0px 0px 20px 20px;
+  color: white;
+  text-transform: uppercase;
+}
+
+#one-time-bills-section-header {
+  display: grid;
+  width: 50%;
+  text-align: center;
+  justify-content: center;
+  background-image: linear-gradient(to bottom right, #000000b4, #00000057);
+  border: 1px solid white;
+  border-radius: 0px 0px 20px 20px;
+  color: white;
+  text-transform: uppercase;
+}
+
+#all-payee-wrapper {
+  padding-top: 50px;
+  display: flex;
+  overflow: auto;
+}
+
+#fixed-bills-section {
+  display: grid;
+  width: 50%;
+  overflow: auto;
+}
+
+#fixed-bills-display {
+}
+
+#one-time-bills-section {
+  display: grid;
+  width: 50%;
+  overflow: auto;
+}
+
+#one-time-bills-display {
+  height: auto;
+}
+
+/* ------------- Payee section end  -------------*/
+
+/*///////////////////////////////////////////////*/
+/* ---------   STATISTIC SECTION ----------------*/
+/*///////////////////////////////////////////////*/
 #statistics-section {
   flex: 1;
   background-color: #ffffff;
