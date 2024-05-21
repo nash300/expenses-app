@@ -1,6 +1,5 @@
 #payee-box {
   display: flex;
-  max-width: 100%;
   flex-direction: row;
   height: 50px;
   align-items: center;

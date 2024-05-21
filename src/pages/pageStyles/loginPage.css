@@ -10,7 +10,7 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background-color: rgb(236, 234, 234);
+  background: linear-gradient(to bottom right, #571074, #99ccff);
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.377);
   border-radius: 0px 0px 50px 0px;
 }

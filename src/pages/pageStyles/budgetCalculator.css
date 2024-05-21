@@ -1,19 +1,15 @@
 #budjet-calculator-page {
   width: 100vw;
   height: 100vh;
-  display: flex;
   overflow: hidden;
-  background: linear-gradient(to bottom right, #571074, #99ccff);
   justify-content: center;
+  align-items: center;
 }
 
 #calculator-page-wrapper {
-  width: 95%;
-  flex-direction: column;
-  margin-top: 30px;
-  border-radius: 50px 50px 0px 0px;
-
   box-shadow: 0 0 10px 5px rgba(0, 0, 0, 0.5); /* Glowing shadow effect */
+  align-items: center;
+  justify-content: center;
 }
 
 /*////////////////////////////////////////////*/
@@ -23,16 +19,16 @@
 #menu-section {
   height: 100px;
   background-image: linear-gradient(to bottom right, #000000b4, #00000057);
-  border-radius: 50px 50px 0px 0px;
   margin-bottom: 2px;
+  color: white;
+  text-shadow: 1px 6px 4px rgba(0, 0, 0, 0.466);
 }
 /* -------------menu section end --------------*/
 
 #content-wrapper {
   display: flex;
   flex-direction: row;
-  height: 100%;
-  width: auto;
+  margin: auto;
 }
 
 /*//////////////////////////////////////////*/
@@ -42,44 +38,36 @@
   display: grid;
   width: 80%;
   background-color: #ffffff;
-  border: 1px solid rgb(247, 11, 11);
+  box-shadow: 0 0 10px 5px rgba(0, 0, 0, 0.089); /* Glowing shadow effect */
   position: relative;
-}
-
-#payee-section-headers {
-  display: flex;
-  flex-direction: row;
-  height: 50px;
-  width: 75.5%;
-  position: fixed;
+  margin-bottom: 100px;
 }
 
 #fixed-bills-section-header {
   display: flex;
-  width: 50%;
   text-align: center;
   justify-content: center;
-  background-image: linear-gradient(to bottom right, #000000b4, #00000057);
+  background-image: linear-gradient(to bottom right, #ff0a0ace, #ff050573);
   border: 1px solid white;
-  border-radius: 0px 0px 20px 20px;
+  border-radius: 9px;
   color: white;
   text-transform: uppercase;
+  text-shadow: 1px 6px 4px rgba(0, 0, 0, 0.836);
 }
 
 #one-time-bills-section-header {
-  display: grid;
-  width: 50%;
+  display: flex;
   text-align: center;
   justify-content: center;
-  background-image: linear-gradient(to bottom right, #000000b4, #00000057);
+  background-image: linear-gradient(to bottom right, #2cf125, #54ff0557);
   border: 1px solid white;
-  border-radius: 0px 0px 20px 20px;
+  border-radius: 9px;
   color: white;
   text-transform: uppercase;
+  text-shadow: 1px 6px 4px rgba(0, 0, 0, 0.363);
 }
 
 #all-payee-wrapper {
-  padding-top: 50px;
   display: flex;
   overflow: auto;
 }
@@ -88,15 +76,18 @@
   display: grid;
   width: 50%;
   overflow: auto;
+  text-shadow: 2px 2px 4px rgba(131, 131, 131, 0.993);
 }
 
 #fixed-bills-display {
+  height: auto;
 }
 
 #one-time-bills-section {
   display: grid;
   width: 50%;
   overflow: auto;
+  text-shadow: 2px 2px 4px rgba(131, 131, 131, 0.993);
 }
 
 #one-time-bills-display {
@@ -112,4 +103,5 @@
   flex: 1;
   background-color: #ffffff;
   padding-top: 50px;
+  border: 1px solid black;
 }

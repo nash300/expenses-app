@@ -3,7 +3,7 @@ import supabase from "../supabase";
 import { useState } from "react";
 
 function LoginPage({ handleLoginSuccess }) {
-  const [username, setUsername] = useState("");
+  const [user_name, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [statusText, setStatusText] = useState("");
 
@@ -14,7 +14,7 @@ function LoginPage({ handleLoginSuccess }) {
     const { data, error } = await supabase
       .from("User")
       .select()
-      .eq("user_name", username)
+      .eq("user_name", user_name)
       .single();
 
     // Start analysing the received data
@@ -30,7 +30,7 @@ function LoginPage({ handleLoginSuccess }) {
       setStatusText("Check password");
       return;
     }
-    handleLoginSuccess();
+    handleLoginSuccess(data);
   };
 
   return (
@@ -44,7 +44,7 @@ function LoginPage({ handleLoginSuccess }) {
               type="text"
               id="username"
               name="username"
-              value={username}
+              value={user_name}
               onChange={(e) => setUsername(e.target.value)}
               required
             />

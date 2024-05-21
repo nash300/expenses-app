@@ -1,23 +1,43 @@
 import LoginPage from "./pages/LoginPage";
 import BudjetCalculator from "./pages/BudjetCalculator.js";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Navigate } from "react-router-dom";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
 function App() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false); // State to track authentication status
-  console.log(isLoggedIn);
+  //-----------------------------------------------------------------------
+  ////////////////////////////   STATES   /////////////////////////////////
 
-  // Function to handle successful authentication
-  const handleLoginSuccess = () => {
+  // State to track authentication status
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  // Tracks the loged-in user
+  const [currentUser, setCurrentUser] = useState([]);
+  //________________________________________________________________________
+
+  //----------------------------------------------------------------------
+  ////////////  Function to handle successful authentication  ////////////
+  //----------------------------------------------------------------------
+  const handleLoginSuccess = (data) => {
     setIsLoggedIn(true);
+
+    // storing user details in the hook
+    setCurrentUser({
+      id: data.id,
+      user_name: data.user_name,
+      first_name: data.first_name,
+    });
   };
+
+  // updates currentUser after any changes
+  useEffect(() => {}, [currentUser]);
+  //______________________________________________________________________
 
   return (
     <Router>
       {/* Move Navigate outside of Routes */}
       {isLoggedIn ? (
-        <Navigate to="/home" replace />
+        <Navigate to="/calculator" replace />
       ) : (
         <Navigate to="/login" replace />
       )}
@@ -28,8 +48,11 @@ function App() {
           element={<LoginPage handleLoginSuccess={handleLoginSuccess} />}
         />
 
-        {/* If authenticated, render HomePage */}
-        <Route path="/home" element={<BudjetCalculator />} />
+        {/* If authenticated, render HomePage (calculator) */}
+        <Route
+          path="/calculator"
+          element={<BudjetCalculator currentUser={currentUser} />}
+        />
 
         {/* Redirect to login page if not authenticated */}
         <Route path="/" element={<Navigate to="/login" replace />} />
