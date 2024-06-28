@@ -5,22 +5,17 @@ import { Navigate } from "react-router-dom";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
 function App() {
-  //-----------------------------------------------------------------------
-  ////////////////////////////   STATES   /////////////////////////////////
-
   // State to track authentication status
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   // Tracks the loged-in user
   const [currentUser, setCurrentUser] = useState([]);
-  //________________________________________________________________________
 
   //----------------------------------------------------------------------
   ////////////  Function to handle successful authentication  ////////////
   //----------------------------------------------------------------------
   const handleLoginSuccess = (data) => {
     setIsLoggedIn(true);
-
     // storing user details in the hook
     setCurrentUser({
       id: data.id,
@@ -28,7 +23,6 @@ function App() {
       first_name: data.first_name,
     });
   };
-
   // updates currentUser after any changes
   useEffect(() => {}, [currentUser]);
   //______________________________________________________________________
@@ -47,13 +41,11 @@ function App() {
           path="/login"
           element={<LoginPage handleLoginSuccess={handleLoginSuccess} />}
         />
-
         {/* If authenticated, render HomePage (calculator) */}
         <Route
           path="/calculator"
           element={<BudjetCalculator currentUser={currentUser} />}
         />
-
         {/* Redirect to login page if not authenticated */}
         <Route path="/" element={<Navigate to="/login" replace />} />
       </Routes>

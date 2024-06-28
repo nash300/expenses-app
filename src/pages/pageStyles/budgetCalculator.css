@@ -1,7 +1,7 @@
 #budjet-calculator-page {
   width: 100vw;
   height: 100vh;
-  overflow: hidden;
+  overflow: auto;
   justify-content: center;
   align-items: center;
 }
@@ -17,16 +17,21 @@
 /*////////////////////////////////////////////*/
 
 #menu-section {
+  display: flex;
   height: 100px;
-  background-image: linear-gradient(to bottom right, #000000b4, #00000057);
+  background-image: linear-gradient(to bottom right, #6c01f7b4, #6059c4);
   margin-bottom: 2px;
   color: white;
-  text-shadow: 1px 6px 4px rgba(0, 0, 0, 0.466);
+  box-shadow: inset 10px 0 10px -10px rgba(0, 0, 0, 0),
+    inset -10px 0 100px -10px rgba(0, 0, 0, 0.616);
+  font-size: 26px;
+  padding-left: 10px;
+  align-items: center;
 }
-/* -------------menu section end --------------*/
+/* _______________________________________________*/
 
 #content-wrapper {
-  display: flex;
+  height: 800px;
   flex-direction: row;
   margin: auto;
 }
@@ -35,73 +40,74 @@
 /* ---------  PAYEE SECTION ----------------*/
 /*//////////////////////////////////////////*/
 #payee-section {
-  display: grid;
-  width: 80%;
+  display: flex;
   background-color: #ffffff;
   box-shadow: 0 0 10px 5px rgba(0, 0, 0, 0.089); /* Glowing shadow effect */
   position: relative;
   margin-bottom: 100px;
 }
 
-#fixed-bills-section-header {
-  display: flex;
-  text-align: center;
-  justify-content: center;
-  background-image: linear-gradient(to bottom right, #ff0a0ace, #ff050573);
-  border: 1px solid white;
-  border-radius: 9px;
-  color: white;
-  text-transform: uppercase;
-  text-shadow: 1px 6px 4px rgba(0, 0, 0, 0.836);
-}
-
-#one-time-bills-section-header {
-  display: flex;
-  text-align: center;
-  justify-content: center;
-  background-image: linear-gradient(to bottom right, #2cf125, #54ff0557);
-  border: 1px solid white;
-  border-radius: 9px;
-  color: white;
-  text-transform: uppercase;
-  text-shadow: 1px 6px 4px rgba(0, 0, 0, 0.363);
-}
-
 #all-payee-wrapper {
   display: flex;
-  overflow: auto;
+  width: 100%;
+  overflow: hidden;
 }
 
 #fixed-bills-section {
-  display: grid;
-  width: 50%;
-  overflow: auto;
+  flex: 1;
+  display: block;
   text-shadow: 2px 2px 4px rgba(131, 131, 131, 0.993);
-}
-
-#fixed-bills-display {
-  height: auto;
+  box-shadow: 0 0 5px 2px rgba(0, 0, 0, 0.295); /* Glowing shadow effect */
+  background-image: linear-gradient(to bottom right, #0000002f, #ffffff);
 }
 
 #one-time-bills-section {
-  display: grid;
-  width: 50%;
-  overflow: auto;
+  flex: 1;
+  display: block;
   text-shadow: 2px 2px 4px rgba(131, 131, 131, 0.993);
+  box-shadow: 0 0 5px 2px rgba(0, 0, 0, 0.295); /* Glowing shadow effect */
+  background-image: linear-gradient(to bottom right, #0000002f, #ffffff);
+}
+
+#statistics-section {
+  flex: 1;
+  display: block;
+  box-shadow: 0 0 5px 2px rgba(0, 0, 0, 0.623); /* Glowing shadow effect */
+  background-image: linear-gradient(to bottom right, #4108c563, #00000057);
+  height: 800px;
+  overflow-y: scroll;
+}
+
+#fixed-bills-section-header {
+  text-align: center;
+  background-image: linear-gradient(to bottom right, #6c01f7b4, #6059c4);
+  border-radius: 9px;
+  color: white;
+  text-transform: uppercase;
+  text-shadow: 1px 6px 18px rgba(0, 0, 0, 0.836);
+  overflow: hidden;
+  box-shadow: inset 10px 0 10px -10px rgba(0, 0, 0, 0.5),
+    /* Left side shadow */ inset -10px 0 10px -10px rgba(0, 0, 0, 0.5); /* Right side shadow */
+}
+
+#one-time-bills-section-header {
+  text-align: center;
+  background-image: linear-gradient(to bottom right, #6c01f7b4, #6059c4);
+  border-radius: 9px;
+  color: white;
+  text-transform: uppercase;
+  text-shadow: 1px 6px 18px rgba(0, 0, 0, 0.836);
+  overflow: hidden;
+  box-shadow: inset 10px 0 10px -10px rgba(0, 0, 0, 0.5),
+    /* Left side shadow */ inset -10px 0 10px -10px rgba(0, 0, 0, 0.5); /* Right side shadow */
+}
+
+#fixed-bills-display {
+  height: 750px;
+  overflow-y: auto;
 }
 
 #one-time-bills-display {
-  height: auto;
-}
-
-/* ------------- Payee section end  -------------*/
-
-/*///////////////////////////////////////////////*/
-/* ---------   STATISTIC SECTION ----------------*/
-/*///////////////////////////////////////////////*/
-#statistics-section {
-  flex: 1;
-  background-color: #ffffff;
-  padding-top: 50px;
-  border: 1px solid black;
+  height: 750px;
+  overflow-y: auto;
 }

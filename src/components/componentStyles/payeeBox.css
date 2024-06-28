@@ -1,11 +1,9 @@
 #payee-box {
   display: flex;
   flex-direction: row;
-  height: 50px;
+  height: 40px;
   align-items: center;
-  margin: 10px;
   background-image: linear-gradient(to bottom right, #5810742a, #0203031f);
-  border-radius: 15px 0px 15px 0px;
   border: 1px solid rgba(88, 81, 97, 0.281);
   box-shadow: 0 0 2px 2px rgba(39, 39, 39, 0.178);
 }
@@ -31,7 +29,7 @@
   text-overflow: ellipsis; /* Display an ellipsis (...) to indicate text overflow */
   margin-left: 15px;
   align-content: center;
-  font-size: 18px;
+  font-size: 1em;
 }
 
 #right-section {
@@ -56,8 +54,11 @@
 }
 
 #check-box-section {
-  display: grid;
-  text-align: center;
+  display: flex;
+  align-items: center;
+  font-size: 12px;
+  flex-direction: column;
+  width: auto;
 }
 
 #button-section {
@@ -68,20 +69,14 @@
 }
 
 #button-section button {
-  border-radius: 5px;
-  border: 0px;
   border: none;
   cursor: pointer;
-  text-transform: uppercase;
-  background-color: #ffffff00;
-  color: #ffffff;
-  font-size: 10px;
-  border: 1px solid rgba(255, 255, 255, 0.432);
-  width: 30px; /* Set the width of the button */
-  height: 30px; /* Set the height of the button */
+  background-color: #c4c2caf5;
+  width: 25px; /* Set the width of the button */
+  height: 25px; /* Set the height of the button */
   background-size: contain; /* Ensure the image fits inside the button */
   background-repeat: no-repeat; /* Prevent the image from repeating */
-  box-shadow: 0 0 5px 5px rgba(39, 39, 39, 0.178);
+  box-shadow: 0 0 3px 2px rgb(148, 131, 131);
 }
 
 #button-section button:hover {
@@ -89,11 +84,6 @@
   background-color: #7f4fa7c2;
 }
 
-#edit-button {
-  background-image: url("/public/icons/edit.jpg");
-  margin-right: 5px;
-}
-
 #delete-button {
-  background-image: url("/public/icons/delete.png");
+  /* background-image: url("/public/icons/delete.png"); */
 }
