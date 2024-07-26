@@ -4,7 +4,7 @@ PAYEE BOX COMPONENT
 */
 
 import React from "react";
-import "./componentStyles/payeeBox.css";
+import "./payeeBox.css";
 
 const PayeeBox = (props) => {
   // Props:
@@ -12,8 +12,9 @@ const PayeeBox = (props) => {
   // sum: number - The amount owed to the payee
   // is_paid: boolean (checkbox) - Whether the bill has been paid
   // onCheck: function - Callback function to handle checkbox changes
-  
+
   const handleCheckChange = (event) => {
+    
     // Handles 'paid' checkbox click
     const checkedComponent = event.target.checked;
     // Call the onCheck function passed from the parent component

@@ -1,5 +1,6 @@
 import LoginPage from "./pages/LoginPage";
 import BudjetCalculator from "./pages/BudjetCalculator.js";
+import HomeMenuPage from "./pages/HomeMenuPage.js";
 import { useState, useEffect } from "react";
 import { Navigate } from "react-router-dom";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
@@ -11,9 +12,7 @@ function App() {
   // Tracks the loged-in user
   const [currentUser, setCurrentUser] = useState([]);
 
-  //----------------------------------------------------------------------
-  ////////////  Function to handle successful authentication  ////////////
-  //----------------------------------------------------------------------
+  // handles successful authentication  
   const handleLoginSuccess = (data) => {
     setIsLoggedIn(true);
     // storing user details in the hook
@@ -29,24 +28,24 @@ function App() {
 
   return (
     <Router>
-      {/* Move Navigate outside of Routes */}
       {isLoggedIn ? (
-        <Navigate to="/calculator" replace />
+        <Navigate to="/home" replace />
       ) : (
         <Navigate to="/login" replace />
       )}
       <Routes>
-        {/* Render LoginPage and pass handleLoginSuccess function */}
         <Route
           path="/login"
           element={<LoginPage handleLoginSuccess={handleLoginSuccess} />}
         />
-        {/* If authenticated, render HomePage (calculator) */}
+        <Route
+          path="/home"
+          element={<HomeMenuPage  />}
+        />
         <Route
           path="/calculator"
           element={<BudjetCalculator currentUser={currentUser} />}
         />
-        {/* Redirect to login page if not authenticated */}
         <Route path="/" element={<Navigate to="/login" replace />} />
       </Routes>
     </Router>

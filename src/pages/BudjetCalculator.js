@@ -6,15 +6,15 @@ and paid bills.
  */
 
 import React, { useEffect, useState } from "react";
-import "./pageStyles/budgetCalculator.css";
+import "./budgetCalculator.css";
 import PayeeBox from "./../components/PayeeBox";
 import supabase from "../supabase";
 
 function BudgetCalculator(props) {
   // Props:
-  //  id:  user id of the current user
-  // user_name:  user name of the current user
-  // first_name:  first name of the current user
+  // id:  User id of the current user that is stored in supabase
+  // user_name:  User name of the current user
+  // first_name:  First name of the current user
   const { currentUser } = props;
   const [payeeList, setPayeeList] = useState([]);
   const [fixedBills, setFixedBills] = useState([]);
