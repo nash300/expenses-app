@@ -1,9 +1,9 @@
 import LoginPage from "./pages/LoginPage";
-import BudjetCalculator from "./pages/BudjetCalculator.js";
 import HomeMenuPage from "./pages/HomeMenuPage.js";
 import { useState, useEffect } from "react";
 import { Navigate } from "react-router-dom";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import BudgetTemplate from "./pages/BudgetTemplate.js";
 
 function App() {
   // State to track authentication status
@@ -12,7 +12,7 @@ function App() {
   // Tracks the loged-in user
   const [currentUser, setCurrentUser] = useState([]);
 
-  // handles successful authentication  
+  // handles successful authentication
   const handleLoginSuccess = (data) => {
     setIsLoggedIn(true);
     // storing user details in the hook
@@ -33,6 +33,8 @@ function App() {
       ) : (
         <Navigate to="/login" replace />
       )}
+
+      {/*Begining of the Routes*/}
       <Routes>
         <Route
           path="/login"
@@ -40,14 +42,14 @@ function App() {
         />
         <Route
           path="/home"
-          element={<HomeMenuPage  />}
+          element={<HomeMenuPage currentUser={currentUser} />}
         />
-        <Route
-          path="/calculator"
-          element={<BudjetCalculator currentUser={currentUser} />}
-        />
+
+        <Route path="/budget-template" element={<BudgetTemplate />} />
+
         <Route path="/" element={<Navigate to="/login" replace />} />
       </Routes>
+      {/*End of the Routes*/}
     </Router>
   );
 }
