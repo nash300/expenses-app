@@ -7,8 +7,8 @@ and paid bills.
 
 import React, { useEffect, useState } from "react";
 import "./budgetCalculator.css";
-import PayeeBox from "./../components/PayeeBox";
 import supabase from "../supabase";
+import PayeeBox from "../components/PayeeBox"
 
 function BudgetCalculator(props) {
   // Props:

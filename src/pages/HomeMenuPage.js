@@ -1,48 +1,65 @@
 import React from "react";
-import createIcon from '../utilities/icons/1 (77).png'
-import editIcon from '../utilities/icons/1 (81).png'
-import statisticsIcon from '../utilities/icons/1 (84).png'
-import exitIcon from '../utilities/icons/1 (146).png'
+import createIcon from "../utilities/icons/1 (77).png";
+import editIcon from "../utilities/icons/1 (81).png";
+import statisticsIcon from "../utilities/icons/1 (84).png";
+import exitIcon from "../utilities/icons/1 (146).png";
 
 function HomeMenuPage() {
-  return <><div class="row row-cols-1 row-cols-md-2 g-4">
-  <div class="col">
-    <div class="card">
-      <img src={createIcon} class="card-img-top" alt="..." style = {{width : '100px'}} />
-      <div class="card-body">
-        <h5 class="card-title">Create New</h5>
-        <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+  return (
+    <div className="d-flex justify-content-center align-items-center vh-100">
+      <div className="container">
+        <div className="row justify-content-center">
+          {/* Card - "Create" */}
+          <div className="col-md-3 mb-4">
+            <div className="card">
+              <img
+                className="card-img-top"
+                src={createIcon}
+                alt="Create Icon"
+              />
+              <div className="card-body">
+                <h5 className="card-title">Create</h5>
+                <p className="card-text">Create a new budget</p>
+                <a href="#" className="btn btn-primary">
+                Click Here 
+                </a>
+              </div>
+            </div>
+          </div>
+
+          {/* Card - "Edit" */}
+          <div className="col-md-3 mb-4">
+            <div className="card">
+              <img className="card-img-top" src={editIcon} alt="Edit Icon" />
+              <div className="card-body">
+                <h5 className="card-title">Edit</h5>
+                <p className="card-text">Update an existing budget </p>
+                <a href="#" className="btn btn-primary">
+Click Here                </a>
+              </div>
+            </div>
+          </div>
+
+          {/* Card 3 */}
+          <div className="col-md-3 mb-4">
+            <div className="card">
+              <img
+                className="card-img-top"
+                src={statisticsIcon}
+                alt="Statistics Icon"
+              />
+              <div className="card-body">
+                <h5 className="card-title">Statistics</h5>
+                <p className="card-text">See and compare past payments</p>
+                <a href="#" className="btn btn-primary">
+                Click Here                 </a>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
-  </div>
-  <div class="col">
-    <div class="card">
-      <img src={editIcon} class="card-img-top" alt="..." style = {{width : '100px'}}/>
-      <div class="card-body">
-        <h5 class="card-title">Edit</h5>
-        <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-      </div>
-    </div>
-  </div>
-  <div class="col">
-    <div class="card">
-      <img src={statisticsIcon} class="card-img-top" alt="..." style = {{width : '100px'}}/>
-      <div class="card-body">
-        <h5 class="card-title">Statistics</h5>
-        <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content.</p>
-      </div>
-    </div>
-  </div>
-  <div class="col">
-    <div class="card">
-      <img src={exitIcon} class="card-img-top" alt="..." style = {{width : '100px'}}/>
-      <div class="card-body">
-        <h5 class="card-title">Exit</h5>
-        <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-      </div>
-    </div>
-  </div>
-</div></>;
+  );
 }
 
 export default HomeMenuPage;

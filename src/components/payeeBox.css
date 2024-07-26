@@ -18,7 +18,7 @@
   width: 30px;
   height: 30px;
   margin-left: 20px;
-  background-image: url("/public/icons/credit-card.png"); /* Add background image */
+  background-image: url("../utilities//icons/credit-card.png"); /* Add background image of a credit card */
   background-size: cover; /* Cover the entire background with the image */
   background-position: center; /* Center the background image */
   background-repeat: no-repeat;
@@ -84,6 +84,3 @@
   background-color: #7f4fa7c2;
 }
 
-#delete-button {
-  /* background-image: url("/public/icons/delete.png"); */
-}
