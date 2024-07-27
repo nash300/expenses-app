@@ -1,5 +1,5 @@
 function BudgetTemplate() {
-    return(<p>hi</p>)
+    return(<p>budget template file</p>)
 }
 
 

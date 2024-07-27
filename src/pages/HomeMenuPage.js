@@ -4,20 +4,25 @@ import budgetPlanIcon from "../utilities/icons/1 (117).png";
 import statisticsIcon from "../utilities/icons/1 (93).png";
 import { useNavigate } from "react-router-dom";
 
-
 function HomeMenuPage() {
-// useNavigate hook to get the navigate function
+  // useNavigate hook to get the navigate function
   const navigate = useNavigate();
 
-
-
+  /* Handles "Budget template click*/
+  /* Mounts BudgetTemplate component and sends out the "currentUser object as prop" */
   const handleBudgetTemplateClick = () => {
-    /* Handles "Budget template click*/
-    /* Mounts BudgetTemplate component and sends out the "currentUser object as prop" */
     navigate("/budget-template");
-
   };
 
+  // Handler function for navigation menu item
+  const handleBudgetCalculatorClick = () => {
+    navigate("/budget-Calculator");
+  };
+  
+  // Handler function for navigation menu item
+  const handleStatisticsClick = () => {
+    navigate("/statistics");
+  };
   return (
     <div className="container-fluid vh-100 d-flex justify-content-center align-items-center">
       <div className="container text-center">
@@ -58,9 +63,13 @@ function HomeMenuPage() {
                 style={{ width: 100 }}
               />
               <div className="card-body d-flex flex-column">
-                <h5 className="card-title">Calculate Budget</h5>
+                <h5 className="card-title">Budget Calculator</h5>
                 <p className="card-text">Create a new budget plan</p>
-                <a href="#" className="btn btn-primary mt-auto">
+                <a
+                  href="#"
+                  className="btn btn-primary mt-auto"
+                  onClick={handleBudgetCalculatorClick}
+                >
                   Click Here
                 </a>
               </div>
@@ -79,7 +88,11 @@ function HomeMenuPage() {
               <div className="card-body d-flex flex-column">
                 <h5 className="card-title">Statistics</h5>
                 <p className="card-text">See and compare past payments</p>
-                <a href="#" className="btn btn-primary mt-auto">
+                <a
+                  href="#"
+                  className="btn btn-primary mt-auto"
+                  onClick={handleStatisticsClick}
+                >
                   Click Here
                 </a>
               </div>
