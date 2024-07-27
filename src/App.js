@@ -1,55 +1,42 @@
-import LoginPage from "./pages/LoginPage";
-import HomeMenuPage from "./pages/HomeMenuPage.js";
-import { useState, useEffect } from "react";
-import { Navigate } from "react-router-dom";
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import BudgetTemplate from "./pages/BudgetTemplate.js";
+import React, { useState, useEffect } from 'react';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import LoginPage from './pages/LoginPage';
+import HomeMenuPage from './pages/HomeMenuPage';
+import BudgetTemplate from './pages/BudgetTemplate';
 
 function App() {
   // State to track authentication status
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-  // Tracks the loged-in user
-  const [currentUser, setCurrentUser] = useState([]);
-
-  // handles successful authentication
+  // Handles successful authentication
   const handleLoginSuccess = (data) => {
     setIsLoggedIn(true);
-    // storing user details in the hook
-    setCurrentUser({
-      id: data.id,
-      user_name: data.user_name,
-      first_name: data.first_name,
-    });
   };
-  // updates currentUser after any changes
-  useEffect(() => {}, [currentUser]);
-  //______________________________________________________________________
 
   return (
     <Router>
-      {isLoggedIn ? (
-        <Navigate to="/home" replace />
-      ) : (
-        <Navigate to="/login" replace />
-      )}
-
-      {/*Begining of the Routes*/}
       <Routes>
-        <Route
-          path="/login"
-          element={<LoginPage handleLoginSuccess={handleLoginSuccess} />}
+        <Route 
+          path="/login" 
+          element={<LoginPage handleLoginSuccess={handleLoginSuccess} />} 
         />
-        <Route
-          path="/home"
-          element={<HomeMenuPage currentUser={currentUser} />}
+        <Route 
+          path="/home" 
+          element={isLoggedIn ? <HomeMenuPage /> : <Navigate to="/login" replace />} 
         />
-
-        <Route path="/budget-template" element={<BudgetTemplate />} />
-
-        <Route path="/" element={<Navigate to="/login" replace />} />
+        <Route 
+          path="/budget-template" 
+          element={isLoggedIn ? <BudgetTemplate /> : <Navigate to="/login" replace />} 
+        />
+        <Route 
+          path="/" 
+          element={isLoggedIn ? <Navigate to="/home" replace /> : <Navigate to="/login" replace />} 
+        />
+        <Route 
+          path="*" 
+          element={<Navigate to="/" replace />} 
+        />
       </Routes>
-      {/*End of the Routes*/}
     </Router>
   );
 }

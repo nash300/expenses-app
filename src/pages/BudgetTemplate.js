@@ -1,6 +1,5 @@
 function BudgetTemplate() {
-    console.log("working")
-    return(<></>)
+    return(<p>hi</p>)
 }
 
 

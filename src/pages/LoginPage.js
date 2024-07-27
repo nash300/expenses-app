@@ -1,4 +1,5 @@
-import { useState } from "react";
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import supabase from "../supabase";
 import userImage from "../utilities/icons/login-icon.jpg";
 
@@ -7,32 +8,47 @@ function LoginPage({ handleLoginSuccess }) {
   const [password, setPassword] = useState("");
   const [statusText, setStatusText] = useState("");
 
+  const navigate = useNavigate();
+
+  /* This function:
+  -fetches data from the server, compare it with user input.
+  -displays error msgs to the user if needed. 
+  -sends user info to the parent.
+  -automaticaly navigate to the home page*/
   const handleLogin = async (event) => {
     event.preventDefault();
 
-    // Query Supabase to fetch user information
-    const { data, error } = await supabase
-      .from("User")
-      .select()
-      .eq("user_name", username)
-      .single();
+    try {
+      // Query Supabase to fetch user information
+      const { data, error } = await supabase
+        .from("User")
+        .select()
+        .eq("user_name", username)
+        .single();
 
-    // Analyzing the received data
-    if (error) {
-      setStatusText("Invalid username");
-      return;
-    }
-    if (!data) {
-      setStatusText("User not found");
-      return;
-    }
-    if (password !== data.password) {
-      setStatusText("Check password");
-      return;
-    }
+      // Error msg to the user
+      if (error) {
+        setStatusText("Invalid username or error fetching user.");
+        return;
+      }
+      if (!data) {
+        setStatusText("User not found.");
+        return;
+      }
+      if (password !== data.password) {
+        setStatusText("Incorrect password.");
+        return;
+      }
 
-    // If all checks pass, login is successful
-    handleLoginSuccess(data);
+      // If all checks pass
+      handleLoginSuccess(data); // sending loged-in user data back to parent
+      navigate("/home"); // Redirect to home page
+
+      // Error msg to the console
+    } catch (error) {
+      console.error("Login error:", error);
+      setStatusText("An unexpected error occurred.");
+    }
   };
 
   return (
@@ -45,15 +61,17 @@ function LoginPage({ handleLoginSuccess }) {
       }}
     >
       <div>
-        {/* Display status messages */}
         <div style={{ marginBottom: "10px", color: "red" }}>{statusText}</div>
-        {/* Login form */}
         <form
-          className="card py-5 p-5 h-100 justify-content-center align-items-center "
+          className="card py-5 p-5 h-100 justify-content-center align-items-center"
           onSubmit={handleLogin}
         >
-          <img className="mb-1 " src={userImage} style={{ height: "50px", width:"150px" }} />
-
+          <img
+            className="mb-1"
+            src={userImage}
+            style={{ height: "50px", width: "150px" }}
+            alt="Login Icon"
+          />
           <div className="mb-3">
             <label htmlFor="username" className="form-label">
               Username
