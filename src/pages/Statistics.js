@@ -1,4 +1,3 @@
-// src/pages/Statistics.js
 import React from 'react';
 
 const Statistics = () => {

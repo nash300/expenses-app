@@ -1,5 +1,4 @@
 import React from "react";
-import budgetTemplateIcon from "../utilities/icons/1 (127).png";
 import budgetPlanIcon from "../utilities/icons/1 (117).png";
 import statisticsIcon from "../utilities/icons/1 (93).png";
 import { useNavigate } from "react-router-dom";
@@ -8,17 +7,11 @@ function HomeMenuPage() {
   // useNavigate hook to get the navigate function
   const navigate = useNavigate();
 
-  /* Handles "Budget template click*/
-  /* Mounts BudgetTemplate component and sends out the "currentUser object as prop" */
-  const handleBudgetTemplateClick = () => {
-    navigate("/budget-template");
-  };
-
   // Handler function for navigation menu item
   const handleBudgetCalculatorClick = () => {
     navigate("/budget-Calculator");
   };
-  
+
   // Handler function for navigation menu item
   const handleStatisticsClick = () => {
     navigate("/statistics");
@@ -27,33 +20,7 @@ function HomeMenuPage() {
     <div className="container-fluid vh-100 d-flex justify-content-center align-items-center">
       <div className="container text-center">
         <div className="row justify-content-center">
-          {/* Card 1 */}
-          <div className="col-md-3 mb-4">
-            <div className="card h-100 d-flex flex-column alert alert-primary">
-              <img
-                className="card-img-top mx-auto mt-3"
-                src={budgetTemplateIcon}
-                alt="Create Icon"
-                style={{ width: 100 }}
-              />
-              <div className="card-body d-flex flex-column">
-                <h5 className="card-title">Budget Template</h5>
-                <p className="card-text">
-                  Create customized budget template to use in your budget
-                  planning
-                </p>
-                <a
-                  href="#"
-                  className="btn btn-primary mt-auto"
-                  onClick={handleBudgetTemplateClick}
-                >
-                  Click Here
-                </a>
-              </div>
-            </div>
-          </div>
-
-          {/* Card 2 */}
+          {/* Card - Budget calculator */}
           <div className="col-md-3 mb-4">
             <div className="card h-100 d-flex flex-column alert alert-secondary">
               <img
@@ -76,7 +43,7 @@ function HomeMenuPage() {
             </div>
           </div>
 
-          {/* Card 3 */}
+          {/* Card - statistics */}
           <div className="col-md-3 mb-4">
             <div className="card h-100 d-flex flex-column alert alert-success">
               <img
