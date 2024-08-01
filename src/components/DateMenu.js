@@ -24,7 +24,7 @@ const DateMenu = () => {
     "May",
     "June",
     "July",
-    "August",
+    "August", 
     "September",
     "October",
     "November",
@@ -42,8 +42,8 @@ const DateMenu = () => {
   };
 
   return (
-    <div class="container card text-white bg-warning mb-2">
-      <div class="card-header ">Select Month</div>
+    <div class="container card text-white bg-primary mb-2">
+      <div class=" card-header ">Select Month</div>
       <div class="card-body ">
         <p class="card-text">
           <div className="container">
@@ -52,6 +52,7 @@ const DateMenu = () => {
                 <label htmlFor="yearSelect">Year:</label>
                 <select
                   id="yearSelect"
+
                   value={selectedYear}
                   onChange={handleYearChange}
                   className="form-select"
@@ -89,3 +90,6 @@ const DateMenu = () => {
 };
 
 export default DateMenu;
+
+
+

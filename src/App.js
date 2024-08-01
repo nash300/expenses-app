@@ -11,6 +11,7 @@ import LoginPage from "./pages/LoginPage";
 import HomeMenuPage from "./pages/HomeMenuPage";
 import Statistics from "./pages/Statistics";
 import BudgetCalculator from "./pages/BudgetCalculator";
+import SelectDatePage from "./pages/SelectDatePage";
 
 function App() {
   const [userData, setUserData] = useState([]);
@@ -53,7 +54,7 @@ function App() {
           }
         />
        
-        {/* BUDGET STATISTICS PAGE*/}
+        {/* STATISTICS PAGE*/}
         <Route
           path="/statistics"
           element={
@@ -75,9 +76,21 @@ function App() {
             )
           }
         />
+
+          {/* DATE SELECTOR PAGE*/}
+          <Route
+          path="/select-date"
+          element={
+            isLoggedIn ? (
+              <SelectDatePage userData={userData} />
+            ) : (
+              <Navigate to="/login" replace />
+            )
+          }
+        />
         
         
-        {/* LANDING PAGE HANDLING*/}
+        {/* INITIAL PAGE HANDLING*/}
         <Route
           path="/"
           element={

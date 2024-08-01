@@ -13,7 +13,7 @@ const IncomeAdder = () => {
   // Handles the + button in 'add income' section.
   const handleAddIncomeClick = () => {
     setIsAddIncomeClicked(true);
-  }; 
+  };
 
   // Tracks income inputs from the user
   const [description, setDescription] = useState(null);
@@ -50,7 +50,7 @@ const IncomeAdder = () => {
   // Removes the corresponding record from the Incomes state as the user clicks on "-" button.
   const handleMinusButtonClick = (index) => {
     setIncomes((prevIncomes) => prevIncomes.filter((_, i) => i !== index));
-};
+  };
 
   // Calculate the total income by summing all amounts
   const totalIncome = incomes.reduce((sum, income) => {
@@ -81,13 +81,13 @@ const IncomeAdder = () => {
               {incomes.map((income, index) => (
                 <li
                   key={index}
-                  className="list-group-item text-dark d-flex justify-content-between align-items-center" 
+                  className="list-group-item text-dark d-flex justify-content-between align-items-center"
                 >
                   {income.description}: {income.amount}Kr
                   <button
                     type="button"
                     className="btn btn-dark"
-                    onClick={()=> handleMinusButtonClick(index)}
+                    onClick={() => handleMinusButtonClick(index)}
                   >
                     -
                   </button>
@@ -119,7 +119,7 @@ const IncomeAdder = () => {
               onClick={handleSaveIncomeClick}
             >
               Save
-            </button>{" "}
+            </button>
             <button
               type="button"
               class="btn btn-dark"

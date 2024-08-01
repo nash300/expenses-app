@@ -9,7 +9,7 @@ function HomeMenuPage() {
 
   // Handler function for navigation menu item
   const handleBudgetCalculatorClick = () => {
-    navigate("/budget-Calculator");
+    navigate("/select-date");
   };
 
   // Handler function for navigation menu item
