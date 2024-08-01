@@ -1,5 +1,5 @@
 import React from "react";
-import budgetPlanIcon from "../utilities/icons/1 (117).png";
+import budgetPlanIcon from "../utilities/icons/1 (94).png";
 import statisticsIcon from "../utilities/icons/1 (93).png";
 import { useNavigate } from "react-router-dom";
 
