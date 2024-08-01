@@ -2,9 +2,10 @@
 /* This component is the Card for selecting the month & date */
 /*************************************************************/
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const DateMenu = () => {
-  // State for selected year and month
+  // Local state for selected year and month
   const [selectedYear, setSelectedYear] = useState("");
   const [selectedMonth, setSelectedMonth] = useState("");
 
@@ -24,7 +25,7 @@ const DateMenu = () => {
     "May",
     "June",
     "July",
-    "August", 
+    "August",
     "September",
     "October",
     "November",
@@ -41,6 +42,21 @@ const DateMenu = () => {
     setSelectedMonth(e.target.value);
   };
 
+  // initializing a navigater
+  const navigate = useNavigate();
+
+  // direct page navigations into "BudgetCalculater" page
+  // validates and passes out the selected month/date as props.
+  const handleSubmitButton = () => {
+    if (selectedYear && selectedMonth) {
+      navigate("/budget-Calculator", {
+        state: { month: selectedMonth, year: selectedYear },
+      });
+    } else {
+      alert("Please select a year and a month");
+    }
+  };
+
   return (
     <div class="container card text-white bg-primary mb-2">
       <div class=" card-header ">Select Month</div>
@@ -52,7 +68,6 @@ const DateMenu = () => {
                 <label htmlFor="yearSelect">Year:</label>
                 <select
                   id="yearSelect"
-
                   value={selectedYear}
                   onChange={handleYearChange}
                   className="form-select"
@@ -84,12 +99,17 @@ const DateMenu = () => {
             </div>
           </div>
         </p>
+        {/* submit button */}
+        <button
+          type="button"
+          className="btn btn-dark"
+          onClick={handleSubmitButton}
+        >
+          Submit
+        </button>
       </div>
     </div>
   );
 };
 
 export default DateMenu;
-
-
-

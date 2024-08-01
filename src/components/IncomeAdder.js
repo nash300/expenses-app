@@ -58,7 +58,7 @@ const IncomeAdder = () => {
   }, 0);
 
   return (
-    <div className="card text-white bg-primary mb-3  ">
+    <div className="card text-white bg-primary mb-1 ">
       <div className="  card-header d-flex justify-content-between  ">
         Add an Income
         <button
@@ -69,38 +69,36 @@ const IncomeAdder = () => {
           +
         </button>
       </div>
-      <div className="card-body">
+      <div className="container m-1">
         <p className="card-text ">Total income of this month:</p>
         <h2> {totalIncome} Kr</h2>
       </div>
-      <div className="card-body">
-        <p className="card-text ">
-          {
-            <ul className="list-group ">
-              {/* Updates the list of incomes each time the user enters a new record*/}
-              {incomes.map((income, index) => (
-                <li
-                  key={index}
-                  className="list-group-item text-dark d-flex justify-content-between align-items-center"
+      <div className="container">
+        {
+          <ul className="list-group ">
+            {/* Updates the list of incomes each time the user enters a new record*/}
+            {incomes.map((income, index) => (
+              <li
+                key={index}
+                className="list-group-item text-dark d-flex justify-content-between align-items-center p-0 ps-2"
+              >
+                {income.description}: {income.amount}Kr
+                <button
+                  type="button"
+                  className="btn btn-dark"
+                  onClick={() => handleMinusButtonClick(index)}
                 >
-                  {income.description}: {income.amount}Kr
-                  <button
-                    type="button"
-                    className="btn btn-dark"
-                    onClick={() => handleMinusButtonClick(index)}
-                  >
-                    -
-                  </button>
-                </li>
-              ))}
-            </ul>
-          }
-        </p>
+                  -
+                </button>
+              </li>
+            ))}
+          </ul>
+        }
       </div>
       <div className="card-body">
         {/* conditionaly renders income input fields as the user clicks on + button*/}
         {isAddIncomeClicked && (
-          <p className="card-text">
+          <div className="card-text">
             <input
               className="form-control form-control-sm mb-2"
               type="text"
@@ -113,21 +111,23 @@ const IncomeAdder = () => {
               placeholder="Amount"
               onChange={handleAmountChange}
             />
-            <button
-              type="button"
-              class="btn btn-dark"
-              onClick={handleSaveIncomeClick}
-            >
-              Save
-            </button>
-            <button
-              type="button"
-              class="btn btn-dark"
-              onClick={handleCancelClick}
-            >
-              Cancel
-            </button>
-          </p>
+            <spann>
+              <button
+                type="button"
+                className="btn btn-dark"
+                onClick={handleSaveIncomeClick}
+              >
+                Save
+              </button>
+              <button
+                type="button"
+                className="btn btn-dark ms-1"
+                onClick={handleCancelClick}
+              >
+                Cancel
+              </button>
+            </spann>
+          </div>
         )}
       </div>
     </div>
