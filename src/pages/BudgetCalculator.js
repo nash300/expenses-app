@@ -2,6 +2,8 @@ import IncomeAdder from "../components/IncomeAdder";
 import { useLocation } from "react-router-dom";
 
 const BudgetCalculator = ({ userData }) => {
+  console.log("userData in BudgetCalculator component :", userData);
+
   const location = useLocation();
 
   // Access the data from location.state
@@ -19,7 +21,7 @@ const BudgetCalculator = ({ userData }) => {
       <div className="row justify-content-start ">
         {/* income adder component */}
         <div className="col-2 m-1   ">
-          <IncomeAdder />
+          <IncomeAdder userData={userData} year={year} month={month}/>
         </div>
 
         {/* payee component section*/}

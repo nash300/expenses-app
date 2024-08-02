@@ -8,53 +8,56 @@ import {
 import Navbar from "./pages/Navbar";
 // Importing pages
 import LoginPage from "./pages/LoginPage";
-import HomeMenuPage from "./pages/HomeMenuPage";
+import Home from "./pages/Home";
 import Statistics from "./pages/Statistics";
 import BudgetCalculator from "./pages/BudgetCalculator";
 import SelectDatePage from "./pages/SelectDatePage";
 
 function App() {
-  const [userData, setUserData] = useState([]);
   // State to store authenticated user data retrieved from the server
 
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [userData, setUserData] = useState([]);
+
   // State to track authentication status: true if logged in, false otherwise
 
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  // (call-back function)
+  // -Handles successful authentication
+  // -Updates logged-in status
+  // -Sets current user data into the state
   const handleLoginSuccess = (data) => {
-    // -Handles successful authentication
-    // -Updates logged-in status
-    // -Sets current user data into the state
     setIsLoggedIn(true);
     setUserData(data);
   };
 
-  console.log(userData); // Log user data for debugging
+  console.log("userData in App component :", userData);
 
   return (
-    // ROUTES --------------------------------------------------------------
+    // ROUTES
 
     <Router>
-      <Navbar userData={userData} /> {/*Navbar component */}
+      {/*Navbar component */}
+      <Navbar userData={userData} /> 
       <Routes>
-        {/* Routes for cards ------------------------------------*/}
-        {/*LOGIN PAGE*/}
+        {/*Login page*/}
         <Route
           path="/login"
           element={<LoginPage handleLoginSuccess={handleLoginSuccess} />}
         />
-        {/*HOME PAGE*/}
+        {/*Home page*/}
         <Route
           path="/home"
           element={
             isLoggedIn ? (
-              <HomeMenuPage userData={userData} />
+              <Home userData={userData} />
             ) : (
               <Navigate to="/login" replace />
             )
           }
         />
-       
-        {/* STATISTICS PAGE*/}
+
+        {/* Statistics page*/}
         <Route
           path="/statistics"
           element={
@@ -65,7 +68,7 @@ function App() {
             )
           }
         />
-        {/* BUDGET CALCULATOR PAGE*/}
+        {/* Budget calculater page*/}
         <Route
           path="/budget-Calculator"
           element={
@@ -77,8 +80,8 @@ function App() {
           }
         />
 
-          {/* DATE SELECTOR PAGE*/}
-          <Route
+        {/* Date selecter page*/}
+        <Route
           path="/select-date"
           element={
             isLoggedIn ? (
@@ -88,8 +91,7 @@ function App() {
             )
           }
         />
-        
-        
+
         {/* INITIAL PAGE HANDLING*/}
         <Route
           path="/"

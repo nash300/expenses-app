@@ -10,11 +10,12 @@ function LoginPage({ handleLoginSuccess }) {
 
   const navigate = useNavigate();
 
-  /* This function:
+  /* 
   -fetches data from the server, compare it with user input.
   -displays error msgs to the user if needed. 
-  -sends user info to the parent.
-  -automaticaly navigate to the home page*/
+  -sends user info to the parent (App()).
+  -automaticaly navigate to the home page
+  */
   const handleLogin = async (event) => {
     event.preventDefault();
 
