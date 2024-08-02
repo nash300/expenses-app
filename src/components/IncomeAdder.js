@@ -1,72 +1,21 @@
-/**********************************************************/
-/* This component is the Card for adding/removing incomes */
-/**********************************************************/
 import { useState, useEffect } from "react";
 import supabase from "../supabase";
 
-
 const IncomeAdder = ({ userData, year, month }) => {
-
-  console.log("month and year recieved by the income adder is :", {month},{year})
-  // tracks the + button click in "add income" section
+  // State to track if the "Add Income" section is visible
   const [isAddIncomeClicked, setIsAddIncomeClicked] = useState(false);
 
-  // tracks all incomes
+  // State to track all incomes
   const [incomes, setIncomes] = useState([]);
 
-  // Handles the + button in 'add income' section.
-  const handleAddIncomeClick = () => {
-    setIsAddIncomeClicked(true);
-  };
+  // State to track the new income's description and amount
+  const [description, setDescription] = useState("");
+  const [amount, setAmount] = useState("");
 
-  // Temperraly tracks income inputs from the user
-  // -these data are then used to update "incomes" state.
-  const [description, setDescription] = useState(null);
-  const [amount, setAmount] = useState(null);
-
-  const handleDescriptionChange = (e) => {
-    setDescription(e.target.value);
-  };
-  const handleAmountChange = (e) => {
-    setAmount(e.target.value);
-  };
-
-  // Makes the input fields disappear as the user clicks on "Cancel" button.
-  const handleCancelClick = () => {
-    setIsAddIncomeClicked(false);
-  };
-
-  // Creates new 'income' object in 'incomes' state by collecting data from 'description' & 'amount' states
-  // resetting the + button click state as it exits so that the input fields disappear.
-  const handleSaveIncomeClick = () => {
-    if (description && amount) {
-      setIncomes((prevIncomes) => [
-        ...prevIncomes,
-        { description: description, amount: parseFloat(amount) },
-      ]);
-      setDescription("");
-      setAmount("");
-      setIsAddIncomeClicked(false);
-    } else {
-      alert("Please enter both description and amount correctly.");
-    }
-  };
-
-  // Removes the corresponding record from the Incomes state as the user clicks on "-" button.
-  const handleMinusButtonClick = (index) => {
-    setIncomes((prevIncomes) => prevIncomes.filter((_, i) => i !== index));
-  };
-
-  // Calculate the total income by summing all amounts
-  const totalIncome = incomes.reduce((sum, income) => {
-    return sum + income.amount;
-  }, 0);
-
-  //  Fetches income amounts from Supabase as this component mounts.
+  // Fetch incomes from Supabase when the component mounts or year/month changes
   useEffect(() => {
     const fetchIncome = async () => {
       try {
-        
         const { data, error } = await supabase
           .from("Income")
           .select("*")
@@ -75,74 +24,167 @@ const IncomeAdder = ({ userData, year, month }) => {
           .eq("month", parseInt(month));
 
         if (error) {
-          alert("There was an error !!!!!!");
+          console.error("Error fetching incomes:", error);
+          alert("There was an error fetching your incomes.");
         } else {
-          console.log("recieved data is :" , data)
-
           setIncomes(data || []);
         }
       } catch (error) {
         console.error("Error fetching incomes:", error);
+        alert("An error occurred while fetching incomes.");
       }
     };
+
     fetchIncome();
-  }, []);
+  }, [userData.user_id, year, month]);
+
+  // Handles the click event to show the add income form
+  const handleAddIncomeClick = () => {
+    setIsAddIncomeClicked(true);
+  };
+
+  // Updates the description state as the user types
+  const handleDescriptionChange = (e) => {
+    setDescription(e.target.value);
+  };
+
+  // Updates the amount state as the user types
+  const handleAmountChange = (e) => {
+    setAmount(e.target.value);
+  };
+
+  // Handles the click event to cancel adding a new income
+  const handleCancelClick = () => {
+    setIsAddIncomeClicked(false);
+  };
+
+  // Handles the click event to save a new income
+  const handleSaveIncomeClick = async () => {
+    if (description && amount) {
+      try {
+        // Save the new income to Supabase
+        const { error } = await supabase
+          .from("Income")
+          .insert([
+            {
+              user_id: userData.user_id,
+              year: parseInt(year),
+              month: parseInt(month),
+              description,
+              amount: parseFloat(amount),
+            },
+          ]);
+
+        if (error) {
+          console.error("Error saving income:", error);
+          alert("Failed to save income.");
+        } else {
+          // Update local state with the new income
+          setIncomes((prevIncomes) => [
+            ...prevIncomes,
+            { description, amount: parseFloat(amount) },
+          ]);
+
+          // Clear input fields and hide the form
+          setDescription("");
+          setAmount("");
+          setIsAddIncomeClicked(false);
+        }
+      } catch (error) {
+        console.error("Error saving income:", error);
+        alert("An error occurred while saving the income.");
+      }
+    } else {
+      alert("Please enter both description and amount.");
+    }
+  };
+
+  // Handles the click event to delete an income
+  const handleMinusButtonClick = async (index) => {
+    const incomeToDelete = incomes[index];
+
+    if (incomeToDelete) {
+      try {
+        // Delete the income from Supabase
+        const { error } = await supabase
+          .from("Income")
+          .delete()
+          .eq("user_id", userData.user_id)
+          .eq("year", parseInt(year))
+          .eq("month", parseInt(month))
+          .eq("description", incomeToDelete.description)
+          .eq("amount", incomeToDelete.amount);
+
+        if (error) {
+          console.error("Error deleting income:", error);
+          alert("Failed to delete income.");
+        } else {
+          // Update local state by removing the income
+          setIncomes((prevIncomes) =>
+            prevIncomes.filter((_, i) => i !== index)
+          );
+        }
+      } catch (error) {
+        console.error("Error deleting income:", error);
+        alert("An error occurred while deleting the income.");
+      }
+    }
+  };
+
+  // Calculate the total income by summing all amounts
+  const totalIncome = incomes.reduce((sum, income) => sum + income.amount, 0);
 
   return (
-    <div className="card text-white bg-primary mb-1 ">
-      <div className="  card-header d-flex justify-content-between  ">
+    <div className="card text-white bg-primary mb-1">
+      <div className="card-header d-flex justify-content-between">
         Add an Income
-        <button
-          type="button"
-          className="btn btn-dark"
-          onClick={handleAddIncomeClick}
-        >
+        <button type="button" className="btn btn-dark" onClick={handleAddIncomeClick}>
           +
         </button>
       </div>
       <div className="container m-1">
-        <p className="card-text ">Total income of this month:</p>
-        <h2> {totalIncome} Kr</h2>
+        <p className="card-text">Total income of this month:</p>
+        <h2>{totalIncome} Kr</h2>
       </div>
       <div className="container">
-        {
-          <ul className="list-group ">
-            {/* Updates the list of incomes each time the user enters a new record*/}
-            {incomes.map((income, index) => (
-              <li
-                key={index}
-                className="list-group-item text-dark d-flex justify-content-between align-items-center p-0 ps-2"
+        <ul className="list-group">
+          {/* Render the list of incomes */}
+          {incomes.map((income, index) => (
+            <li
+              key={index}
+              className="list-group-item text-dark d-flex justify-content-between align-items-center p-0 ps-2"
+            >
+              {income.description}: {income.amount} Kr
+              <button
+                type="button"
+                className="btn btn-dark"
+                onClick={() => handleMinusButtonClick(index)}
               >
-                {income.description}: {income.amount}Kr
-                <button
-                  type="button"
-                  className="btn btn-dark"
-                  onClick={() => handleMinusButtonClick(index)}
-                >
-                  -
-                </button>
-              </li>
-            ))}
-          </ul>
-        }
+                -
+              </button>
+            </li>
+          ))}
+        </ul>
       </div>
       <div className="card-body">
-        {/* conditionaly renders income input fields as the user clicks on + button*/}
+        {/* Conditionally render input fields to add a new income */}
         {isAddIncomeClicked && (
           <div className="card-text">
             <input
               className="form-control form-control-sm mb-2"
               type="text"
               placeholder="Income source"
+              value={description}
               onChange={handleDescriptionChange}
             />
             <input
               className="form-control form-control-sm mb-1"
               type="number"
               placeholder="Amount"
+              value={amount}
               onChange={handleAmountChange}
             />
-            <spann>
+            <div>
               <button
                 type="button"
                 className="btn btn-dark"
@@ -157,7 +199,7 @@ const IncomeAdder = ({ userData, year, month }) => {
               >
                 Cancel
               </button>
-            </spann>
+            </div>
           </div>
         )}
       </div>
