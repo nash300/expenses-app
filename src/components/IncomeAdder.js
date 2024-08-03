@@ -1,7 +1,17 @@
+/********************************************************************************************/
+/* This is a card component that desplays incomes and their sources for the selected month. */
+/********************************************************************************************/
+// IMPORTANT VARIABLES
+// incomes - (A COLLECTION OF ALL INCOME OBJECTS)
+// totalIncomes - (A SUMMED UP VALUE OF ALL INCOMES. THEN SENT TO THE PARENT COMPONENT)
+// description / amount - (TEMPERALY STORES INPUTS FROM THE USER)
+// year / month - (DATES RECIEVED BY THE PARENT COMPONENT)
+
 import { useState, useEffect } from "react";
 import supabase from "../supabase";
+import binIcon from "../utilities/icons/bin.png";
 
-const IncomeAdder = ({ userData, year, month }) => {
+const IncomeAdder = ({ userData, year, month, retrievIncomeFromChild }) => {
   // State to track if the "Add Income" section is visible
   const [isAddIncomeClicked, setIsAddIncomeClicked] = useState(false);
 
@@ -63,17 +73,15 @@ const IncomeAdder = ({ userData, year, month }) => {
     if (description && amount) {
       try {
         // Save the new income to Supabase
-        const { error } = await supabase
-          .from("Income")
-          .insert([
-            {
-              user_id: userData.user_id,
-              year: parseInt(year),
-              month: parseInt(month),
-              description,
-              amount: parseFloat(amount),
-            },
-          ]);
+        const { error } = await supabase.from("Income").insert([
+          {
+            user_id: userData.user_id,
+            year: parseInt(year),
+            month: parseInt(month),
+            description,
+            amount: parseFloat(amount),
+          },
+        ]);
 
         if (error) {
           console.error("Error saving income:", error);
@@ -134,38 +142,51 @@ const IncomeAdder = ({ userData, year, month }) => {
   // Calculate the total income by summing all amounts
   const totalIncome = incomes.reduce((sum, income) => sum + income.amount, 0);
 
+  // executes the callback function from the parent component
+  // as the total income changes
+  useEffect(() => {
+    retrievIncomeFromChild(totalIncome);
+  }, [totalIncome]);
+
   return (
-    <div className="card text-white bg-primary mb-1">
-      <div className="card-header d-flex justify-content-between">
+    <div className="card text-white ">
+      <div className="card-header d-flex justify-content-between align-items-center ps-2 bg-primary ">
         Add an Income
-        <button type="button" className="btn btn-dark" onClick={handleAddIncomeClick}>
-          +
+        <button
+          type="button"
+          className="btn btn-warning"
+          onClick={handleAddIncomeClick}
+        >
+          <b>+</b>
         </button>
       </div>
-      <div className="container m-1">
-        <p className="card-text">Total income of this month:</p>
-        <h2>{totalIncome} Kr</h2>
+      <div className="container d-flex flex-row justify-content-between align-items-center ">
+        <p className="card-text ps-0 text-dark">Total income :</p>
+        <h3 className="text-secondary mb-3">{totalIncome} Kr</h3>
       </div>
-      <div className="container">
-        <ul className="list-group">
+      <div className="container ">
+        <ul className="list-group ">
           {/* Render the list of incomes */}
           {incomes.map((income, index) => (
             <li
               key={index}
-              className="list-group-item text-dark d-flex justify-content-between align-items-center p-0 ps-2"
+              className="list-group-item  d-flex justify-content-between align-items-center ps-1 pe-2 pt-1"
             >
-              {income.description}: {income.amount} Kr
+              <div className="d-flex justify-content-between me-2 w-100 ">
+                <b>{income.description}</b> {income.amount}Kr
+              </div>
               <button
                 type="button"
-                className="btn btn-dark"
+                className="btn btn-secondary "
                 onClick={() => handleMinusButtonClick(index)}
               >
-                -
+               <b>-</b> 
               </button>
             </li>
           ))}
         </ul>
       </div>
+
       <div className="card-body">
         {/* Conditionally render input fields to add a new income */}
         {isAddIncomeClicked && (

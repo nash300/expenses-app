@@ -14,7 +14,7 @@ function LoginPage({ handleLoginSuccess }) {
   -fetches data from the server, compare it with user input.
   -displays error msgs to the user if needed. 
   -sends user info to the parent (App()).
-  -automaticaly navigate to the home page
+  -automaticaly navigate to "/home".
   */
   const handleLogin = async (event) => {
     event.preventDefault();
@@ -41,7 +41,7 @@ function LoginPage({ handleLoginSuccess }) {
         return;
       }
 
-      // If all checks pass
+      // If all checks pass...
       handleLoginSuccess(data); // sending loged-in user data back to parent
       navigate("/home"); // Redirect to home page
 
