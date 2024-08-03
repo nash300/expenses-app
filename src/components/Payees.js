@@ -8,6 +8,7 @@ const PayeeBox = ({ userData, year, month }) => {
   const [payeeName, setPayeeName] = useState("");
   const [paymentCategory, setPaymentCategory] = useState("");
   const [isRepeatingPayment, setIsRepeatingPayment] = useState(false);
+  const [intrestRate, setIntrestRate] = useState(0);
 
   const handleAddNewPayeeButtonClick = () => {
     setIsAddNewPayeeClicked(true);
@@ -23,6 +24,18 @@ const PayeeBox = ({ userData, year, month }) => {
 
   const handleIsRepeatingPaymentChange = (e) => {
     setIsRepeatingPayment(e.target.checked);
+  };
+
+  const handleIntrestRateChange = (e) => {
+    setIntrestRate(e.target.value);
+  };
+
+  const handleCloseClick = () => {
+    setIsAddNewPayeeClicked(false);
+    setPaymentCategory("");
+    setPayeeName("");
+    setIsRepeatingPayment(false);
+    setIntrestRate(0);
   };
 
   return (
@@ -59,21 +72,21 @@ const PayeeBox = ({ userData, year, month }) => {
                 required
               />
             </div>
-            <div className="form-group d-grid align-items-start col-md-3">
+            <div className="form-group d-grid align-items-start col-md-3  ">
               <label htmlFor="payment-category">Payment Category</label>
               <select
                 id="payment-category"
                 value={paymentCategory}
                 onChange={handlePaymentCategoryChange}
-                className="mb-4 form-control"
+                className="mb-4 form-control "
                 required
               >
                 <option value="">Select Here</option>
-                <option value="Loan">Loan Payment</option>
-                <option value="Credit-Card">Credit Card Payment</option>
+                <option value="Loan">Loan</option>
+                <option value="Credit-Card">Credit Card</option>
                 <option value="Bill">Bill</option>
               </select>
-              <div className="form-group">
+              <div className="form-group ">
                 <div className="form-check">
                   {/* Changed `checked` binding to use state variable */}
                   <input
@@ -84,7 +97,7 @@ const PayeeBox = ({ userData, year, month }) => {
                     onChange={handleIsRepeatingPaymentChange}
                   />
                   <label className="form-check-label" htmlFor="gridCheck">
-                    Repeating payment
+                    Repeat every month
                   </label>
                 </div>
               </div>
@@ -95,16 +108,13 @@ const PayeeBox = ({ userData, year, month }) => {
                   paymentCategory === "Credit-Card") && (
                   <div className="alert alert-warning mt-2">
                     <div className="form-group mb-3">
-                      <label htmlFor="payeeName">
-                        Enter the intrest rate (Not compulsory)
-                      </label>
+                      <label htmlFor="intrestRate">Intrest rate</label>
                       <input
                         type="number"
                         className="form-control"
-                        id="payeeName"
-                        value={payeeName}
-                        onChange={handlePayeeNameChange}
-                        required
+                        id="intrestRate"
+                        value={intrestRate}
+                        onChange={handleIntrestRateChange}
                       />
                     </div>
                   </div>
@@ -116,7 +126,11 @@ const PayeeBox = ({ userData, year, month }) => {
               <button type="submit" className="btn btn-success me-2">
                 Save
               </button>
-              <button type="submit" className="btn btn-danger">
+              <button
+                type="submit"
+                className="btn btn-danger"
+                onClick={handleCloseClick}
+              >
                 Close
               </button>
             </div>
