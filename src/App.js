@@ -5,7 +5,7 @@ import {
   Route,
   Navigate,
 } from "react-router-dom";
-import Navbar from "./pages/Navbar";
+import Navbar from "./components/Navbar";
 // Importing pages
 import LoginPage from "./pages/LoginPage";
 import Home from "./pages/Home";

@@ -1,10 +1,10 @@
 import payeeIcon from "../utilities/icons/payee.jpg";
 import { useState } from "react";
+import supabase from "../supabase";
 
-const PayeeBox = ({ userData, year, month }) => {
-  // Tracks "Add a new payee" button click state
+const Payments = ({ userData, year, month }) => {
+  // State management for form visibility and input data
   const [isAddNewPayeeClicked, setIsAddNewPayeeClicked] = useState(false);
-
   const [payeeName, setPayeeName] = useState("");
   const [paymentCategory, setPaymentCategory] = useState("");
   const [isRepeatingPayment, setIsRepeatingPayment] = useState(false);
@@ -38,6 +38,40 @@ const PayeeBox = ({ userData, year, month }) => {
     setIntrestRate(0);
   };
 
+  // Function to save data to Supabase
+  const handleSaveClick = async (e) => {
+    e.preventDefault(); // Prevent default form submission
+
+    if (payeeName && paymentCategory) {
+      try {
+        // Insert the data into the Supabase table
+        const { error } = await supabase.from("Payee").insert([
+          {
+            user_id: userData.user_id,
+            payee_name: payeeName,
+            category: paymentCategory,
+            is_repeating: isRepeatingPayment,
+            intrest_rate: parseFloat(intrestRate) || null, // Store null if no interest rate provided
+          },
+        ]);
+
+        if (error) {
+          console.error("Error saving payee:", error);
+          alert("Failed to save payee.");
+        } else {
+          alert("Saved successfully!");
+          // Reset form fields and hide the form
+          handleCloseClick();
+        }
+      } catch (error) {
+        console.error("Error saving payee:", error);
+        alert("An error occurred while saving the payee.");
+      }
+    } else {
+      alert("Please enter all required fields.");
+    }
+  };
+
   return (
     <div className="card d-flex justify-content-center ">
       {/* "Add a new payee" section */}
@@ -56,11 +90,11 @@ const PayeeBox = ({ userData, year, month }) => {
           + Add a new payee
         </button>
       </div>
-
+      {/* Conditional rendering when clicking on "Add new payee" */}
       {isAddNewPayeeClicked ? (
-        /* CODE DISPLAYING FORM HERE */
         <form>
           <div className="form-row p-5 pt-2">
+            {/* Payee name */}
             <div className="form-group mb-3">
               <label htmlFor="payeeName">Bank/Payee name</label>
               <input
@@ -72,13 +106,14 @@ const PayeeBox = ({ userData, year, month }) => {
                 required
               />
             </div>
-            <div className="form-group d-grid align-items-start col-md-3  ">
+            {/* Payment category */}
+            <div className="form-group d-grid align-items-start col-md-3">
               <label htmlFor="payment-category">Payment Category</label>
               <select
                 id="payment-category"
                 value={paymentCategory}
                 onChange={handlePaymentCategoryChange}
-                className="mb-4 form-control "
+                className="mb-4 form-control"
                 required
               >
                 <option value="">Select Here</option>
@@ -86,9 +121,9 @@ const PayeeBox = ({ userData, year, month }) => {
                 <option value="Credit-Card">Credit Card</option>
                 <option value="Bill">Bill</option>
               </select>
-              <div className="form-group ">
+              <div className="form-group">
                 <div className="form-check">
-                  {/* Changed `checked` binding to use state variable */}
+                  {/* Check-box "repeat every month" */}
                   <input
                     className="form-check-input"
                     type="checkbox"
@@ -102,13 +137,13 @@ const PayeeBox = ({ userData, year, month }) => {
                 </div>
               </div>
 
-              {/* Conditional rendering an additional div to collect intrest rate info  */}
+              {/* Conditional rendering to collect interest rate info */}
               {isRepeatingPayment &&
                 (paymentCategory === "Loan" ||
                   paymentCategory === "Credit-Card") && (
                   <div className="alert alert-warning mt-2">
                     <div className="form-group mb-3">
-                      <label htmlFor="intrestRate">Intrest rate</label>
+                      <label htmlFor="intrestRate">Interest rate</label>
                       <input
                         type="number"
                         className="form-control"
@@ -123,11 +158,15 @@ const PayeeBox = ({ userData, year, month }) => {
           </div>
           <div className="container">
             <div className="d-flex justify-content-end pb-3 pe-3">
-              <button type="submit" className="btn btn-success me-2">
+              <button
+                type="button"
+                className="btn btn-success me-2"
+                onClick={handleSaveClick}
+              >
                 Save
               </button>
               <button
-                type="submit"
+                type="button"
                 className="btn btn-danger"
                 onClick={handleCloseClick}
               >
@@ -137,11 +176,11 @@ const PayeeBox = ({ userData, year, month }) => {
           </div>
         </form>
       ) : (
-        /* CODE PAYEEBOX RENDERING HERE */
-        <div className="alert alert-primary">Payee box</div>
+        /* TO DO - PayeeBox rendering */
+        <div className="alert alert-primary">to do - display previously saved payments here</div>
       )}
     </div>
   );
 };
 
-export default PayeeBox;
+export default Payments;

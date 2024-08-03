@@ -10,7 +10,7 @@
 import { useState } from "react";
 import IncomeAdder from "../components/IncomeAdder";
 import { useLocation } from "react-router-dom";
-import Payees from "../components/Payees"
+import Payments from "../components/Payments";
 
 const BudgetCalculator = ({ userData }) => {
   const location = useLocation();
@@ -34,7 +34,7 @@ const BudgetCalculator = ({ userData }) => {
       </div>
 
       <div className="row justify-content-start ">
-        {/* income adder component */}
+        {/* LEFT - income adder component */}
         <div className="col-2 m-1   ">
           <IncomeAdder
             userData={userData}
@@ -44,10 +44,12 @@ const BudgetCalculator = ({ userData }) => {
           />
         </div>
 
-        {/* payee component section*/}
-        <div className="col-6"> <Payees userData={userData} year={year} month={month}/>  </div>
+        {/* MIDDLE - New payee + Payments */}
+        <div className="col-6">
+            <Payments userData={userData} year={year} month={month} />
+        </div>
 
-        {/*  statistics component section*/}
+        {/* RIGHT-  statistics component section*/}
         <div className="col-3">column 3</div>
       </div>
     </div>
