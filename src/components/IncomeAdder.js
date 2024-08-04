@@ -1,6 +1,6 @@
-/********************************************************************************************/
-/* This is a card component that desplays incomes and their sources for the selected month. */
-/********************************************************************************************/
+/***************************************************/
+/* This is a card component that desplays incomes  */
+/***************************************************/
 // IMPORTANT VARIABLES
 // incomes - (A COLLECTION OF ALL INCOME OBJECTS)
 // totalIncomes - (A SUMMED UP VALUE OF ALL INCOMES. THEN SENT TO THE PARENT COMPONENT)
@@ -9,9 +9,8 @@
 
 import { useState, useEffect } from "react";
 import supabase from "../supabase";
-import binIcon from "../utilities/icons/bin.png";
 
-const IncomeAdder = ({ userData, year, month, retrievIncomeFromChild }) => {
+const IncomeAdder = ({ userData, year, month, retrieveIncomeFromChild }) => {
   // State to track if the "Add Income" section is visible
   const [isAddIncomeClicked, setIsAddIncomeClicked] = useState(false);
 
@@ -103,7 +102,7 @@ const IncomeAdder = ({ userData, year, month, retrievIncomeFromChild }) => {
         alert("An error occurred while saving the income.");
       }
     } else {
-      alert("Please enter both description and amount.");
+      alert("Please enter income source and amount.");
     }
   };
 
@@ -145,11 +144,11 @@ const IncomeAdder = ({ userData, year, month, retrievIncomeFromChild }) => {
   // executes the callback function from the parent component
   // as the total income changes
   useEffect(() => {
-    retrievIncomeFromChild(totalIncome);
+    retrieveIncomeFromChild(totalIncome);
   }, [totalIncome]);
 
   return (
-    <div className="card text-white ">
+    <div className="card text-white shadow">
       <div className="card-header d-flex justify-content-between align-items-center ps-2 bg-primary ">
         Add an Income
         <button
@@ -161,10 +160,9 @@ const IncomeAdder = ({ userData, year, month, retrievIncomeFromChild }) => {
         </button>
       </div>
       <div className="container d-flex flex-row justify-content-between align-items-center ">
-        <p className="card-text ps-0 text-dark">Total income :</p>
-        <h3 className="text-secondary mb-3">{totalIncome} Kr</h3>
+     
       </div>
-      <div className="container ">
+      <div className="container pb-3">
         <ul className="list-group ">
           {/* Render the list of incomes */}
           {incomes.map((income, index) => (
@@ -187,35 +185,35 @@ const IncomeAdder = ({ userData, year, month, retrievIncomeFromChild }) => {
         </ul>
       </div>
 
-      <div className="card-body">
+      <div className="card-body p-0">
         {/* Conditionally render input fields to add a new income */}
         {isAddIncomeClicked && (
-          <div className="card-text">
+          <div className="card-text text-center pb-3">
             <input
-              className="form-control form-control-sm mb-2"
+              className=" form-control-m mb-2 mt-1 "
               type="text"
               placeholder="Income source"
               value={description}
               onChange={handleDescriptionChange}
             />
             <input
-              className="form-control form-control-sm mb-1"
+              className=" form-control-m mb-1"
               type="number"
               placeholder="Amount"
               value={amount}
               onChange={handleAmountChange}
             />
-            <div>
+            <div className="mt-3">
               <button
                 type="button"
-                className="btn btn-dark"
+                className="btn btn-success"
                 onClick={handleSaveIncomeClick}
               >
                 Save
               </button>
               <button
                 type="button"
-                className="btn btn-dark ms-1"
+                className="btn btn-danger ms-1"
                 onClick={handleCancelClick}
               >
                 Cancel

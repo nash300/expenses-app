@@ -1,17 +1,23 @@
 /*********************************************************************/
 /* The page for displaying and calculating the incomes and expenses. */
 /*********************************************************************/
-// IMPORTANT VARIABLES
-// totalIncome - (THE TOTAL INCOME RETRIEVED FROM THE CHILD COMPONENT)
-// userData - (THE BASIC DATA OF THE CURRENT LOGGED IN USER (i.g: user_id, first_name))
-// month - (SELECTED MONTH BY THE USER)
-// year - (SELECTED YEAR BY THE USER)
+// --- IMPORTANT VARIABLES ---
+// totalIncome - (total income recieved from the child component)
+// userData - (basic data of the current user (i.g: user_id, first_name))
+// month - (selected month)
+// year - (selected year)
+// totalPaymentAmount - (total amount of all payments recieved by the call-back function)
+//
+// --- CHILD COMPONENTS ---
+// <NewPayee />
+// <PaymentsSection />
 
 import { useState } from "react";
 import IncomeAdder from "../components/IncomeAdder";
 import { useLocation } from "react-router-dom";
 import NewPayee from "../components/NewPayee";
-import SavedPaymentsSection from "../components/SavedPaymentsSection";
+import PaymentsSection from "../components/PaymentsSection";
+import Summary from "../components/Summary";
 
 const BudgetCalculator = ({ userData }) => {
   const location = useLocation();
@@ -25,37 +31,61 @@ const BudgetCalculator = ({ userData }) => {
     setTotalIncome(income);
   };
 
+  // tracks total amount of payments recieved by the call-back function
+  const [totalPaymentAmount, setTotalPaymentAmount] = useState(0);
+
+  // Call-back function to retrive total payment amount
+  const retrieveTotalPaymentAmount = (sum) => {
+    console.log("Total Payment Amount from Child:", sum);
+    setTotalPaymentAmount(sum);
+  };
+
   return (
     <div className="container-fluid">
       {/* info section */}
-      <div className="bg-info text-dark text-center justify-content-end rounded-bottom mb-2 p-2">
+      <section className="bg-info text-dark text-center justify-content-end rounded-bottom mb-2 p-2">
         <h6 className="pe-4">
           Your budget for the {month} month of year {year}
         </h6>
-      </div>
+      </section>
 
-      {/* LEFT - income adder component */}
       <div className="row justify-content-start">
-        <div className="col-2 mb-2">
-          <IncomeAdder
+        {/*---------------  LEFT SECTION ----------------- */}
+        <section className="col-2 mb-2">
+          {/* LEFT-TOP */}
+          <div>
+            <Summary
+              totalIncome={totalIncome}
+              totalPaymentAmount={totalPaymentAmount}
+            />
+          </div>
+          {/* LEFT - BOTTOM */}
+          <div>
+            <IncomeAdder
+              userData={userData}
+              year={year}
+              month={month}
+              retrieveIncomeFromChild={retrieveIncomeFromChild}
+            />
+          </div>
+        </section>
+
+        {/* MIDDLE SECTION */}
+        <section className="col-6 mb-2">
+          {/* MIDDLE-TOP */}
+          <NewPayee userData={userData} year={year} month={month} />
+
+          {/* MIDDLE-BOTTOM */}
+          <PaymentsSection
             userData={userData}
             year={year}
             month={month}
-            retrieveIncomeFromChild={retrieveIncomeFromChild}
+            retrieveTotalPaymentAmount={retrieveTotalPaymentAmount}
           />
-        </div>
+        </section>
 
-        {/* MIDDLE - "New payee" + "Payments" */}
-        <div className="col-6 mb-2">
-          <NewPayee userData={userData} year={year} month={month} />
-          <SavedPaymentsSection userData={userData} year={year} month={month} />
-
-        </div>
-
-        {/* RIGHT- Statistics section */}
-        <div className="col-4">
-          to-do. show statics here
-        </div>
+        {/* RIGHT SECTION */}
+        <section className="col-4">to-do. show statics here</section>
       </div>
     </div>
   );

@@ -1,9 +1,18 @@
+/***************************************************/
+/* This component collects and save new payee details  */
+/***************************************************/
+// IMPORTANT VARIABLES
+// userData
+// payeeName
+// paymentCategory
+// isRepeatingPayment
+// intrestRate
+
 import payeeIcon from "../utilities/icons/payee.jpg";
 import { useState } from "react";
 import supabase from "../supabase";
-import SavedPayments from "./SavedPaymentsSection";
 
-const NewPayee = ({ userData, year, month }) => {
+const NewPayee = ({ userData }) => {
   // State management for form visibility and input data
   const [isAddNewPayeeClicked, setIsAddNewPayeeClicked] = useState(false);
   const [payeeName, setPayeeName] = useState("");
@@ -41,7 +50,7 @@ const NewPayee = ({ userData, year, month }) => {
 
   // Function to save data to Supabase
   const handleSaveClick = async (e) => {
-    e.preventDefault(); 
+    e.preventDefault();
 
     if (payeeName && paymentCategory) {
       try {
@@ -58,7 +67,7 @@ const NewPayee = ({ userData, year, month }) => {
 
         if (error) {
           console.error("Error saving payee:", error);
-          alert("Failed to save payee.");
+          alert("Failed to save payee. Please try again");
         } else {
           alert("Saved successfully!");
           // Reset form fields and hide the form
@@ -74,7 +83,7 @@ const NewPayee = ({ userData, year, month }) => {
   };
 
   return (
-    <div className="card d-flex justify-content-center ">
+    <div className="card d-flex justify-content-center shadow-sm ">
       {/* "Add a new payee" section */}
       <div className="card d-flex flex-row align-items-center justify-content-center m-1 p-2 bg-primary">
         <img
