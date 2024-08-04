@@ -1,8 +1,9 @@
 import payeeIcon from "../utilities/icons/payee.jpg";
 import { useState } from "react";
 import supabase from "../supabase";
+import SavedPayments from "./SavedPaymentsSection";
 
-const Payments = ({ userData, year, month }) => {
+const NewPayee = ({ userData, year, month }) => {
   // State management for form visibility and input data
   const [isAddNewPayeeClicked, setIsAddNewPayeeClicked] = useState(false);
   const [payeeName, setPayeeName] = useState("");
@@ -40,7 +41,7 @@ const Payments = ({ userData, year, month }) => {
 
   // Function to save data to Supabase
   const handleSaveClick = async (e) => {
-    e.preventDefault(); // Prevent default form submission
+    e.preventDefault(); 
 
     if (payeeName && paymentCategory) {
       try {
@@ -91,7 +92,7 @@ const Payments = ({ userData, year, month }) => {
         </button>
       </div>
       {/* Conditional rendering when clicking on "Add new payee" */}
-      {isAddNewPayeeClicked ? (
+      {isAddNewPayeeClicked && (
         <form>
           <div className="form-row p-5 pt-2">
             {/* Payee name */}
@@ -175,12 +176,9 @@ const Payments = ({ userData, year, month }) => {
             </div>
           </div>
         </form>
-      ) : (
-        /* TO DO - PayeeBox rendering */
-        <div className="alert alert-primary">to do - display previously saved payments here</div>
       )}
     </div>
   );
 };
 
-export default Payments;
+export default NewPayee;
