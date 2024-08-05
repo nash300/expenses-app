@@ -4,18 +4,18 @@ import supabase from "../supabase";
 import userImage from "../utilities/icons/login-icon.jpg";
 
 function LoginPage({ handleLoginSuccess }) {
+  // Local states to track user inputs
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [statusText, setStatusText] = useState("");
 
   const navigate = useNavigate();
 
-  /* 
-  -fetches data from the server, compare it with user input.
-  -displays error msgs to the user if needed. 
-  -sends user info to the parent (App()).
-  -automaticaly navigate to "/home".
-  */
+  // -fetches data from the server, compare it with user input.
+  // -displays error msgs to the user if needed.
+  // -sends user info to the parent (App()).
+  // -automaticaly navigate to "/home".
+
   const handleLogin = async (event) => {
     event.preventDefault();
 
@@ -42,7 +42,7 @@ function LoginPage({ handleLoginSuccess }) {
       }
 
       // If all checks pass...
-      handleLoginSuccess(data); // sending loged-in user data back to parent
+      handleLoginSuccess(data); // sending loged-in user data back to context
       navigate("/home"); // Redirect to home page
 
       // Error msg to the console

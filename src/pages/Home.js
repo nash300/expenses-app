@@ -3,7 +3,7 @@ import budgetPlanIcon from "../utilities/icons/1 (94).png";
 import statisticsIcon from "../utilities/icons/1 (93).png";
 import { useNavigate } from "react-router-dom";
 
-function HomeMenuPage({userData}) {
+function HomeMenuPage() {
   // useNavigate hook to get the navigate function
   const navigate = useNavigate();
 

@@ -1,21 +1,21 @@
-/***************************************************/
-/* This is a card component that desplays incomes  */
-/***************************************************/
-// IMPORTANT VARIABLES
-// incomes - (A COLLECTION OF ALL INCOME OBJECTS)
-// totalIncomes - (A SUMMED UP VALUE OF ALL INCOMES. THEN SENT TO THE PARENT COMPONENT)
-// description / amount - (TEMPERALY STORES INPUTS FROM THE USER)
-// year / month - (DATES RECIEVED BY THE PARENT COMPONENT)
+
 
 import { useState, useEffect } from "react";
 import supabase from "../supabase";
+import { useBudget } from "../context files/BudgetProvider";
 
-const IncomeAdder = ({ userData, year, month, retrieveIncomeFromChild }) => {
+const IncomeAdder = () => {
+  const {
+    userData,
+    incomes,
+    setIncomes,
+    setTotalIncome,
+    year, 
+    month, 
+  } = useBudget(); 
+
   // State to track if the "Add Income" section is visible
   const [isAddIncomeClicked, setIsAddIncomeClicked] = useState(false);
-
-  // State to track all incomes
-  const [incomes, setIncomes] = useState([]);
 
   // State to track the new income's description and amount
   const [description, setDescription] = useState("");
@@ -144,7 +144,7 @@ const IncomeAdder = ({ userData, year, month, retrieveIncomeFromChild }) => {
   // executes the callback function from the parent component
   // as the total income changes
   useEffect(() => {
-    retrieveIncomeFromChild(totalIncome);
+    setTotalIncome(totalIncome);
   }, [totalIncome]);
 
   return (
@@ -159,9 +159,7 @@ const IncomeAdder = ({ userData, year, month, retrieveIncomeFromChild }) => {
           <b>+</b>
         </button>
       </div>
-      <div className="container d-flex flex-row justify-content-between align-items-center ">
-     
-      </div>
+      <div className="container d-flex flex-row justify-content-between align-items-center "></div>
       <div className="container pb-3">
         <ul className="list-group ">
           {/* Render the list of incomes */}
@@ -178,7 +176,7 @@ const IncomeAdder = ({ userData, year, month, retrieveIncomeFromChild }) => {
                 className="btn btn-secondary "
                 onClick={() => handleMinusButtonClick(index)}
               >
-               <b>-</b> 
+                <b>-</b>
               </button>
             </li>
           ))}

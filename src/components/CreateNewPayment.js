@@ -1,31 +1,11 @@
-// This component creats and registers new payments.
-// The payee list is fetched from the Payee table in the server as the component mounts.
-// Fetched payee list is shown as a drop-down menu to the user.
-//______________________________________________________________________________________
-// *** IMPORTANT VARIABLES ***
-// userData (recieved from the parent)
-// payeeList
-// selectedPayee
-// notes
-//
-// *** CALL-BACK FUNCTIONS ***
-// setIsCreateNewPaymentClicked (changes state of the "Create new payment" button click status)
-// setIsAddNewPayeeClicked
-
 import supabase from "../supabase";
 import { useState, useEffect } from "react";
+import { useBudget } from "../context files/BudgetProvider";
 
-const CreateNewPayment = ({
-  userData,
-  setIsCreateNewPaymentClicked,
-  year,
-  month,
-  
-}) => {
-  // stores the fetched (from server) payee list
-  const [payeeList, setPayeeList] = useState([]);
+const CreateNewPayment = ({ setIsCreateNewPaymentClicked }) => {
+  const { userData, year, month, payeeList, setPayeeList } = useBudget();
 
-  // State to track the selected payee
+  // Local States to track the selected payee
   const [selectedPayee, setSelectedPayee] = useState("");
   const [amount, setAmount] = useState(0);
   const [notes, setNotes] = useState("");
@@ -44,7 +24,7 @@ const CreateNewPayment = ({
 
   const handleSaveClick = async () => {
     try {
-      const {data, error} = await supabase.from("Payments").insert([
+      const { data, error } = await supabase.from("Payments").insert([
         {
           user_id: userData.user_id,
           payee_id: selectedPayee,

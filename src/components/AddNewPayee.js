@@ -14,8 +14,12 @@
 
 import { useState } from "react";
 import supabase from "../supabase";
+import { useBudget } from "../context files/BudgetProvider";
 
-const AddNewPayee = ({ userData, setIsAddNewPayeeClicked }) => {
+const AddNewPayee = ({ setIsAddNewPayeeClicked }) => {
+  const { userData } = useBudget();
+
+  // Local states
   const [payeeName, setPayeeName] = useState("");
   const [paymentCategory, setPaymentCategory] = useState("");
   const [isRepeatingPayment, setIsRepeatingPayment] = useState(false);

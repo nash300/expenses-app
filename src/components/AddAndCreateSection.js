@@ -16,8 +16,15 @@ import newPayeeIcon from "../utilities/icons/1 (92).png";
 import { useState } from "react";
 import AddNewPayee from "../components/AddNewPayee";
 import CreateNewPayment from "../components/CreateNewPayment";
+import { useBudget } from "../context files/BudgetProvider";
 
-const AddAndCreateSection = ({ userData, year, month }) => {
+const AddAndCreateSection = () => {
+  const { userData, year, month } = useBudget();
+
+  console.log("in add & create section")
+  console.log("month" ,month)
+  console.log("year", year)
+
   // tracks click status of the buttons
   const [isAddNewPayeeClicked, setIsAddNewPayeeClicked] = useState(false);
   const [isCreateNewPaymentClicked, setIsCreateNewPaymentClicked] =

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import {
   BrowserRouter as Router,
   Routes,
@@ -12,17 +12,12 @@ import Home from "./pages/Home";
 import Statistics from "./pages/Statistics";
 import BudgetCalculator from "./pages/BudgetCalculator";
 import SelectDatePage from "./pages/SelectDatePage";
+import { useBudget } from "./context files/BudgetProvider"; // contains global variables
 
 function App() {
-  // State to store authenticated user data retrieved from the server
+  // Access context values and setters
+  const { userData, setUserData, isLoggedIn, setIsLoggedIn } = useBudget();
 
-  const [userData, setUserData] = useState([]);
-
-  // State to track authentication status: true if logged in, false otherwise
-
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-
-  // (call-back function)
   // -Handles successful authentication
   // -Updates logged-in status
   // -Sets current user data into the state
@@ -38,7 +33,7 @@ function App() {
 
     <Router>
       {/*Navbar component */}
-      <Navbar userData={userData} /> 
+      <Navbar userData={userData} />
       <Routes>
         {/*Login page*/}
         <Route

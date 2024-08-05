@@ -1,5 +1,4 @@
-
-// This component fetches saved payment data from the server  
+// This component fetches saved payment data from the server
 // As the user creates new payment records, it updates the database and fetches a new copy of payment records.
 //____________________________________________________________________________________________________________
 // *** IMPORTANT VARIABLES ***
@@ -23,20 +22,19 @@
 // payee_id, payee_name, is_repeating, category, intrest_rate
 //
 
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import supabase from "../supabase";
 import PaymentBox from "./PaymentBox";
+import { useBudget } from "../context files/BudgetProvider";
 
-const PaymentsSection = ({
-  userData,
-  year,
-  month,
-  retrieveTotalPaymentAmount,
-}) => {
-  // Stores any previously saved data records retrived from the server
-  const [savedPayments, setSavedPayments] = useState([]);
-
-
+const PaymentsSection = () => {
+  const {
+    userData,
+    year, // Access year from context
+    month, // Access month from context
+    setSavedPayments,
+    savedPayments,setTotalPaymentAmount
+  } = useBudget();
 
   useEffect(() => {
     const fetchSavedPayments = async () => {
@@ -71,8 +69,8 @@ const PaymentsSection = ({
       0
     );
     // pass the result to the parent component using the call-back function
-    retrieveTotalPaymentAmount(sum);
-  }, [savedPayments, setSavedPayments, ]);
+    setTotalPaymentAmount(sum);
+  }, [savedPayments, setSavedPayments]);
 
   return (
     <div>
