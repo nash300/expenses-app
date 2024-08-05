@@ -5,18 +5,19 @@
 // *** IMPORTANT VARIABLES ***
 // userData (recieved from the parent)
 // isAddNewPayeeClicked - (tracks the state of "add new payee" button click status)
+// isCreateNewPaymentClicked
 //
 // *** CHILD COMPONENTS ***
 // <AddNewPayee />
 // <CreateNewPayment />
 
-import payeeIcon from "../utilities/icons/1 (86).png";
-import newPayeeIcon from "../utilities/icons/1 (87).png";
+import payeeIcon from "../utilities/icons/1 (117).png";
+import newPayeeIcon from "../utilities/icons/1 (92).png";
 import { useState } from "react";
 import AddNewPayee from "../components/AddNewPayee";
 import CreateNewPayment from "../components/CreateNewPayment";
 
-const AddAndCreateSection = ({ userData }) => {
+const AddAndCreateSection = ({ userData, year, month }) => {
   // tracks click status of the buttons
   const [isAddNewPayeeClicked, setIsAddNewPayeeClicked] = useState(false);
   const [isCreateNewPaymentClicked, setIsCreateNewPaymentClicked] =
@@ -82,6 +83,8 @@ const AddAndCreateSection = ({ userData }) => {
         <CreateNewPayment
           userData={userData}
           setIsCreateNewPaymentClicked={setIsCreateNewPaymentClicked}
+          year={year}
+          month={month}
         />
       )}
     </div>

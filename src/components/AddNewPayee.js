@@ -6,6 +6,8 @@
 // paymentCategory
 // isRepeatingPayment
 // intrestRate
+// amountLeftToPay
+// ocrNumber
 //
 // *** CALL-BACK FUNCTIONS ***
 // setIsAddNewPayeeClicked (changes state of the "add new payee" button click status)
@@ -18,6 +20,16 @@ const AddNewPayee = ({ userData, setIsAddNewPayeeClicked }) => {
   const [paymentCategory, setPaymentCategory] = useState("");
   const [isRepeatingPayment, setIsRepeatingPayment] = useState(false);
   const [intrestRate, setIntrestRate] = useState(0);
+  const [amountLeftToPay, setAmountLeftToPay] = useState(null);
+  const [ocrNumber, setOcrNumber] = useState(null);
+
+  const handleOcrNumberChange = (e) => {
+    setOcrNumber(e.target.value);
+  };
+
+  const handleamountLeftToPayChange = (e) => {
+    setAmountLeftToPay(e.target.value);
+  };
 
   const handlePayeeNameChange = (e) => {
     setPayeeName(e.target.value);
@@ -57,6 +69,8 @@ const AddNewPayee = ({ userData, setIsAddNewPayeeClicked }) => {
             category: paymentCategory,
             is_repeating: isRepeatingPayment,
             intrest_rate: parseFloat(intrestRate) || null, // Store null if no interest rate provided
+            amount_left_to_pay: amountLeftToPay,
+            ocr_number: ocrNumber,
           },
         ]);
 
@@ -80,7 +94,7 @@ const AddNewPayee = ({ userData, setIsAddNewPayeeClicked }) => {
       <div className="form-row p-5 pt-2">
         {/* Payee name */}
         <div className="form-group mb-3">
-          <label htmlFor="payeeName">Bank/Payee name</label>
+          <label htmlFor="payeeName">Bank/Payee name *</label>
           <input
             type="text"
             className="form-control"
@@ -91,8 +105,8 @@ const AddNewPayee = ({ userData, setIsAddNewPayeeClicked }) => {
           />
         </div>
         {/* Payment category */}
-        <div className="form-group d-grid align-items-start col-md-3">
-          <label htmlFor="payment-category">Payment Category</label>
+        <div className=" d-block align-items-start ">
+          <label htmlFor="payment-category">Payment Category *</label>
           <select
             id="payment-category"
             value={paymentCategory}
@@ -109,25 +123,44 @@ const AddNewPayee = ({ userData, setIsAddNewPayeeClicked }) => {
             <div className="form-check">
               {/* Check-box "repeat every month" */}
               <input
-                className="form-check-input"
+                className="form-check-input mb-4"
                 type="checkbox"
                 id="gridCheck"
                 checked={isRepeatingPayment}
                 onChange={handleIsRepeatingPaymentChange}
               />
-              <label className="form-check-label" htmlFor="gridCheck">
+              <label className="form-check-label " htmlFor="gridCheck">
                 Repeat every month
               </label>
             </div>
           </div>
-
-          {/* Conditional rendering to collect interest rate info */}
-          {isRepeatingPayment &&
-            (paymentCategory === "Loan" ||
-              paymentCategory === "Credit-Card") && (
-              <div className="alert alert-warning mt-2">
-                <div className="form-group mb-3">
-                  <label htmlFor="intrestRate">Interest rate</label>
+        </div>
+        {/* Conditional rendering to collect interest rate info */}
+        {isRepeatingPayment &&
+          (paymentCategory === "Loan" || paymentCategory === "Credit-Card") && (
+            <section className="d-flex container">
+              {/* How much is left to pay section */}
+              <div className=" alert alert-info col-4 p-1 m-1">
+                <label htmlFor="remainingAmount">
+                  How much is left to pay?
+                </label>
+                <div className="input-group">
+                  <input
+                    type="number"
+                    className="form-control"
+                    id="remainingAmount"
+                    value={amountLeftToPay}
+                    onChange={handleamountLeftToPayChange}
+                  />
+                  <span className="input-group-text">Kr</span>
+                </div>
+              </div>
+              {/* Interest rate section */}
+              <div className="alert alert-warning col-3 p-1 m-1">
+                <label htmlFor="intrestRate">
+                  <i>Annual intrest rate </i>
+                </label>
+                <div className="input-group">
                   <input
                     type="number"
                     className="form-control"
@@ -135,12 +168,25 @@ const AddNewPayee = ({ userData, setIsAddNewPayeeClicked }) => {
                     value={intrestRate}
                     onChange={handleIntrestRateChange}
                   />
+                  <span className="input-group-text">%</span>
                 </div>
               </div>
-            )}
-        </div>
+              <div className="alert alert-warning col-4 p-1 m-1">
+                <label htmlFor="ocrNumber">
+                  <i>(OCR number)</i>
+                </label>
+                <input
+                  type="text"
+                  className="form-control"
+                  id="ocrNumber"
+                  value={ocrNumber}
+                  onChange={handleOcrNumberChange}
+                />
+              </div>
+            </section>
+          )}
       </div>
-      <div className="container">
+      <section className="container">
         <div className="d-flex justify-content-end pb-3 pe-3">
           <button
             type="button"
@@ -157,7 +203,7 @@ const AddNewPayee = ({ userData, setIsAddNewPayeeClicked }) => {
             Close
           </button>
         </div>
-      </div>
+      </section>
     </form>
   );
 };

@@ -22,6 +22,7 @@ import Summary from "../components/Summary";
 const BudgetCalculator = ({ userData }) => {
   const location = useLocation();
 
+ 
   // Access the data from location.state
   const { month, year } = location.state || {};
 
