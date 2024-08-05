@@ -15,7 +15,7 @@
 import { useState } from "react";
 import IncomeAdder from "../components/IncomeAdder";
 import { useLocation } from "react-router-dom";
-import NewPayee from "../components/NewPayee";
+import AddAndCreateSection from "../components/AddAndCreateSection";
 import PaymentsSection from "../components/PaymentsSection";
 import Summary from "../components/Summary";
 
@@ -73,7 +73,7 @@ const BudgetCalculator = ({ userData }) => {
         {/* MIDDLE SECTION */}
         <section className="col-6 mb-2">
           {/* MIDDLE-TOP */}
-          <NewPayee userData={userData} year={year} month={month} />
+          <AddAndCreateSection userData={userData} year={year} month={month} />
 
           {/* MIDDLE-BOTTOM */}
           <PaymentsSection

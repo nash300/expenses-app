@@ -1,22 +1,22 @@
-/**************************************************************/
-/* This component fetches saved payment data from the server  */
-/**************************************************************/
-// --- IMPORTANT VARIABLES ---
+
+// This component fetches saved payment data from the server  
+//__________________________________________________________
+// *** IMPORTANT VARIABLES ***
 // userData
 // year
 // month
 // savedPayments - (all data records retrived from the server)
-// updatedPaymentRecords - previous + newly entered data records
+// newPayment - newly entered data records
 // sum - (total of all payee amounts)
 //
-// --- CHILD COMPONENTS ---
+// *** CHILD COMPONENTS ***
 // <PaymentBox/>
 //
-// --- DATA RECORDS RECIEVED FROM THE SERVER ---
-// --- from Payment table ---
+// *** DATA RECORDS RECIEVED FROM THE SERVER ***
+// |from Payment table|
 // payment_id, user_id, sum, is_paid, Payee(payee_id, payee_name, is_repeating, category, intrest_rate
 //
-// --- from Payee table ---
+// |from Payee table|
 // payee_id, payee_name, is_repeating, category, intrest_rate
 //
 
@@ -34,8 +34,7 @@ const PaymentsSection = ({
   const [savedPayments, setSavedPayments] = useState([]);
 
   // Tracks an updated version of data records that is made of previous + newly entered data records.
-  const [updatedPaymentRecords, setUpdatedPaymentRecords] = useState([savedPayments]);
-
+  const [newPayment, setNewPayment] = useState([]);
 
   useEffect(() => {
     const fetchSavedPayments = async () => {
