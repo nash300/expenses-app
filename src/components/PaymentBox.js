@@ -1,6 +1,13 @@
 import React, { useState } from "react";
+import supabase from "../supabase";
 
-const PaymentBox = ({ payeeName, paymentSum, amountLeftToPay }) => {
+const PaymentBox = ({
+  payeeName,
+  paymentSum,
+  amountLeftToPay,
+  paymentId,
+  handlePaymentDeleteClick,
+}) => {
   const [sum, setSum] = useState(paymentSum);
   const [sliderValue, setSliderValue] = useState(paymentSum);
 
@@ -24,6 +31,11 @@ const PaymentBox = ({ payeeName, paymentSum, amountLeftToPay }) => {
     setSliderValue(paymentSum);
   };
 
+  // deleting the payment in the database and re-fetches the new data
+  const handleDeleteClick = () => {
+    handlePaymentDeleteClick(paymentId);
+  };
+
   return (
     <div
       className="row rounded-pill border p-2 mb-1 shadow-sm"
@@ -32,6 +44,7 @@ const PaymentBox = ({ payeeName, paymentSum, amountLeftToPay }) => {
       <section className="col-md-6 d-flex align-items-center">
         <input className="me-2" type="checkbox" id="isPaid" />
         <div className="fw-semibold">{payeeName}</div>
+        {paymentId}
       </section>
       <section className="col-md-4 d-flex align-items-center">
         {amountLeftToPay ? (
@@ -67,11 +80,14 @@ const PaymentBox = ({ payeeName, paymentSum, amountLeftToPay }) => {
             <button className="btn btn-secondary" onClick={handleResetClick}>
               Reset
             </button>
-            <button className="btn btn-danger ms-1">Delete</button>
-
+            <button className="btn btn-danger ms-1" onClick={handleDeleteClick}>
+              Delete
+            </button>
           </>
         ) : (
-          <button className="btn btn-danger">Delete</button>
+          <button className="btn btn-danger" onClick={handleDeleteClick}>
+            Delete
+          </button>
         )}
       </section>
     </div>

@@ -2,7 +2,7 @@ import PaymentBox from "../components/PaymentBox";
 import { useBudget } from "../context files/BudgetProvider";
 
 const PaymentBoxSection = () => {
-  const { selectedMonthsPayments } = useBudget(); // Access the filtered payments
+  const { selectedMonthsPayments, handlePaymentDeleteClick } = useBudget(); // Access the filtered payments
 
   return (
     <div className="mt-3 ">
@@ -10,10 +10,13 @@ const PaymentBoxSection = () => {
         selectedMonthsPayments.map((payment) => (
           <PaymentBox
             key={payment.payment_id}
+            paymentId={payment.payment_id}
             payeeName={payment.Payee.payee_name}
             paymentSum={payment.sum}
             isPaid={payment.is_paid}
             amountLeftToPay={payment.Payee.amount_left_to_pay}
+            handlePaymentDeleteClick={handlePaymentDeleteClick} 
+
           />
         ))
       ) : (

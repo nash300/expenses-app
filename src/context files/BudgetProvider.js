@@ -81,6 +81,24 @@ export const BudgetProvider = ({ children }) => {
     return filteredPaymentData;
   };
 
+  const handlePaymentDeleteClick = async (paymentId) => {
+    const paymentIdInt = parseInt(paymentId, 10); // convert year into Int (Base 10)
+
+    try {
+      const { error } = await supabase
+        .from("Payments")
+        .delete()
+        .eq("payment_id", paymentIdInt);
+
+      if (error) {
+        throw error;
+      }
+    } catch (error) {
+      console.log("error deleting a payee", error);
+    }
+    fetchAllSavedPayments();
+  };
+
   // Automatically update the selected months payments whenever `allSavedPayments`, `year`, or `month` changes
   useEffect(() => {
     setSelectedMonthsPayments(filterPayments(year, month));
@@ -108,6 +126,7 @@ export const BudgetProvider = ({ children }) => {
         setAllSavedPayments,
         selectedMonthsPayments, // Pass the filtered payments
         filterPayments, // Expose the filtering function for reuse
+        handlePaymentDeleteClick,
       }}
     >
       {children}
