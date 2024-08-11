@@ -2,23 +2,19 @@ import PaymentBox from "../components/PaymentBox";
 import { useBudget } from "../context files/BudgetProvider";
 
 const PaymentBoxSection = () => {
-  const { allSavedPayments, year, month } = useBudget();
-  console.log("all saved payments in PaymentBoxSection", allSavedPayments);
-
-  // Convert state values to integers
-  const yearInt = parseInt(year, 10); // convert year into Int (Base 10)
-  const monthInt = parseInt(month, 10); // convert month into Int (Base 10)
-
-  // Filter payment data based on year and month
-  const filteredPaymentData = allSavedPayments.filter((item) => {
-    return ((item.year === yearInt && item.month === monthInt ) || item.Payee.is_repeating == true);
-  });
+  const { selectedMonthsPayments } = useBudget(); // Access the filtered payments
 
   return (
-    <div>
-      {filteredPaymentData.length > 0 ? (
-        filteredPaymentData.map((payment) => (
-          <PaymentBox key={payment.id} payeeName={payment.Payee.payee_name} sum={payment.sum}/>
+    <div className="mt-3 ">
+      {selectedMonthsPayments.length > 0 ? (
+        selectedMonthsPayments.map((payment) => (
+          <PaymentBox
+            key={payment.payment_id}
+            payeeName={payment.Payee.payee_name}
+            paymentSum={payment.sum}
+            isPaid={payment.is_paid}
+            amountLeftToPay={payment.Payee.amount_left_to_pay}
+          />
         ))
       ) : (
         <p>No payments found for the selected year and month.</p>

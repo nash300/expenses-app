@@ -39,13 +39,11 @@ export const BudgetProvider = ({ children }) => {
   // PaymentBoxSection.js
   //------------------------------------------------------------------
   const [allSavedPayments, setAllSavedPayments] = useState([]); // Fetched all payment data (THE COMPLETE HISTORY) when the component mounts
-  const [selectedMonthsPayments, setSelectedMonthsPayments] = useState([]); // to do
-  const [totalPaymentAmount, setTotalPaymentAmount] = useState(0); // to do
+  const [selectedMonthsPayments, setSelectedMonthsPayments] = useState([]); // Filtered payments based on selected month and year
 
   // fetches ALL payments made by the user (THE COMPLETE HISTORY)
   const fetchAllSavedPayments = useCallback(async () => {
     try {
-      console.error("fetching data");
       const { data, error } = await supabase
         .from("Payments")
         .select("*, Payee(*)")
@@ -60,13 +58,33 @@ export const BudgetProvider = ({ children }) => {
       console.error("Error fetching data:", error);
     }
     console.log("fetched all saved payments successfully");
-  }, [month, year, userData.user_id]);
+  }, [userData.user_id]);
 
   useEffect(() => {
     if (userData.user_id) {
       fetchAllSavedPayments();
     }
   }, [fetchAllSavedPayments]);
+
+  // Filters payments based on year, month, or if they're marked as repeating
+  const filterPayments = (year, month) => {
+    const yearInt = parseInt(year, 10); // convert year into Int (Base 10)
+    const monthInt = parseInt(month, 10); // convert month into Int (Base 10)
+
+    const filteredPaymentData = allSavedPayments.filter((item) => {
+      return (
+        (item.year === yearInt && item.month === monthInt) ||
+        item.Payee.is_repeating === true
+      );
+    });
+
+    return filteredPaymentData;
+  };
+
+  // Automatically update the selected months payments whenever `allSavedPayments`, `year`, or `month` changes
+  useEffect(() => {
+    setSelectedMonthsPayments(filterPayments(year, month));
+  }, [allSavedPayments, year, month]);
 
   return (
     <BudgetContext.Provider
@@ -88,6 +106,8 @@ export const BudgetProvider = ({ children }) => {
         fetchAllSavedPayments,
         allSavedPayments,
         setAllSavedPayments,
+        selectedMonthsPayments, // Pass the filtered payments
+        filterPayments, // Expose the filtering function for reuse
       }}
     >
       {children}

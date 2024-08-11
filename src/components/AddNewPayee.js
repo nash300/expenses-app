@@ -25,13 +25,15 @@ const AddNewPayee = ({ setIsAddNewPayeeClicked }) => {
   const [isRepeatingPayment, setIsRepeatingPayment] = useState(false);
   const [intrestRate, setIntrestRate] = useState(0);
   const [amountLeftToPay, setAmountLeftToPay] = useState(null);
+  const [initialAmount, setInitialAmount] = useState(null);
+
   const [ocrNumber, setOcrNumber] = useState(null);
 
   const handleOcrNumberChange = (e) => {
     setOcrNumber(e.target.value);
   };
 
-  const handleamountLeftToPayChange = (e) => {
+  const handleAmountLeftToPayChange = (e) => {
     setAmountLeftToPay(e.target.value);
   };
 
@@ -49,6 +51,10 @@ const AddNewPayee = ({ setIsAddNewPayeeClicked }) => {
 
   const handleIntrestRateChange = (e) => {
     setIntrestRate(e.target.value);
+  };
+
+  const handleInitialAmountChange = (e) => {
+    setInitialAmount(e.target.value);
   };
 
   const handleCloseClick = () => {
@@ -75,6 +81,7 @@ const AddNewPayee = ({ setIsAddNewPayeeClicked }) => {
             intrest_rate: parseFloat(intrestRate) || null, // Store null if no interest rate provided
             amount_left_to_pay: amountLeftToPay,
             ocr_number: ocrNumber,
+            initial_amount: initialAmount
           },
         ]);
 
@@ -124,7 +131,7 @@ const AddNewPayee = ({ setIsAddNewPayeeClicked }) => {
             <option value="Bill">Bill</option>
           </select>
           <div className="form-group">
-            <div className="form-check">
+            <div className="form-check mb-3">
               {/* Check-box "repeat every month" */}
               <input
                 className="form-check-input mb-4"
@@ -139,12 +146,26 @@ const AddNewPayee = ({ setIsAddNewPayeeClicked }) => {
             </div>
           </div>
         </div>
-        {/* Conditional rendering to collect interest rate info */}
+        {/* Conditional rendering to collect credit info */}
         {isRepeatingPayment &&
           (paymentCategory === "Loan" || paymentCategory === "Credit-Card") && (
-            <section className="d-flex container">
-              {/* How much is left to pay section */}
-              <div className=" alert alert-info col-4 p-1 m-1">
+            <section className=" container d-flex row col-5 m-auto">
+              <div className=" row alert alert-info ">
+                {/* Initial amount */}
+                <label htmlFor="remainingAmount">Initial amount</label>
+                <div className="input-group">
+                  <input
+                    type="number"
+                    className="form-control"
+                    id="remainingAmount"
+                    value={initialAmount}
+                    onChange={handleInitialAmountChange}
+                  />
+                  <span className="input-group-text">Kr</span>
+                </div>
+              </div>
+              <div className=" row alert alert-info ">
+                {/* How much is left to pay? */}
                 <label htmlFor="remainingAmount">
                   How much is left to pay?
                 </label>
@@ -154,13 +175,14 @@ const AddNewPayee = ({ setIsAddNewPayeeClicked }) => {
                     className="form-control"
                     id="remainingAmount"
                     value={amountLeftToPay}
-                    onChange={handleamountLeftToPayChange}
+                    onChange={handleAmountLeftToPayChange}
                   />
                   <span className="input-group-text">Kr</span>
                 </div>
               </div>
-              {/* Interest rate section */}
-              <div className="alert alert-warning col-3 p-1 m-1">
+
+              <div className="row alert alert-warning ">
+                {/* Interest rate  */}
                 <label htmlFor="intrestRate">
                   <i>Annual intrest rate </i>
                 </label>
@@ -175,7 +197,8 @@ const AddNewPayee = ({ setIsAddNewPayeeClicked }) => {
                   <span className="input-group-text">%</span>
                 </div>
               </div>
-              <div className="alert alert-warning col-4 p-1 m-1">
+              <div className="row alert alert-warning ">
+                {/* OCR section */}
                 <label htmlFor="ocrNumber">
                   <i>(OCR number)</i>
                 </label>
