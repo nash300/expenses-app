@@ -26,7 +26,6 @@ function App() {
     setUserData(data);
   };
 
-  console.log("userData in App component :", userData);
 
   return (
     // ROUTES

@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import supabase from "../supabase";
 import userImage from "../utilities/icons/login-icon.jpg";
 
+
 function LoginPage({ handleLoginSuccess }) {
   // Local states to track user inputs
   const [username, setUsername] = useState("");
@@ -64,16 +65,16 @@ function LoginPage({ handleLoginSuccess }) {
       <div>
         <div style={{ marginBottom: "10px", color: "red" }}>{statusText}</div>
         <form
-          className="card py-5 p-5 h-100 justify-content-center align-items-center"
+          className="card  py-5 p-5 h-100 justify-content-center align-items-center"
           onSubmit={handleLogin}
         >
           <img
             className="mb-1"
             src={userImage}
-            style={{ height: "50px", width: "150px" }}
+            style={{ height: "170px", width: "130px" }}
             alt="Login Icon"
           />
-          <div className="mb-3">
+          <div className="mb-3 ">
             <label htmlFor="username" className="form-label">
               Username
             </label>

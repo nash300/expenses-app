@@ -1,9 +1,16 @@
 import supabase from "../supabase";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useBudget } from "../context files/BudgetProvider";
 
 const CreateNewPayment = ({ setIsCreateNewPaymentClicked }) => {
-  const { userData, year, month, payeeList, setPayeeList } = useBudget();
+  const {
+    userData,
+    year,
+    month,
+    payeeList,
+    setPayeeList,
+    fetchAllSavedPayments,
+  } = useBudget();
 
   // Local States to track the selected payee
   const [selectedPayee, setSelectedPayee] = useState("");
@@ -22,6 +29,33 @@ const CreateNewPayment = ({ setIsCreateNewPaymentClicked }) => {
     setIsCreateNewPaymentClicked(false);
   };
 
+  const handlePayeeChange = (event) => {
+    setSelectedPayee(event.target.value);
+  };
+
+  // Fetch payee list
+  const fetchPayeeList = useCallback(async () => {
+    try {
+      const { data, error } = await supabase
+        .from("Payee")
+        .select("*")
+        .eq("user_id", userData.user_id);
+      if (error) {
+        throw error;
+      }
+      setPayeeList(data);
+      console.log("Payee-list received:", data);
+    } catch (error) {
+      alert("Something went wrong");
+      console.log("Error fetching payee-list", error);
+    }
+  }, [userData.user_id, setPayeeList]);
+
+  // Fetch payee list on component mount
+  useEffect(() => {
+    fetchPayeeList();
+  }, [fetchPayeeList]);
+
   const handleSaveClick = async () => {
     try {
       const { data, error } = await supabase.from("Payments").insert([
@@ -36,42 +70,22 @@ const CreateNewPayment = ({ setIsCreateNewPaymentClicked }) => {
         },
       ]);
 
+      if (error) {
+        throw error;
+      }
+
       alert("Payment saved successfully!");
+      // resetting the input states
       setSelectedPayee("");
       setAmount(0);
       setNotes("");
       setIsCreateNewPaymentClicked(false); // Close the form on successful save
+      fetchAllSavedPayments(); // re-fetching saved payments after creating a new paymwnt
     } catch (error) {
       console.error("Error saving payment:", error);
       alert("Failed to save payment. Please try again.");
     }
   };
-
-  const handlePayeeChange = (event) => {
-    setSelectedPayee(event.target.value);
-  };
-
-  // fetches a list of all saved payees as the component mounts.
-  useEffect(() => {
-    const fetchPayeeList = async () => {
-      try {
-        const { data, error } = await supabase
-          .from("Payee")
-          .select("*")
-          .eq("user_id", userData.user_id);
-        if (error) {
-          throw error;
-        }
-        setPayeeList(data);
-        console.log("Payee-list recieved :", data);
-      } catch (error) {
-        alert("Something went wrong");
-        console.log("Error fetching payee-list", error);
-      }
-    };
-
-    fetchPayeeList();
-  }, [userData.user_id]);
 
   return (
     <form>
@@ -82,7 +96,7 @@ const CreateNewPayment = ({ setIsCreateNewPaymentClicked }) => {
             id="payeeName"
             value={selectedPayee}
             onChange={handlePayeeChange}
-            className="mb-2  form-control"
+            className="mb-2 form-control"
             required
           >
             <option value="">Select Here</option>
@@ -96,7 +110,7 @@ const CreateNewPayment = ({ setIsCreateNewPaymentClicked }) => {
         </div>
 
         <div className="form-group col-3 mb-3">
-          <label htmlFor="amount">Amount * </label>
+          <label htmlFor="amount">Amount *</label>
           <div className="input-group">
             <input
               type="number"
@@ -110,7 +124,7 @@ const CreateNewPayment = ({ setIsCreateNewPaymentClicked }) => {
           </div>
         </div>
         <div className="form-group col-5 mb-3">
-          <label htmlFor="note">Special notes </label>
+          <label htmlFor="note">Special notes</label>
           <div className="input-group">
             <textarea
               type="textbox"

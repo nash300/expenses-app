@@ -9,10 +9,11 @@ const Navbar = () => {
   const navigate = useNavigate();
 
   const handleHomeClick = () => {
+    // Reseting saved date & year
+    // Navigating to Home page
     setYear("");
     setMonth("");
     navigate("/home");
-   
   };
 
   const handleLogout = () => {

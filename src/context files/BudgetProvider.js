@@ -1,33 +1,72 @@
-// BudgetProvider.js
-import React, { createContext, useState, useContext } from "react";
+import React, {
+  createContext,
+  useState,
+  useContext,
+  useEffect,
+  useCallback,
+} from "react";
+import supabase from "../supabase";
 
 // Create Context
 const BudgetContext = createContext();
 
 // Create a provider component
 export const BudgetProvider = ({ children }) => {
-  // State to store authenticated user data retrieved from the server
-
+  //_________________________________________________________________
+  // STATUS OF THE USER
+  //-----------------------------------------------------------------
   const [userData, setUserData] = useState([]);
-
-  // State to track authentication status: true if logged in, false otherwise
-
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-  const [totalIncome, setTotalIncome] = useState(null);
-  const [createdAnewPayment, setCreatedAnewPayment] = useState(false);
-  const [totalPaymentAmount, setTotalPaymentAmount] = useState(0);
-  const [year, setYear] = useState("");
-  const [month, setMonth] = useState("");
+  //______________________________________
+  // SelectedDatePage.js
+  //--------------------------------------
+  const [year, setYear] = useState();
+  const [month, setMonth] = useState();
 
-  // Stores any previously saved data records retrived from the server
-  const [savedPayments, setSavedPayments] = useState([]);
-
-  // State to track all incomes
+  //______________________
+  //  Summary.js
+  //----------------------
   const [incomes, setIncomes] = useState([]);
+  const [totalIncome, setTotalIncome] = useState(null);
 
-  // stores the fetched (from server) payee list
-  const [payeeList, setPayeeList] = useState([]);
+  //__________________________________________________________________
+  // CreateNewPayment.js
+  //------------------------------------------------------------------
+  const [payeeList, setPayeeList] = useState([]); // fetched payee list saved by the user.
+
+  //__________________________________________________________________
+  // PaymentBoxSection.js
+  //------------------------------------------------------------------
+  const [allSavedPayments, setAllSavedPayments] = useState([]); // Fetched all payment data (THE COMPLETE HISTORY) when the component mounts
+  const [selectedMonthsPayments, setSelectedMonthsPayments] = useState([]); // to do
+  const [totalPaymentAmount, setTotalPaymentAmount] = useState(0); // to do
+
+  // fetches ALL payments made by the user (THE COMPLETE HISTORY)
+  const fetchAllSavedPayments = useCallback(async () => {
+    try {
+      console.error("fetching data");
+      const { data, error } = await supabase
+        .from("Payments")
+        .select("*, Payee(*)")
+        .eq("user_id", userData.user_id);
+
+      if (error) {
+        throw error;
+      }
+
+      setAllSavedPayments(data);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+    console.log("fetched all saved payments successfully");
+  }, [month, year, userData.user_id]);
+
+  useEffect(() => {
+    if (userData.user_id) {
+      fetchAllSavedPayments();
+    }
+  }, [fetchAllSavedPayments]);
 
   return (
     <BudgetContext.Provider
@@ -40,16 +79,15 @@ export const BudgetProvider = ({ children }) => {
         setIncomes,
         totalIncome,
         setTotalIncome,
-        createdAnewPayment,
-        setCreatedAnewPayment,
-        totalPaymentAmount,
-        setTotalPaymentAmount,
-        year,setYear,month, setMonth,
-        
-        savedPayments,
-        setSavedPayments,
+        year,
+        setYear,
+        month,
+        setMonth,
         payeeList,
         setPayeeList,
+        fetchAllSavedPayments,
+        allSavedPayments,
+        setAllSavedPayments,
       }}
     >
       {children}

@@ -1,16 +1,3 @@
-// This component does followings using conditionaly rendering
-// - Adds new payees
-// - Creates new payments
-//______________________________________________________________
-// *** IMPORTANT VARIABLES ***
-// userData (recieved from the parent)
-// isAddNewPayeeClicked - (tracks the state of "add new payee" button click status)
-// isCreateNewPaymentClicked
-//
-// *** CHILD COMPONENTS ***
-// <AddNewPayee />
-// <CreateNewPayment />
-
 import payeeIcon from "../utilities/icons/1 (117).png";
 import newPayeeIcon from "../utilities/icons/1 (92).png";
 import { useState } from "react";
@@ -19,24 +6,20 @@ import CreateNewPayment from "../components/CreateNewPayment";
 import { useBudget } from "../context files/BudgetProvider";
 
 const AddAndCreateSection = () => {
-  const { userData, year, month } = useBudget();
+  const { userData, fetchSavedPayments } = useBudget();
 
-  console.log("in add & create section")
-  console.log("month" ,month)
-  console.log("year", year)
-
-  // tracks click status of the buttons
+  // Tracks click status of the buttons
   const [isAddNewPayeeClicked, setIsAddNewPayeeClicked] = useState(false);
   const [isCreateNewPaymentClicked, setIsCreateNewPaymentClicked] =
     useState(false);
 
-  // ensure only one button gets activated at a time
+  // Ensure only one button gets activated at a time
   const handleAddNewPayeeButtonClick = () => {
     setIsCreateNewPaymentClicked(false);
     setIsAddNewPayeeClicked(true);
   };
 
-  // ensure only one button gets activated at a time
+  // Ensure only one button gets activated at a time
   const handleCreateNewPaymentButtonClick = () => {
     setIsAddNewPayeeClicked(false);
     setIsCreateNewPaymentClicked(true);
@@ -77,7 +60,7 @@ const AddAndCreateSection = () => {
         </div>
       </div>
 
-      {/*  Conditional rendering on "ADD NEW PAYEE" click */}
+      {/* Conditional rendering on "ADD NEW PAYEE" click */}
       {isAddNewPayeeClicked && (
         <AddNewPayee
           userData={userData}
@@ -85,13 +68,12 @@ const AddAndCreateSection = () => {
         />
       )}
 
-      {/*  Conditional rendering on "CREATE NEW PAYMENT" click */}
+      {/* Conditional rendering on "CREATE NEW PAYMENT" click */}
       {isCreateNewPaymentClicked && (
         <CreateNewPayment
           userData={userData}
           setIsCreateNewPaymentClicked={setIsCreateNewPaymentClicked}
-          year={year}
-          month={month}
+          refreshPayments={fetchSavedPayments} // Pass the fetch function from context
         />
       )}
     </div>
