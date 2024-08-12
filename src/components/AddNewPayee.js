@@ -2,17 +2,17 @@ import { useState } from "react";
 import supabase from "../supabase";
 import { useBudget } from "../context files/BudgetProvider";
 
-const AddNewPayee = ({ setIsAddNewPayeeClicked }) => {
-  const { userData } = useBudget();
+const AddNewPayee = ({ setIsAddNewPayeeClicked, fetchPayeeList }) => {
+  const { userData,  } = useBudget();
 
   // Local states
   const [payeeName, setPayeeName] = useState("");
   const [paymentCategory, setPaymentCategory] = useState("");
   const [isRepeatingPayment, setIsRepeatingPayment] = useState(false);
-  const [intrestRate, setIntrestRate] = useState(0);
-  const [amountLeftToPay, setAmountLeftToPay] = useState(null);
-  const [initialAmount, setInitialAmount] = useState(null);
-  const [ocrNumber, setOcrNumber] = useState(null);
+  const [intrestRate, setIntrestRate] = useState();
+  const [amountLeftToPay, setAmountLeftToPay] = useState();
+  const [initialAmount, setInitialAmount] = useState();
+  const [ocrNumber, setOcrNumber] = useState();
 
   const handleOcrNumberChange = (e) => {
     setOcrNumber(e.target.value);
@@ -77,6 +77,7 @@ const AddNewPayee = ({ setIsAddNewPayeeClicked }) => {
         } else {
           alert("Saved successfully!");
           setIsAddNewPayeeClicked(false);
+          fetchPayeeList();
         }
       } catch (error) {
         console.error("Error saving payee:", error);

@@ -76,11 +76,15 @@ const PaymentBox = ({
   }, [isChecked, sliderValue]);
 
   return (
-    <div className={`container row rounded-pill border p-1 mb-2 shadow-sm ${loading ? "opacity-50" : ""}`}>
+    <div
+      className={`container row rounded-pill border p-1 mb-2 shadow-sm ${
+        loading ? "opacity-90" : ""
+      } ${isChecked ? "alert alert-dark opacity-50 " : ""}`}
+    >
       {/* Payee Name + Paid checkbox */}
       <section className="container col-md-2 d-flex align-items-center">
         <input
-          className="me-3"
+          className="me-3 "
           type="checkbox"
           id="isPaid"
           checked={isChecked}
@@ -103,22 +107,23 @@ const PaymentBox = ({
                 onChange={handleInputChange}
                 onBlur={handleSliderMouseUp} // Update server when user leaves input field
                 style={{ width: "100px" }}
-                disabled={loading} // Disable input while loading
+                disabled={loading || isChecked} // Disable input while loading
               />
             </div>
-
-            <input
-              type="range"
-              className="form-range"
-              min={0}
-              max={amountLeftToPay}
-              step={200}
-              value={localSliderValue}
-              onChange={handleSliderChange}
-              onMouseUp={handleSliderMouseUp} // Trigger update on mouse release
-              onTouchEnd={handleSliderMouseUp} // Handle touch events for mobile
-              disabled={loading} // Disable slider while loading
-            />
+            <div>
+              <input
+                type="range"
+                className="form-range"
+                min={0}
+                max={amountLeftToPay}
+                step={amountLeftToPay/100}
+                value={localSliderValue}
+                onChange={handleSliderChange}
+                onMouseUp={handleSliderMouseUp} // Trigger update on mouse release
+                onTouchEnd={handleSliderMouseUp} // Handle touch events for mobile
+                disabled={loading || isChecked} // Disable slider while loading
+              />
+            </div>
           </div>
         ) : (
           <div className="container d-flex align-items-center">
@@ -133,7 +138,7 @@ const PaymentBox = ({
         <button
           className="btn btn-outline-danger"
           onClick={handleDeleteClick}
-          disabled={loading} // Disable button while loading
+          disabled={loading || isChecked} // Disable button while loading
         >
           {loading ? "Processing..." : "Delete"}
         </button>

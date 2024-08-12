@@ -152,6 +152,7 @@ export const BudgetProvider = ({ children }) => {
         selectedMonthsPayments, // Pass the filtered payments
         filterPayments,
         deletePayment,
+        fetchPayeeList,
       }}
     >
       {children}
