@@ -95,8 +95,6 @@ export const BudgetProvider = ({ children }) => {
   // Filters payments based on year, month
   // used in Summary.js
   const filterPayments = (year, month) => {
-    console.log("running filterPayments");
-
     const yearInt = parseInt(year, 10); // convert year into Int (Base 10)
     const monthInt = parseInt(month, 10); // convert month into Int (Base 10)
 
@@ -121,6 +119,8 @@ export const BudgetProvider = ({ children }) => {
 
       if (error) {
         throw error;
+      } else {
+        console.log("Payment record deleted");
       }
     } catch (error) {
       alert("Error deleting payment. Please try again");

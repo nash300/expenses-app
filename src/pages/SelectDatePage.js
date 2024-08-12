@@ -42,7 +42,7 @@ const SelectDatePage = () => {
 
   return (
     <div className="d-flex justify-content-center align-items-center min-vh-100 bg-light ">
-      <div className="card shadow-lg p-4 border-0" style={{ maxWidth: "400px" }}>
+      <div className="card container shadow-lg  p-5 border-0" style={{ maxWidth: "400px" }}>
         <div className="text-center mb-4">
           <img src={calenderImg} alt="Calendar" style={{ width: 100 }} />
           <h3 className="mt-3">Select Date</h3>
@@ -61,7 +61,7 @@ const SelectDatePage = () => {
               Select Year
             </option>
             {yearOptions.map((year) => (
-              <option key={year} value={year}>
+              <option key={year} value={year} className="align-text-center">
                 {year}
               </option>
             ))}
@@ -89,7 +89,7 @@ const SelectDatePage = () => {
         </div>
         <div className="d-grid">
           <button
-            className="btn btn-warning btn-sm "
+            className="btn btn-primary w-100"
             disabled={!year || !month}
             onClick={() => navigate("/budget-Calculator")}
           >

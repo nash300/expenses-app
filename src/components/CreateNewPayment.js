@@ -71,12 +71,28 @@ const CreateNewPayment = ({ setIsCreateNewPaymentClicked }) => {
             required
           >
             <option value="">Select Here</option>
-            {/* Iterate over payeeList to create options */}
-            {payeeList.map((payee) => (
-              <option key={payee.payee_id} value={payee.payee_id}>
-                {payee.payee_name}
-              </option>
-            ))}
+
+            {/* Group for one-time payments */}
+            <optgroup label="One-Time Payments">
+              {payeeList
+                .filter((payee) => !payee.is_repeating)
+                .map((payee) => (
+                  <option key={payee.payee_id} value={payee.payee_id}>
+                    {payee.payee_name}
+                  </option>
+                ))}
+            </optgroup>
+
+            {/* Group for repeating payments */}
+            <optgroup label="Repeating Payments">
+              {payeeList
+                .filter((payee) => payee.is_repeating)
+                .map((payee) => (
+                  <option key={payee.payee_id} value={payee.payee_id}>
+                    {payee.payee_name}
+                  </option>
+                ))}
+            </optgroup>
           </select>
         </div>
 

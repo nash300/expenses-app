@@ -32,6 +32,7 @@ function App() {
     <Router>
       {/*Navbar component */}
       <Navbar userData={userData} />
+
       <Routes>
         {/*Login page*/}
         <Route

@@ -11,88 +11,81 @@ const PaymentBox = ({
   initialAmount,
   fetchAllSavedPayments,
 }) => {
-  const [sum, setSum] = useState(paymentSum);
-  const [sliderValue, setSliderValue] = useState(paymentSum);
+  const [sliderValue, setSliderValue] = useState(paymentSum); // This will be sent to the server
+  const [localSliderValue, setLocalSliderValue] = useState(paymentSum); // This is for the input field only
   const [isChecked, setIsChecked] = useState(isPaid);
-  const [loading, setLoading] = useState(false);
-
-  // Handle slider change (only updates state)
-  const handleSumSliderChange = (event) => {
-    const newValue = Number(event.target.value);
-    setSliderValue(newValue);
-  };
+  const [loading, setLoading] = useState(false); // Loading state to freeze the form
 
   // Handle input change
-  const handleSumInputChange = (event) => {
+  const handleInputChange = (event) => {
     const newValue = Number(event.target.value);
-    setSliderValue(newValue);
-    setSum(newValue);
+    setLocalSliderValue(newValue);
+    setSliderValue(newValue); // Update sliderValue immediately to reflect the change in state
   };
 
-  // Reset sum to initial value
-  const handleResetClick = () => {
-    setSum(paymentSum);
-    setSliderValue(paymentSum);
+  // Handle slider change
+  const handleSliderChange = (event) => {
+    const newValue = Number(event.target.value);
+    setLocalSliderValue(newValue);
   };
 
   // Handle delete payment
-  const handleDeleteClick = () => {
-    deletePayment(paymentId);
+  const handleDeleteClick = async () => {
+    setLoading(true);
+    try {
+      await deletePayment(paymentId);
+    } finally {
+      setLoading(false);
+    }
   };
 
-  // handle is_paid checkbox click
+  // Handle is_paid checkbox click
   const handleIsPaidCheck = (e) => {
     setIsChecked(e.target.checked);
   };
 
-  //  Update sum and is_paid in the database
-  const updatePaymentInDatabase = async (updatedSum, updatedIsChecked) => {
+  // Update sum and is_paid in the database
+  const updatePaymentInDatabase = async () => {
+    setLoading(true);
     try {
-      setLoading(true); // Disable interactions while saving
       const { data, error } = await supabase
         .from("Payments")
-        .update({ sum: updatedSum, is_paid: updatedIsChecked })
+        .update({ sum: sliderValue, is_paid: isChecked })
         .eq("payment_id", paymentId)
         .select();
       if (error) {
         throw error;
       }
       console.log("Payment updated in the database", data);
-      // No need to reset state here, as updates have already been made
+      fetchAllSavedPayments();
     } catch (error) {
       console.log("Error updating payment:", error);
-      // Consider adding user feedback here, such as a toast or message
     } finally {
-      setLoading(false); // Re-enable interactions
+      setLoading(false);
     }
   };
 
   // Update sum in state and database when slider is released
   const handleSliderMouseUp = () => {
-    setSum(sliderValue);
-    updatePaymentInDatabase(sliderValue, isChecked);
-    fetchAllSavedPayments();
+    setSliderValue(localSliderValue); // Set the value to be sent to the server
   };
 
-  // Update is_paid in the database when checkbox changes
+  // Update is_paid in the database when checkbox changes or sliderValue changes
   useEffect(() => {
-    if (!loading) {
-      updatePaymentInDatabase(sum, isChecked);
-      fetchAllSavedPayments();
-    }
-  }, [isChecked]);
+    updatePaymentInDatabase();
+  }, [isChecked, sliderValue]);
 
   return (
-    <div className="container row rounded-pill border p-1 mb-2 shadow-sm">
+    <div className={`container row rounded-pill border p-1 mb-2 shadow-sm ${loading ? "opacity-50" : ""}`}>
       {/* Payee Name + Paid checkbox */}
       <section className="container col-md-2 d-flex align-items-center">
         <input
-          className="me-2"
+          className="me-3"
           type="checkbox"
           id="isPaid"
           checked={isChecked}
           onChange={handleIsPaidCheck}
-          disabled={loading} // Disable interaction during loading
+          disabled={loading} // Disable checkbox while loading
         />
         <div className="fw-semibold">{payeeName}</div>
       </section>
@@ -106,65 +99,44 @@ const PaymentBox = ({
               <input
                 className="form-control fw-semibold text-center align-items-center mb-1 p-0"
                 type="number"
-                value={sliderValue}
-                onChange={handleSumInputChange}
-                style={{
-                  width: "100px",
-                }}
-                disabled={loading} // Disable interaction during loading
+                value={localSliderValue}
+                onChange={handleInputChange}
+                onBlur={handleSliderMouseUp} // Update server when user leaves input field
+                style={{ width: "100px" }}
+                disabled={loading} // Disable input while loading
               />
             </div>
 
             <input
               type="range"
               className="form-range"
-              min="0"
+              min={0}
               max={amountLeftToPay}
-              step={1}
-              value={sliderValue}
-              onChange={handleSumSliderChange}
+              step={200}
+              value={localSliderValue}
+              onChange={handleSliderChange}
               onMouseUp={handleSliderMouseUp} // Trigger update on mouse release
               onTouchEnd={handleSliderMouseUp} // Handle touch events for mobile
-              disabled={loading} // Disable interaction during loading
+              disabled={loading} // Disable slider while loading
             />
           </div>
         ) : (
           <div className="container d-flex align-items-center">
-            {/* Other bills */}
-            <div className="ms-2 align-items-center">Kr</div>
-            <div className="fw-semibold ms-5">{sum}</div>
+            <div className="ms-2 p-2 align-items-center">Kr</div>
+            <div className="fw-semibold">{paymentSum}</div>
           </div>
         )}
       </section>
 
       {/* Buttons */}
       <section className="container col-md-3 d-flex justify-content-end align-items-center">
-        {amountLeftToPay && initialAmount ? (
-          <>
-            <button
-              className="btn btn-secondary btn-sm"
-              onClick={handleResetClick}
-              disabled={loading} // Disable interaction during loading
-            >
-              Reset
-            </button>
-            <button
-              className="btn btn-danger ms-1 btn-sm"
-              onClick={handleDeleteClick}
-              disabled={loading} // Disable interaction during loading
-            >
-              Delete
-            </button>
-          </>
-        ) : (
-          <button
-            className="btn btn-danger btn-sm"
-            onClick={handleDeleteClick}
-            disabled={loading} // Disable interaction during loading
-          >
-            Delete
-          </button>
-        )}
+        <button
+          className="btn btn-outline-danger"
+          onClick={handleDeleteClick}
+          disabled={loading} // Disable button while loading
+        >
+          {loading ? "Processing..." : "Delete"}
+        </button>
       </section>
     </div>
   );

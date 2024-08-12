@@ -54,7 +54,7 @@ function LoginPage({ handleLoginSuccess }) {
 
   return (
     <div className="d-flex justify-content-center align-items-center min-vh-100 bg-light ">
-      <div className="card shadow p-4" style={{ maxWidth: "400px" }}>
+      <div className="card container shadow-lg  p-5 border-0" style={{ maxWidth: "400px" }}>
         <div className="text-center mb-4">
           <img
             src={userImage}

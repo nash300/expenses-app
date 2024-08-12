@@ -104,6 +104,7 @@ const BudgetCalculator = () => {
             <Summary
               totalIncome={totalIncome}
               totalPaymentAmount={totalPaymentAmount}
+              selectedMonthsPayments={selectedMonthsPayments}
             />
           </div>
           <div>

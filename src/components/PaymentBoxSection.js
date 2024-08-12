@@ -2,7 +2,8 @@ import PaymentBox from "../components/PaymentBox";
 import { useBudget } from "../context files/BudgetProvider";
 
 const PaymentBoxSection = () => {
-  const { selectedMonthsPayments, deletePayment, fetchAllSavedPayments } = useBudget(); // Access the filtered payments
+  const { selectedMonthsPayments, deletePayment, fetchAllSavedPayments } =
+    useBudget(); // Access the filtered payments
 
   // Categorize payments into repeated (Loan/Credit) and one-time (Bill) payments
   const loanAndCredit = selectedMonthsPayments
@@ -35,7 +36,7 @@ const PaymentBoxSection = () => {
           />
         ))
       ) : (
-        <p>No repeated payments.</p>
+        <p className="alert alert-success">No Loans & Credits</p>
       )}
 
       {/* Bill Section */}
@@ -53,7 +54,7 @@ const PaymentBoxSection = () => {
           />
         ))
       ) : (
-        <p>No one-time payments.</p>
+        <p className="alert alert-success">No other bills</p>
       )}
     </div>
   );
