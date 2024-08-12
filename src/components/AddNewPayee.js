@@ -1,17 +1,3 @@
-// This component collects "new payee" data, send them to server
-//______________________________________________________________
-// *** IMPORTANT VARIABLES ***
-// userData (recieved from the parent)
-// payeeName
-// paymentCategory
-// isRepeatingPayment
-// intrestRate
-// amountLeftToPay
-// ocrNumber
-//
-// *** CALL-BACK FUNCTIONS ***
-// setIsAddNewPayeeClicked (changes state of the "add new payee" button click status)
-
 import { useState } from "react";
 import supabase from "../supabase";
 import { useBudget } from "../context files/BudgetProvider";
@@ -26,7 +12,6 @@ const AddNewPayee = ({ setIsAddNewPayeeClicked }) => {
   const [intrestRate, setIntrestRate] = useState(0);
   const [amountLeftToPay, setAmountLeftToPay] = useState(null);
   const [initialAmount, setInitialAmount] = useState(null);
-
   const [ocrNumber, setOcrNumber] = useState(null);
 
   const handleOcrNumberChange = (e) => {
@@ -91,7 +76,7 @@ const AddNewPayee = ({ setIsAddNewPayeeClicked }) => {
           alert("Failed to save payee. Please try again");
         } else {
           alert("Saved successfully!");
-          // Reset form fields and hide the f();
+          setIsAddNewPayeeClicked(false);
         }
       } catch (error) {
         console.error("Error saving payee:", error);
@@ -101,6 +86,7 @@ const AddNewPayee = ({ setIsAddNewPayeeClicked }) => {
       alert("Please enter all required fields.");
     }
   };
+
   return (
     <form>
       <div className="form-row p-5 pt-2">

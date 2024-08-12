@@ -1,13 +1,10 @@
-import payeeIcon from "../utilities/icons/1 (117).png";
+import payeeIcon from "../utilities/icons/1 (126).png";
 import newPayeeIcon from "../utilities/icons/1 (92).png";
 import { useState } from "react";
 import AddNewPayee from "../components/AddNewPayee";
 import CreateNewPayment from "../components/CreateNewPayment";
-import { useBudget } from "../context files/BudgetProvider";
 
-const AddAndCreateSection = () => {
-  const { userData, fetchSavedPayments } = useBudget();
-
+const AddAndCreateSection = ({ isEmpty }) => {
   // Tracks click status of the buttons
   const [isAddNewPayeeClicked, setIsAddNewPayeeClicked] = useState(false);
   const [isCreateNewPaymentClicked, setIsCreateNewPaymentClicked] =
@@ -26,7 +23,7 @@ const AddAndCreateSection = () => {
   };
 
   return (
-    <div className="card d-flex justify-content-center shadow-sm ">
+    <div className="card d-flex justify-content-center shadow ">
       <div className="card d-flex flex-row align-items-center justify-content-center m-1 p-2 bg-primary">
         <div className="col">
           <button
@@ -40,40 +37,40 @@ const AddAndCreateSection = () => {
               alt="Card image cap"
               style={{ height: "30px", width: "30px", marginRight: "10px" }}
             />
-            Add a new payee
+            Save a payment reciever
           </button>
         </div>
         <div>
-          <button
-            type="button"
-            className="btn btn-warning"
-            onClick={handleCreateNewPaymentButtonClick}
-          >
-            <img
-              className="card-img-top "
-              src={newPayeeIcon}
-              alt="Card image cap"
-              style={{ height: "30px", width: "30px", marginRight: "10px" }}
-            />
-            Create New Payment
-          </button>
+          {/* Conditional rendering "Create New Payment" button only if there exist a created budget plan for the month */}
+          {!isEmpty ? (
+            <button
+              type="button"
+              className="btn btn-warning"
+              onClick={handleCreateNewPaymentButtonClick}
+            >
+              <img
+                className="card-img-top "
+                src={newPayeeIcon}
+                alt="Card image cap"
+                style={{ height: "30px", width: "30px", marginRight: "10px" }}
+              />
+              Create New Payment
+            </button>
+          ) : (
+            <></>
+          )}
         </div>
       </div>
 
       {/* Conditional rendering on "ADD NEW PAYEE" click */}
       {isAddNewPayeeClicked && (
-        <AddNewPayee
-          userData={userData}
-          setIsAddNewPayeeClicked={setIsAddNewPayeeClicked}
-        />
+        <AddNewPayee setIsAddNewPayeeClicked={setIsAddNewPayeeClicked} />
       )}
 
       {/* Conditional rendering on "CREATE NEW PAYMENT" click */}
       {isCreateNewPaymentClicked && (
         <CreateNewPayment
-          userData={userData}
           setIsCreateNewPaymentClicked={setIsCreateNewPaymentClicked}
-          refreshPayments={fetchSavedPayments} // Pass the fetch function from context
         />
       )}
     </div>

@@ -3,18 +3,12 @@ import { useState, useEffect, useCallback } from "react";
 import { useBudget } from "../context files/BudgetProvider";
 
 const CreateNewPayment = ({ setIsCreateNewPaymentClicked }) => {
-  const {
-    userData,
-    year,
-    month,
-    payeeList,
-    setPayeeList,
-    fetchAllSavedPayments,
-  } = useBudget();
+  const { userData, year, month, payeeList, fetchAllSavedPayments } =
+    useBudget();
 
   // Local States to track the selected payee
   const [selectedPayee, setSelectedPayee] = useState("");
-  const [amount, setAmount] = useState(0);
+  const [amount, setAmount] = useState();
   const [notes, setNotes] = useState("");
 
   const handleNotesChange = (e) => {
@@ -32,29 +26,6 @@ const CreateNewPayment = ({ setIsCreateNewPaymentClicked }) => {
   const handlePayeeChange = (event) => {
     setSelectedPayee(event.target.value);
   };
-
-  // Fetch payee list
-  const fetchPayeeList = useCallback(async () => {
-    try {
-      const { data, error } = await supabase
-        .from("Payee")
-        .select("*")
-        .eq("user_id", userData.user_id);
-      if (error) {
-        throw error;
-      }
-      setPayeeList(data);
-      console.log("Payee-list received:", data);
-    } catch (error) {
-      alert("Something went wrong");
-      console.log("Error fetching payee-list", error);
-    }
-  }, [userData.user_id, setPayeeList]);
-
-  // Fetch payee list on component mount
-  useEffect(() => {
-    fetchPayeeList();
-  }, [fetchPayeeList]);
 
   const handleSaveClick = async () => {
     try {

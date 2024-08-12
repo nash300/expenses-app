@@ -5,7 +5,8 @@ import { useNavigate } from "react-router-dom";
 import { useBudget } from "../context files/BudgetProvider";
 
 const Navbar = () => {
-  const { userData, setIsLoggedIn, setYear, setMonth } = useBudget();
+  const { userData, setIsLoggedIn, setYear, setMonth, fetchAllSavedPayments } =
+    useBudget();
   const navigate = useNavigate();
 
   const handleHomeClick = () => {
@@ -14,6 +15,7 @@ const Navbar = () => {
     setYear("");
     setMonth("");
     navigate("/home");
+    fetchAllSavedPayments();
   };
 
   const handleLogout = () => {

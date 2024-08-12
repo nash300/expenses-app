@@ -41,9 +41,7 @@ const SelectDatePage = () => {
   // Effect for navigation
   useEffect(() => {
     if (year && month) {
-      navigate("/budget-Calculator", {
-        state: { month: month, year: year },
-      });
+      navigate("/budget-Calculator");
     }
   }, [year, month, navigate]);
 
@@ -73,7 +71,7 @@ const SelectDatePage = () => {
           <option value="">Select Month</option>
           {monthOptions.map((month, index) => (
             <option key={index} value={index + 1}>
-              {month}
+              {index + 1} - {month}
             </option>
           ))}
         </select>

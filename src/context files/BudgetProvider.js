@@ -35,6 +35,31 @@ export const BudgetProvider = ({ children }) => {
   //------------------------------------------------------------------
   const [payeeList, setPayeeList] = useState([]); // fetched payee list saved by the user.
 
+  // Fetch payee list
+  const fetchPayeeList = useCallback(async () => {
+    try {
+      const { data, error } = await supabase
+        .from("Payee")
+        .select("*")
+        .eq("user_id", userData.user_id);
+      if (error) {
+        throw error;
+      }
+      setPayeeList(data);
+      console.log("Payee-list received:", data);
+    } catch (error) {
+      alert("Something went wrong");
+      console.log("Error fetching payee-list", error);
+    }
+  }, [userData.user_id]);
+
+  // Ensure fetchPayeeList is only called when user_id is defined
+  useEffect(() => {
+    if (userData.user_id) {
+      fetchPayeeList();
+    }
+  }, [fetchPayeeList, userData.user_id]);
+
   //__________________________________________________________________
   // PaymentBoxSection.js
   //------------------------------------------------------------------
@@ -60,49 +85,47 @@ export const BudgetProvider = ({ children }) => {
     console.log("fetched all saved payments successfully");
   }, [userData.user_id]);
 
+  // Ensure fetchAllSavedPayments is only called when user_id is defined
   useEffect(() => {
     if (userData.user_id) {
       fetchAllSavedPayments();
     }
-  }, [fetchAllSavedPayments]);
+  }, [fetchAllSavedPayments, userData.user_id]);
 
-  // Filters payments based on year, month, or if they're marked as repeating
+  // Filters payments based on year, month
   const filterPayments = (year, month) => {
     const yearInt = parseInt(year, 10); // convert year into Int (Base 10)
     const monthInt = parseInt(month, 10); // convert month into Int (Base 10)
 
     const filteredPaymentData = allSavedPayments.filter((item) => {
-      return (
-        (item.year === yearInt && item.month === monthInt) ||
-        item.Payee.is_repeating === true
-      );
+      return item.year === yearInt && item.month === monthInt;
     });
 
     return filteredPaymentData;
-  };
-
-  const handlePaymentDeleteClick = async (paymentId) => {
-    const paymentIdInt = parseInt(paymentId, 10); // convert year into Int (Base 10)
-
-    try {
-      const { error } = await supabase
-        .from("Payments")
-        .delete()
-        .eq("payment_id", paymentIdInt);
-
-      if (error) {
-        throw error;
-      }
-    } catch (error) {
-      console.log("error deleting a payee", error);
-    }
-    fetchAllSavedPayments();
   };
 
   // Automatically update the selected months payments whenever `allSavedPayments`, `year`, or `month` changes
   useEffect(() => {
     setSelectedMonthsPayments(filterPayments(year, month));
   }, [allSavedPayments, year, month]);
+
+  // delets a payment record in the database and re-fetches new data
+  const deletePayment = async (paymentId) => {
+    try {
+      const { error } = await supabase
+        .from("Payments")
+        .delete()
+        .eq("payment_id", paymentId);
+
+      if (error) {
+        throw error;
+      }
+    } catch (error) {
+      alert("Error deleting payment. Please try again");
+      console.log("error deleting a payee", error);
+    }
+    fetchAllSavedPayments();
+  };
 
   return (
     <BudgetContext.Provider
@@ -126,7 +149,7 @@ export const BudgetProvider = ({ children }) => {
         setAllSavedPayments,
         selectedMonthsPayments, // Pass the filtered payments
         filterPayments, // Expose the filtering function for reuse
-        handlePaymentDeleteClick,
+        deletePayment,
       }}
     >
       {children}

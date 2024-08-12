@@ -1,12 +1,14 @@
 import React, { useState } from "react";
-import supabase from "../supabase";
 
 const PaymentBox = ({
   payeeName,
   paymentSum,
   amountLeftToPay,
   paymentId,
-  handlePaymentDeleteClick,
+  deletePayment,
+  initialAmount,
+  year,
+  month,
 }) => {
   const [sum, setSum] = useState(paymentSum);
   const [sliderValue, setSliderValue] = useState(paymentSum);
@@ -33,8 +35,10 @@ const PaymentBox = ({
 
   // deleting the payment in the database and re-fetches the new data
   const handleDeleteClick = () => {
-    handlePaymentDeleteClick(paymentId);
+    deletePayment(paymentId);
   };
+
+  const is_old = false;
 
   return (
     <div
@@ -42,12 +46,11 @@ const PaymentBox = ({
       style={{ height: "auto" }}
     >
       <section className="col-md-6 d-flex align-items-center">
-        <input className="me-2" type="checkbox" id="isPaid" />
+        <input className="me-2" type="checkbox" id="isPaid" disabled={is_old} />
         <div className="fw-semibold">{payeeName}</div>
-        {paymentId}
       </section>
       <section className="col-md-4 d-flex align-items-center">
-        {amountLeftToPay ? (
+        {amountLeftToPay && initialAmount ? (
           <div className="d-flex align-items-center flex-grow-1">
             <input
               className="fw-semibold border-0 me-2"
@@ -55,6 +58,7 @@ const PaymentBox = ({
               value={sum}
               onChange={handleSumInputChange}
               style={{ width: "90px" }}
+              disabled={is_old}
             />
             <p className="mb-0 me-2">Kr</p>
             <input
@@ -66,6 +70,7 @@ const PaymentBox = ({
               step={10}
               value={sliderValue}
               onChange={handleSumSliderChange}
+              disabled={is_old}
             />
           </div>
         ) : (
@@ -75,17 +80,29 @@ const PaymentBox = ({
         )}
       </section>
       <section className="col-md-2 d-flex justify-content-end align-items-center">
-        {amountLeftToPay ? (
+        {amountLeftToPay && initialAmount ? (
           <>
-            <button className="btn btn-secondary" onClick={handleResetClick}>
+            <button
+              className="btn btn-secondary"
+              onClick={handleResetClick}
+              disabled={is_old}
+            >
               Reset
             </button>
-            <button className="btn btn-danger ms-1" onClick={handleDeleteClick}>
+            <button
+              className="btn btn-danger ms-1"
+              onClick={handleDeleteClick}
+              disabled={is_old}
+            >
               Delete
             </button>
           </>
         ) : (
-          <button className="btn btn-danger" onClick={handleDeleteClick}>
+          <button
+            className="btn btn-danger"
+            onClick={handleDeleteClick}
+            disabled={is_old}
+          >
             Delete
           </button>
         )}
