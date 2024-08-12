@@ -2,16 +2,19 @@ import PaymentBox from "../components/PaymentBox";
 import { useBudget } from "../context files/BudgetProvider";
 
 const PaymentBoxSection = () => {
-  const { selectedMonthsPayments, deletePayment } = useBudget(); // Access the filtered payments
+  const { selectedMonthsPayments, deletePayment, fetchAllSavedPayments } = useBudget(); // Access the filtered payments
 
   // Categorize payments into repeated (Loan/Credit) and one-time (Bill) payments
-  const loanAndCredit = selectedMonthsPayments.filter(
-    (payment) =>
-      payment.Payee.amount_left_to_pay && payment.Payee.initial_amount
-  );
-  const bills = selectedMonthsPayments.filter(
-    (payment) => payment.Payee.category === "Bill"
-  );
+  const loanAndCredit = selectedMonthsPayments
+    .filter(
+      (payment) =>
+        payment.Payee.amount_left_to_pay && payment.Payee.initial_amount
+    )
+    .sort((a, b) => a.Payee.payee_name.localeCompare(b.Payee.payee_name)); // Sort by payee name
+
+  const bills = selectedMonthsPayments
+    .filter((payment) => payment.Payee.category === "Bill")
+    .sort((a, b) => a.Payee.payee_name.localeCompare(b.Payee.payee_name)); // Sort by payee name
 
   return (
     <div className="mt-3">
@@ -28,6 +31,7 @@ const PaymentBoxSection = () => {
             isPaid={payment.is_paid}
             amountLeftToPay={payment.Payee.amount_left_to_pay}
             deletePayment={deletePayment}
+            fetchAllSavedPayments={fetchAllSavedPayments}
           />
         ))
       ) : (
@@ -44,6 +48,8 @@ const PaymentBoxSection = () => {
             payeeName={payment.Payee.payee_name}
             paymentSum={payment.sum}
             deletePayment={deletePayment}
+            isPaid={payment.is_paid}
+            fetchAllSavedPayments={fetchAllSavedPayments}
           />
         ))
       ) : (
