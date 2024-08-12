@@ -53,7 +53,7 @@ const BudgetCalculator = () => {
     try {
       const { data, error } = await supabase
         .from("Payments")
-        .update({ is_paid: true })
+        .update({ is_paid: "true" })
         .eq("is_paid", "false")
         .select();
 
@@ -72,7 +72,7 @@ const BudgetCalculator = () => {
       payee_id: payee.payee_id,
       year: year,
       month: month,
-      is_paid: false,
+      is_paid: "false",
     }));
 
     // Inserting the new records and refetching "AllSavedPayments" so that the latest "PayeeBox" components will appear in the display
@@ -93,7 +93,7 @@ const BudgetCalculator = () => {
 
   return (
     <div className="container-fluid">
-      <section className="bg-info text-dark text-center justify-content-end rounded-bottom mb-2 p-2">
+      <section className="bg-info text-dark text-center justify-content-end rounded-bottom mb-2 p-2 mt-5 pt-4">
         <h6 className="pe-4">
           {monthOptions[month - 1]} {year}
         </h6>

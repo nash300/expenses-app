@@ -23,7 +23,7 @@ const AddAndCreateSection = ({ isEmpty }) => {
   };
 
   return (
-    <div className="card d-flex justify-content-center shadow ">
+    <div className="card d-flex justify-content-center shadow mt-2 fixed">
       <div className="card d-flex flex-row align-items-center justify-content-center m-1 p-2 bg-primary">
         <div className="col">
           <button

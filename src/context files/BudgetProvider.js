@@ -93,14 +93,16 @@ export const BudgetProvider = ({ children }) => {
   }, [fetchAllSavedPayments, userData.user_id]);
 
   // Filters payments based on year, month
+  // used in Summary.js
   const filterPayments = (year, month) => {
+    console.log("running filterPayments");
+
     const yearInt = parseInt(year, 10); // convert year into Int (Base 10)
     const monthInt = parseInt(month, 10); // convert month into Int (Base 10)
 
     const filteredPaymentData = allSavedPayments.filter((item) => {
       return item.year === yearInt && item.month === monthInt;
     });
-
     return filteredPaymentData;
   };
 
@@ -148,7 +150,7 @@ export const BudgetProvider = ({ children }) => {
         allSavedPayments,
         setAllSavedPayments,
         selectedMonthsPayments, // Pass the filtered payments
-        filterPayments, // Expose the filtering function for reuse
+        filterPayments,
         deletePayment,
       }}
     >

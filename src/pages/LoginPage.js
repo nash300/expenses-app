@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 import supabase from "../supabase";
 import userImage from "../utilities/icons/login-icon.jpg";
 
-
 function LoginPage({ handleLoginSuccess }) {
   // Local states to track user inputs
   const [username, setUsername] = useState("");
@@ -54,27 +53,21 @@ function LoginPage({ handleLoginSuccess }) {
   };
 
   return (
-    <div
-      style={{
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        height: "100vh",
-      }}
-    >
-      <div>
-        <div style={{ marginBottom: "10px", color: "red" }}>{statusText}</div>
-        <form
-          className="card  py-5 p-5 h-100 justify-content-center align-items-center"
-          onSubmit={handleLogin}
-        >
+    <div className="d-flex justify-content-center align-items-center min-vh-100 bg-light ">
+      <div className="card shadow p-4" style={{ maxWidth: "400px" }}>
+        <div className="text-center mb-4">
           <img
-            className="mb-1"
             src={userImage}
-            style={{ height: "170px", width: "130px" }}
             alt="Login Icon"
+            style={{ height: "130px", width: "130px" }}
           />
-          <div className="mb-3 ">
+          <h3 className="mt-3">Login</h3>
+          {statusText && (
+            <div className="alert alert-danger mt-3">{statusText}</div>
+          )}
+        </div>
+        <form onSubmit={handleLogin}>
+          <div className="mb-3">
             <label htmlFor="username" className="form-label">
               Username
             </label>
@@ -88,7 +81,7 @@ function LoginPage({ handleLoginSuccess }) {
               className="form-control"
             />
           </div>
-          <div className="mb-3">
+          <div className="mb-4">
             <label htmlFor="password" className="form-label">
               Password
             </label>
@@ -102,7 +95,7 @@ function LoginPage({ handleLoginSuccess }) {
               className="form-control"
             />
           </div>
-          <button type="submit" className="btn btn-primary">
+          <button type="submit" className="btn btn-primary w-100">
             Login
           </button>
         </form>

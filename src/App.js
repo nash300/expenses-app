@@ -26,7 +26,6 @@ function App() {
     setUserData(data);
   };
 
-
   return (
     // ROUTES
 

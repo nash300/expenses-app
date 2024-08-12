@@ -3,6 +3,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { useBudget } from "../context files/BudgetProvider";
+import userIcon from "../utilities/icons/user.jpg"
 
 const Navbar = () => {
   const { userData, setIsLoggedIn, setYear, setMonth, fetchAllSavedPayments } =
@@ -27,10 +28,12 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="navbar navbar-expand-lg navbar-dark bg-dark ">
-      <p className="navbar-brand m-2" href="#">
-        User : {userData.first_name}
-      </p>
+    <nav className="navbar navbar-expand-lg navbar-dark bg-dark p-0  fixed-top">
+      <div className=" d-flex navbar-brand m-2 p-0" href="#">
+        <img src={userIcon} className="rounded-circle" style={{height: "40px" , width: "40px"}}/>
+        <p className=" align-items-center justify-content-center ps-2 m-0">{userData.first_name}</p>
+
+      </div>
 
       <div
         className="collapse navbar-collapse justify-content-end pe-5 "

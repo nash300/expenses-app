@@ -139,7 +139,7 @@ const AddNewPayee = ({ setIsAddNewPayeeClicked }) => {
             <section className=" container d-flex row col-5 m-auto">
               <div className=" row alert alert-info ">
                 {/* Initial amount */}
-                <label htmlFor="remainingAmount">Initial amount</label>
+                <label htmlFor="remainingAmount">Initial amount *</label>
                 <div className="input-group">
                   <input
                     type="number"
@@ -147,6 +147,7 @@ const AddNewPayee = ({ setIsAddNewPayeeClicked }) => {
                     id="remainingAmount"
                     value={initialAmount}
                     onChange={handleInitialAmountChange}
+                    required
                   />
                   <span className="input-group-text">Kr</span>
                 </div>
@@ -154,7 +155,7 @@ const AddNewPayee = ({ setIsAddNewPayeeClicked }) => {
               <div className=" row alert alert-info ">
                 {/* How much is left to pay? */}
                 <label htmlFor="remainingAmount">
-                  How much is left to pay?
+                  How much is left to pay? *
                 </label>
                 <div className="input-group">
                   <input
@@ -163,6 +164,7 @@ const AddNewPayee = ({ setIsAddNewPayeeClicked }) => {
                     id="remainingAmount"
                     value={amountLeftToPay}
                     onChange={handleAmountLeftToPayChange}
+                    required
                   />
                   <span className="input-group-text">Kr</span>
                 </div>

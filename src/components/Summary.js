@@ -9,7 +9,7 @@ const Summary = () => {
   }, 0);
 
   return (
-    <div className=" card mb-2 shadow">
+    <div className=" card mb-2 shadow mt-2 fixed">
       <div className="card-header ">Summary</div>
       <div className="card-body">
         <p className="card-text m-0">Total income :</p>
