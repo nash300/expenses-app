@@ -33,7 +33,7 @@ const Summary = ({ selectedMonthsPayments }) => {
       : 0;
 
   return (
-    <div className="card mb-3 shadow mt-3">
+    <div className="card m-4 shadow">
       <div className="card-header text-center">
         <h3>Summary</h3>
       </div>
@@ -47,29 +47,35 @@ const Summary = ({ selectedMonthsPayments }) => {
             <h4 className="mb-0">{totalIncome} Kr</h4>
           </div>
         </div>
+        
+
         <div className="">
-          {/* Total Expenses */}
-          <div className="d-flex justify-content-between align-items-center border-top pt-2 ">
-            <p className="card-text mb-0 ">Total expenses:</p>
-            <h4 className="mb-0 ">{totalPaidAmount + totalUnpaidAmount} Kr</h4>
-          </div>
-          {/* Progress Bar */}
-          <div
-            className="progress mt-2"
-            role="progressbar"
-            aria-label="Expenses Progress"
-            aria-valuenow={progressPercentage}
-            aria-valuemin="0"
-            aria-valuemax="100"
-          >
-            <div
-              className="progress-bar"
-              style={{ width: `${progressPercentage}%` }}
-            >
-              {Math.round(progressPercentage)}%
-            </div>
-          </div>
-        </div>
+  {/* Total Expenses */}
+  <div className="d-flex justify-content-between align-items-center border-top pt-2">
+    <p className="card-text mb-0">Total expenses:</p>
+    <h4 className="mb-0">{totalPaidAmount + totalUnpaidAmount} Kr</h4>
+  </div>
+  
+  {/* Progress Bar */}
+  <div
+    className="progress mt-2"
+    role="progressbar"
+    aria-label="Expenses Progress"
+    aria-valuenow={progressPercentage}
+    aria-valuemin="0"
+    aria-valuemax="100"
+  >
+    <div
+      className={`progress-bar ${progressPercentage > 100 ? 'bg-danger' : ''}`}
+      style={{ width: `${progressPercentage}%` }}
+    >
+      {Math.round(progressPercentage)}%
+    </div>
+  </div>
+</div>
+
+
+
       </div>
       <div className="card shadow p-3 ">
         <div className="mb-3 shaddow">

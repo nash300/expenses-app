@@ -11,8 +11,9 @@ const PaymentBox = ({
   deletePayment,
   initialAmount,
   fetchAllSavedPayments,
+  payeeId,
 }) => {
-  const { updateIsHover } = useBudget();
+  const { updateIsHover, updatePayeeId } = useBudget();
 
   // Local states to manage slider and checkbox
   const [sliderValue, setSliderValue] = useState(paymentSum); // Value to be sent to the server
@@ -82,6 +83,7 @@ const PaymentBox = ({
 
   const handleMouseEnter = () => {
     updateIsHover(true);
+    updatePayeeId(payeeId);
   };
 
   const handleMouseLeave = () => {
@@ -90,7 +92,7 @@ const PaymentBox = ({
 
   return (
     <div
-      className={`container row rounded-pill border p-1 mb-2 shadow-sm ${
+      className={`container row rounded-pill border p-1 mb-0 shadow-sm ${
         loading ? "opacity-90" : ""
       } ${isChecked ? "alert alert-dark opacity-50 " : ""}`}
       onMouseEnter={handleMouseEnter}

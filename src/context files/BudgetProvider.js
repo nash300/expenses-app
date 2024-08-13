@@ -130,13 +130,18 @@ export const BudgetProvider = ({ children }) => {
     console.log("is hover updated to ", state);
   };
 
-  const [someData, setSomeData] = useState("fswgrweg");
+  const [payeeId, setPayeeId] = useState(null);
 
+  const updatePayeeId = (id) => {
+    setPayeeId(id);
+    console.log("Payee ID updated ", id);
+  };
 
   return (
     <BudgetContext.Provider
       value={{
-        someData,
+        updatePayeeId,
+        payeeId,
         isHover,
         updateIsHover,
         userData,

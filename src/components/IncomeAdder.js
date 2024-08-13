@@ -145,7 +145,7 @@ const IncomeAdder = () => {
   }, [totalIncome, setTotalIncome]);
 
   return (
-    <div className="card text-white shadow">
+    <div className="card text-white shadow m-4">
       <div className="card-header d-flex justify-content-between align-items-center ps-2 bg-primary">
         Add an Income
         <button
@@ -162,7 +162,7 @@ const IncomeAdder = () => {
           {incomes.map((income, index) => (
             <li
               key={index}
-              className="list-group-item d-flex justify-content-between align-items-center ps-1 pe-2 pt-1"
+              className="list-group-item d-flex justify-content-between align-items-center ps-1 pe-2 pt-1 mt-2"
             >
               <div className="d-flex justify-content-between me-2 w-100">
                 <b>{income.description}</b> {income.amount}Kr

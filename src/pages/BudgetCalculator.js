@@ -42,7 +42,6 @@ const BudgetCalculator = () => {
   const isEmpty = selectedMonthsPayments.length === 0;
   console.log("selectedMonthsPayments:", selectedMonthsPayments);
 
-
   // Handler for creating a new budget plan
   const handleCreateNewPlanButtonClick = async (e) => {
     e.preventDefault(); // Prevent default form submission
@@ -104,7 +103,7 @@ const BudgetCalculator = () => {
         </h6>
       </section>
       <div className="row justify-content-start">
-        <section className="col-2 mb-2">
+        <section className="col-3 mb-2">
           {/* Display summary and income adder */}
           <div>
             <Summary
@@ -153,7 +152,9 @@ const BudgetCalculator = () => {
             <PaymentBoxSection /> // Show payment section if budget records exist
           )}
         </section>
-        <section className="col-4">{isHover && <Statistics />}</section>
+        <section className="col-3 container d-flex  justify-content-center align-items-center p-auto m-auto">
+          {isHover && <Statistics />}
+        </section>
       </div>
     </div>
   );

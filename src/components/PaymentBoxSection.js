@@ -32,6 +32,7 @@ const PaymentBoxSection = () => {
             amountLeftToPay={payment.Payee.amount_left_to_pay}
             deletePayment={deletePayment}
             fetchAllSavedPayments={fetchAllSavedPayments}
+            payeeId = {payment.Payee.payee_id}
           />
         ))
       ) : (
