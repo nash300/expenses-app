@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { useBudget } from "../context files/BudgetProvider";
 
 const Summary = ({ selectedMonthsPayments }) => {
@@ -19,40 +18,79 @@ const Summary = ({ selectedMonthsPayments }) => {
     return sum + payment.sum;
   }, 0);
 
-  // Calculate total expenses for unpaid payments
+  // Calculate total expenses for paid payments
   const totalPaidAmount = paidPayments.reduce((sum, payment) => {
     return sum + payment.sum;
   }, 0);
 
+  // Calculate balance
   const balance = totalIncome - (totalPaidAmount + totalUnpaidAmount);
 
+  // Calculate progress percentage
+  const progressPercentage =
+    totalIncome > 0
+      ? ((totalPaidAmount + totalUnpaidAmount) / totalIncome) * 100
+      : 0;
+
   return (
-    <div className=" card mb-2 shadow mt-2 fixed">
-      <div className=" card-header">
+    <div className="card mb-3 shadow mt-3">
+      <div className="card-header text-center">
         <h3>Summary</h3>
       </div>
-      <div className="card-body ">
-        <div className="">
-          <p className="card-text mt-3 mb-1 border-bottom ">
-            Your total income for this month:
-          </p>
-          <h4 className="text-end">{totalIncome} Kr</h4>
+      <div className="card shadow pt-1 p-3 m-2">
+        <div className="mb-3">
+          {/* Total Income */}
+          <div className="d-flex justify-content-between align-items-center  pt-2">
+            <p className="card-text mb-0 me-5">
+              Your total income for this month:
+            </p>
+            <h4 className="mb-0">{totalIncome} Kr</h4>
+          </div>
         </div>
         <div className="">
-          <p className="card-text mt-3 mb-1 border-bottom ">Total expenses:</p>
-          <h4 className="text-end">{totalPaidAmount + totalUnpaidAmount} Kr</h4>
+          {/* Total Expenses */}
+          <div className="d-flex justify-content-between align-items-center border-top pt-2 ">
+            <p className="card-text mb-0 ">Total expenses:</p>
+            <h4 className="mb-0 ">{totalPaidAmount + totalUnpaidAmount} Kr</h4>
+          </div>
+          {/* Progress Bar */}
+          <div
+            className="progress mt-2"
+            role="progressbar"
+            aria-label="Expenses Progress"
+            aria-valuenow={progressPercentage}
+            aria-valuemin="0"
+            aria-valuemax="100"
+          >
+            <div
+              className="progress-bar"
+              style={{ width: `${progressPercentage}%` }}
+            >
+              {Math.round(progressPercentage)}%
+            </div>
+          </div>
         </div>
-        <div className="">
-          <p className="card-text mt-3 mb-1 border-bottom ">
-            Amount left after paying all expences:
-          </p>
-          <h4 className="text-danger text-end">{balance} Kr</h4>
+      </div>
+      <div className="card shadow p-3 ">
+        <div className="mb-3 shaddow">
+          {/* Balance */}
+          <div className="d-flex justify-content-between align-items-center  ">
+            <p className="card-text mb-0  ">
+              Amount left after paying all expenses:
+            </p>
+            <h4 className="text-danger mb-0">{balance} Kr</h4>
+          </div>
         </div>
-        <div className="">
-          <p className="card-text mt-3 mb-1 border-bottom   ">
-            Now remaining in your account:
-          </p>
-          <h4 className="text-warning text-end">{totalIncome - totalPaidAmount} Kr</h4>
+        <div>
+          {/* Remaining in Account */}
+          <div className="d-flex justify-content-between align-items-center border-top ">
+            <p className="card-text mb-0 me-5">
+              Now remaining in your account:
+            </p>
+            <h4 className="text-warning mb-0">
+              {totalIncome - totalPaidAmount} Kr
+            </h4>
+          </div>
         </div>
       </div>
     </div>

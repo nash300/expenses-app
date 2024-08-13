@@ -130,9 +130,15 @@ export const BudgetProvider = ({ children }) => {
     console.log("is hover updated to ", state);
   };
 
+  const [someData, setSomeData] = useState("fswgrweg");
+
+
   return (
     <BudgetContext.Provider
       value={{
+        someData,
+        isHover,
+        updateIsHover,
         userData,
         setUserData,
         isLoggedIn,

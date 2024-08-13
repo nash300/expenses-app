@@ -2,7 +2,7 @@ import { useBudget } from "../context files/BudgetProvider"; // Custom hook to a
 
 const Statistics = () => {
   // Destructure relevant data and functions from the budget context
-  const { } = useBudget();
+  const { someData} = useBudget();
 
   return (
     <div className=" container d-grid">
@@ -14,7 +14,7 @@ const Statistics = () => {
               This month...
             </h6>
             <p className="card-text">
-              you have {} payments
+              you have {someData} payments
             </p>
           </div>
           <div className="mb-4">

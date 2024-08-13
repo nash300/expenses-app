@@ -18,7 +18,8 @@ const BudgetCalculator = () => {
     selectedMonthsPayments,
     payeeList,
     userData,
-    fetchAllSavedPayments,isHover
+    fetchAllSavedPayments,
+    isHover,
   } = useBudget();
 
   // Array of month names for display purposes
@@ -39,6 +40,8 @@ const BudgetCalculator = () => {
 
   // Check if there are no payments for the selected month and year
   const isEmpty = selectedMonthsPayments.length === 0;
+  console.log("selectedMonthsPayments:", selectedMonthsPayments);
+
 
   // Handler for creating a new budget plan
   const handleCreateNewPlanButtonClick = async (e) => {
