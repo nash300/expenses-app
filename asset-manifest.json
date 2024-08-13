@@ -1,0 +1,20 @@
+{
+  "files": {
+    "main.js": "/my-expenses-app/static/js/main.2886a547.js",
+    "static/js/952.7fd880f3.chunk.js": "/my-expenses-app/static/js/952.7fd880f3.chunk.js",
+    "static/media/calendar.png": "/my-expenses-app/static/media/calendar.df1846e610471e0c8067.png",
+    "static/media/login-icon.jpg": "/my-expenses-app/static/media/login-icon.d06118eee7cbd9a0519a.jpg",
+    "static/media/1 (93).png": "/my-expenses-app/static/media/1 (93).b319008895a5f1a54a15.png",
+    "static/media/1 (108).png": "/my-expenses-app/static/media/1 (108).97c280b62301d4df23a5.png",
+    "static/media/user.jpg": "/my-expenses-app/static/media/user.a5411bc85aaaed7bf467.jpg",
+    "static/media/1 (92).png": "/my-expenses-app/static/media/1 (92).d671e135b7d49c31d526.png",
+    "static/media/1 (94).png": "/my-expenses-app/static/media/1 (94).f77ae76cf6b68484caa3.png",
+    "static/media/1 (126).png": "/my-expenses-app/static/media/1 (126).d4657afd5efc5cb5487a.png",
+    "index.html": "/my-expenses-app/index.html",
+    "main.2886a547.js.map": "/my-expenses-app/static/js/main.2886a547.js.map",
+    "952.7fd880f3.chunk.js.map": "/my-expenses-app/static/js/952.7fd880f3.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/js/main.2886a547.js"
+  ]
+}
