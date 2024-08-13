@@ -65,11 +65,11 @@ const Statistics = () => {
           <h4>{payeeName}</h4>
         </div>
         <div className="card-body ">
-          <div className="mb-3">
+          <div className="mb-3  ">
             {/* Time to Pay Off Fully */}
-            <div className="d-flex justify-content-between align-items-center">
+            <div className="d-grid justify-content-between align-items-center  ">
               <p className="card-text mb-0 me-3">Calculated time to pay off fully:</p>
-              <p className="card-text mb-0">
+              <p className="card-text p-0 m-0">
                 <h3>
                   {years} years and {remainingMonths} months
                 </h3>
@@ -78,9 +78,9 @@ const Statistics = () => {
           </div>
           <div className="mb-3">
             {/* Initial Amount */}
-            <div className="d-flex justify-content-between align-items-center">
-              <p className="card-text mb-0">Initial amount was:</p>
-              <p className="card-text mb-0">
+            <div className="d-grid justify-content-between align-items-center">
+              <p className="card-text mb-0 ">Initial amount was:</p>
+              <p className="card-text mb-0 ">
                 <h4>{initialAmount} Kr</h4>
               </p>
             </div>
@@ -88,9 +88,9 @@ const Statistics = () => {
 
           <div className="mb-3">
             {/* Average Payment Amount Per Month */}
-            <div className="d-flex justify-content-between align-items-center">
+            <div className="d-grid justify-content-between align-items-center">
               <p className="card-text mb-0 me-5">
-                Average payment amount per month you have paid so far:
+                Average amount per month you have paid so far:
               </p>
               <p className="card-text mb-0">
                 <h4> {averagePaymentAmountPerMonth.toFixed(0)} Kr</h4>

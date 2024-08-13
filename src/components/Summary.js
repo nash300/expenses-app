@@ -40,7 +40,7 @@ const Summary = ({ selectedMonthsPayments }) => {
       <div className="card shadow pt-1 p-3 m-2">
         <div className="mb-3">
           {/* Total Income */}
-          <div className="d-flex justify-content-between align-items-center  pt-2">
+          <div className="d-grid justify-content-between align-items-center  pt-2">
             <p className="card-text mb-0 me-5">
               Your total income for this month:
             </p>
@@ -51,7 +51,7 @@ const Summary = ({ selectedMonthsPayments }) => {
 
         <div className="">
   {/* Total Expenses */}
-  <div className="d-flex justify-content-between align-items-center border-top pt-2">
+  <div className="d-grid justify-content-between align-items-center border-top pt-2">
     <p className="card-text mb-0">Total expenses:</p>
     <h4 className="mb-0">{totalPaidAmount + totalUnpaidAmount} Kr</h4>
   </div>
@@ -80,7 +80,7 @@ const Summary = ({ selectedMonthsPayments }) => {
       <div className="card shadow p-3 ">
         <div className="mb-3 shaddow">
           {/* Balance */}
-          <div className="d-flex justify-content-between align-items-center  ">
+          <div className="d-grid justify-content-between align-items-center  ">
             <p className="card-text mb-0  ">
               Amount left after paying all expenses:
             </p>
@@ -89,7 +89,7 @@ const Summary = ({ selectedMonthsPayments }) => {
         </div>
         <div>
           {/* Remaining in Account */}
-          <div className="d-flex justify-content-between align-items-center border-top ">
+          <div className="d-grid justify-content-between align-items-center border-top pt-2 ">
             <p className="card-text mb-0 me-5">
               Now remaining in your account:
             </p>
