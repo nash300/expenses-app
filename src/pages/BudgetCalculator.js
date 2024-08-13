@@ -6,6 +6,7 @@ import Summary from "../components/Summary"; // Component to display summary of 
 import PaymentBoxSection from "../components/PaymentBoxSection"; // Component to show existing payments
 import newPlanIcon from "../utilities/icons/1 (108).png"; // Icon for creating a new plan
 import supabase from "../supabase"; // Supabase client for database operations
+import Statistics from "./Statistics";
 
 const BudgetCalculator = () => {
   // Destructure budget-related data and functions from the context
@@ -17,7 +18,7 @@ const BudgetCalculator = () => {
     selectedMonthsPayments,
     payeeList,
     userData,
-    fetchAllSavedPayments,
+    fetchAllSavedPayments,isHover
   } = useBudget();
 
   // Array of month names for display purposes
@@ -149,7 +150,7 @@ const BudgetCalculator = () => {
             <PaymentBoxSection /> // Show payment section if budget records exist
           )}
         </section>
-        <section className="col-4">To-do: Show statistics here</section>
+        <section className="col-4">{isHover && <Statistics />}</section>
       </div>
     </div>
   );

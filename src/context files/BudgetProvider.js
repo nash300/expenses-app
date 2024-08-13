@@ -122,6 +122,13 @@ export const BudgetProvider = ({ children }) => {
       alert("Error deleting payment. Please try again.");
     }
   };
+  // Tracks mouse hovering state
+  const [isHover, setIsHover] = useState(false);
+
+  const updateIsHover = (state) => {
+    setIsHover(state);
+    console.log("is hover updated to ", state);
+  };
 
   return (
     <BudgetContext.Provider

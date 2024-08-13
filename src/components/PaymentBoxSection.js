@@ -6,24 +6,22 @@ const PaymentBoxSection = () => {
   const { selectedMonthsPayments, deletePayment, fetchAllSavedPayments } =
     useBudget();
 
-  // Filter payments to categorize them into loans/credits and bills
-  const loanAndCredit = selectedMonthsPayments
-    .filter(
-      (payment) =>
-        payment.Payee.amount_left_to_pay && payment.Payee.initial_amount
-    )
-    .sort((a, b) => a.Payee.payee_name.localeCompare(b.Payee.payee_name)); // Sort repeated payments by payee name
+  // Filtering repeated payments
+  const monthlyPayments = selectedMonthsPayments
+  .filter((payment) => payment.Payee.is_repeating) // Filter repeated payments
+  .sort((a, b) => a.Payee.payee_name.localeCompare(b.Payee.payee_name)); // Sort by payee name
 
-  const bills = selectedMonthsPayments
-    .filter((payment) => payment.Payee.category === "Bill")
+  // Filtering one-time payments
+  const oneTimePayments = selectedMonthsPayments
+    .filter((payment) => payment.Payee.category === "Bill" && !(payment.Payee.is_repeating))
     .sort((a, b) => a.Payee.payee_name.localeCompare(b.Payee.payee_name)); // Sort payments by payee name
 
   return (
     <div className="mt-3">
       {/* Section for Loans & Credits */}
-      <h4 className="mb-3">Loans & Credits</h4>
-      {loanAndCredit.length > 0 ? (
-        loanAndCredit.map((payment) => (
+      <h4 className="mb-3">Monthly payments</h4>
+      {monthlyPayments.length > 0 ? (
+        monthlyPayments.map((payment) => (
           <PaymentBox
             key={payment.payment_id}
             paymentId={payment.payment_id}
@@ -40,10 +38,10 @@ const PaymentBoxSection = () => {
         <p className="alert alert-success">No Loans & Credits</p> // Message when no loan/credit payments are present
       )}
 
-      {/* Section for Other Bills */}
-      <h4 className="mt-5 mb-3">Other Bills</h4>
-      {bills.length > 0 ? (
-        bills.map((payment) => (
+      {/* Section for Other oneTimePayments */}
+      <h4 className="mt-5 mb-3">Single payments</h4>
+      {oneTimePayments.length > 0 ? (
+        oneTimePayments.map((payment) => (
           <PaymentBox
             key={payment.payment_id}
             paymentId={payment.payment_id}
@@ -55,7 +53,7 @@ const PaymentBoxSection = () => {
           />
         ))
       ) : (
-        <p className="alert alert-success">No Other Bills</p> // Message when no bill payments are present
+        <p className="alert alert-success">No payments registered</p> // Message when no bill payments are present
       )}
     </div>
   );

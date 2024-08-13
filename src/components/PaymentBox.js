@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import supabase from "../supabase";
+import { useBudget } from "../context files/BudgetProvider"; // Custom hook to access budget context
 
 const PaymentBox = ({
   paymentId,
@@ -11,6 +12,8 @@ const PaymentBox = ({
   initialAmount,
   fetchAllSavedPayments,
 }) => {
+  const { updateIsHover } = useBudget();
+
   // Local states to manage slider and checkbox
   const [sliderValue, setSliderValue] = useState(paymentSum); // Value to be sent to the server
   const [localSliderValue, setLocalSliderValue] = useState(paymentSum); // For the input field display
@@ -77,11 +80,21 @@ const PaymentBox = ({
     updatePaymentInDatabase();
   }, [isChecked, sliderValue]);
 
+  const handleMouseEnter = () => {
+    updateIsHover(true);
+  };
+
+  const handleMouseLeave = () => {
+    updateIsHover(false);
+  };
+
   return (
     <div
       className={`container row rounded-pill border p-1 mb-2 shadow-sm ${
         loading ? "opacity-90" : ""
       } ${isChecked ? "alert alert-dark opacity-50 " : ""}`}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
     >
       {/* Payee Name and Paid Checkbox */}
       <section className="container col-md-2 d-flex align-items-center">

@@ -160,3 +160,4 @@ const CreateNewPayment = ({ setIsCreateNewPaymentClicked }) => {
 };
 
 export default CreateNewPayment;
+

@@ -118,21 +118,24 @@ const AddNewPayee = ({ setIsAddNewPayeeClicked }) => {
             <option value="Credit-Card">Credit Card</option>
             <option value="Bill">Bill</option>
           </select>
-          <div className="form-group">
-            <div className="form-check mb-3">
-              {/* Check-box "repeat every month" */}
-              <input
-                className="form-check-input mb-4"
-                type="checkbox"
-                id="gridCheck"
-                checked={isRepeatingPayment}
-                onChange={handleIsRepeatingPaymentChange}
-              />
-              <label className="form-check-label " htmlFor="gridCheck">
-                Repeat every month
-              </label>
+
+          {paymentCategory && (
+            <div className="form-group">
+              <div className="form-check mb-3">
+                {/* Check-box "repeat every month" */}
+                <input
+                  className="form-check-input mb-4"
+                  type="checkbox"
+                  id="gridCheck"
+                  checked={isRepeatingPayment}
+                  onChange={handleIsRepeatingPaymentChange}
+                />
+                <label className="form-check-label " htmlFor="gridCheck">
+                  Repeat every month
+                </label>
+              </div>
             </div>
-          </div>
+          )}
         </div>
         {/* Conditional rendering to collect credit info */}
         {isRepeatingPayment &&
