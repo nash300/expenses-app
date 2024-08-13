@@ -1,5 +1,3 @@
-
-
 import { useState, useEffect } from "react";
 import supabase from "../supabase";
 import { useBudget } from "../context files/BudgetProvider";
@@ -10,14 +8,14 @@ const IncomeAdder = () => {
     incomes,
     setIncomes,
     setTotalIncome,
-    year, 
-    month, 
-  } = useBudget(); 
+    year,
+    month,
+  } = useBudget();
 
-  // State to track if the "Add Income" section is visible
+  // State to track visibility of the "Add Income" form
   const [isAddIncomeClicked, setIsAddIncomeClicked] = useState(false);
 
-  // State to track the new income's description and amount
+  // State to manage the new income's description and amount
   const [description, setDescription] = useState("");
   const [amount, setAmount] = useState("");
 
@@ -45,33 +43,35 @@ const IncomeAdder = () => {
     };
 
     fetchIncome();
-  }, [userData.user_id, year, month]);
+  }, [userData.user_id, year, month, setIncomes]);
 
-  // Handles the click event to show the add income form
+  // Show the form to add a new income
   const handleAddIncomeClick = () => {
     setIsAddIncomeClicked(true);
   };
 
-  // Updates the description state as the user types
+  // Handle changes to the income description input
   const handleDescriptionChange = (e) => {
     setDescription(e.target.value);
   };
 
-  // Updates the amount state as the user types
+  // Handle changes to the amount input
   const handleAmountChange = (e) => {
     setAmount(e.target.value);
   };
 
-  // Handles the click event to cancel adding a new income
+  // Cancel adding a new income
   const handleCancelClick = () => {
     setIsAddIncomeClicked(false);
+    setDescription("");
+    setAmount("");
   };
 
-  // Handles the click event to save a new income
+  // Save the new income to Supabase and update local state
   const handleSaveIncomeClick = async () => {
     if (description && amount) {
       try {
-        // Save the new income to Supabase
+        // Insert new income into Supabase
         const { error } = await supabase.from("Income").insert([
           {
             user_id: userData.user_id,
@@ -93,9 +93,7 @@ const IncomeAdder = () => {
           ]);
 
           // Clear input fields and hide the form
-          setDescription("");
-          setAmount("");
-          setIsAddIncomeClicked(false);
+          handleCancelClick();
         }
       } catch (error) {
         console.error("Error saving income:", error);
@@ -106,7 +104,7 @@ const IncomeAdder = () => {
     }
   };
 
-  // Handles the click event to delete an income
+  // Delete an income from Supabase and update local state
   const handleMinusButtonClick = async (index) => {
     const incomeToDelete = incomes[index];
 
@@ -126,7 +124,7 @@ const IncomeAdder = () => {
           console.error("Error deleting income:", error);
           alert("Failed to delete income.");
         } else {
-          // Update local state by removing the income
+          // Update local state by removing the deleted income
           setIncomes((prevIncomes) =>
             prevIncomes.filter((_, i) => i !== index)
           );
@@ -138,18 +136,17 @@ const IncomeAdder = () => {
     }
   };
 
-  // Calculate the total income by summing all amounts
+  // Calculate the total income
   const totalIncome = incomes.reduce((sum, income) => sum + income.amount, 0);
 
-  // executes the callback function from the parent component
-  // as the total income changes
+  // Update total income in the parent component
   useEffect(() => {
     setTotalIncome(totalIncome);
-  }, [totalIncome]);
+  }, [totalIncome, setTotalIncome]);
 
   return (
     <div className="card text-white shadow">
-      <div className="card-header d-flex justify-content-between align-items-center ps-2 bg-primary ">
+      <div className="card-header d-flex justify-content-between align-items-center ps-2 bg-primary">
         Add an Income
         <button
           type="button"
@@ -159,21 +156,20 @@ const IncomeAdder = () => {
           <b>+</b>
         </button>
       </div>
-      <div className="container d-flex flex-row justify-content-between align-items-center "></div>
       <div className="container pb-3">
-        <ul className="list-group ">
+        <ul className="list-group">
           {/* Render the list of incomes */}
           {incomes.map((income, index) => (
             <li
               key={index}
-              className="list-group-item  d-flex justify-content-between align-items-center ps-1 pe-2 pt-1"
+              className="list-group-item d-flex justify-content-between align-items-center ps-1 pe-2 pt-1"
             >
-              <div className="d-flex justify-content-between me-2 w-100 ">
+              <div className="d-flex justify-content-between me-2 w-100">
                 <b>{income.description}</b> {income.amount}Kr
               </div>
               <button
                 type="button"
-                className="btn btn-secondary "
+                className="btn btn-secondary"
                 onClick={() => handleMinusButtonClick(index)}
               >
                 <b>-</b>
@@ -188,14 +184,14 @@ const IncomeAdder = () => {
         {isAddIncomeClicked && (
           <div className="card-text text-center pb-3">
             <input
-              className=" form-control-m mb-2 mt-1 "
+              className="form-control mb-2 mt-1"
               type="text"
               placeholder="Income source"
               value={description}
               onChange={handleDescriptionChange}
             />
             <input
-              className=" form-control-m mb-1"
+              className="form-control mb-1"
               type="number"
               placeholder="Amount"
               value={amount}

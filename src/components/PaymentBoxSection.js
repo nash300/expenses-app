@@ -1,25 +1,26 @@
-import PaymentBox from "../components/PaymentBox";
-import { useBudget } from "../context files/BudgetProvider";
+import PaymentBox from "../components/PaymentBox"; // Component to display individual payment details
+import { useBudget } from "../context files/BudgetProvider"; // Custom hook to access budget context
 
 const PaymentBoxSection = () => {
+  // Destructure relevant data and functions from the budget context
   const { selectedMonthsPayments, deletePayment, fetchAllSavedPayments } =
-    useBudget(); // Access the filtered payments
+    useBudget();
 
-  // Categorize payments into repeated (Loan/Credit) and one-time (Bill) payments
+  // Filter payments to categorize them into loans/credits and bills
   const loanAndCredit = selectedMonthsPayments
     .filter(
       (payment) =>
         payment.Payee.amount_left_to_pay && payment.Payee.initial_amount
     )
-    .sort((a, b) => a.Payee.payee_name.localeCompare(b.Payee.payee_name)); // Sort by payee name
+    .sort((a, b) => a.Payee.payee_name.localeCompare(b.Payee.payee_name)); // Sort repeated payments by payee name
 
   const bills = selectedMonthsPayments
     .filter((payment) => payment.Payee.category === "Bill")
-    .sort((a, b) => a.Payee.payee_name.localeCompare(b.Payee.payee_name)); // Sort by payee name
+    .sort((a, b) => a.Payee.payee_name.localeCompare(b.Payee.payee_name)); // Sort payments by payee name
 
   return (
     <div className="mt-3">
-      {/* Loan/Credit Section */}
+      {/* Section for Loans & Credits */}
       <h4 className="mb-3">Loans & Credits</h4>
       {loanAndCredit.length > 0 ? (
         loanAndCredit.map((payment) => (
@@ -36,11 +37,11 @@ const PaymentBoxSection = () => {
           />
         ))
       ) : (
-        <p className="alert alert-success">No Loans & Credits</p>
+        <p className="alert alert-success">No Loans & Credits</p> // Message when no loan/credit payments are present
       )}
 
-      {/* Bill Section */}
-      <h4 className="mt-5 mb-3">Other bills</h4>
+      {/* Section for Other Bills */}
+      <h4 className="mt-5 mb-3">Other Bills</h4>
       {bills.length > 0 ? (
         bills.map((payment) => (
           <PaymentBox
@@ -54,7 +55,7 @@ const PaymentBoxSection = () => {
           />
         ))
       ) : (
-        <p className="alert alert-success">No other bills</p>
+        <p className="alert alert-success">No Other Bills</p> // Message when no bill payments are present
       )}
     </div>
   );

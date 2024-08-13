@@ -5,21 +5,21 @@ import AddNewPayee from "../components/AddNewPayee";
 import CreateNewPayment from "../components/CreateNewPayment";
 
 const AddAndCreateSection = ({ isEmpty }) => {
-  // Tracks click status of the buttons
+  // Local state to manage which modal is displayed
   const [isAddNewPayeeClicked, setIsAddNewPayeeClicked] = useState(false);
   const [isCreateNewPaymentClicked, setIsCreateNewPaymentClicked] =
     useState(false);
 
-  // Ensure only one button gets activated at a time
+  // Function to handle the Add New Payee button click
   const handleAddNewPayeeButtonClick = () => {
-    setIsCreateNewPaymentClicked(false);
-    setIsAddNewPayeeClicked(true);
+    setIsCreateNewPaymentClicked(false); // Close Create New Payment modal
+    setIsAddNewPayeeClicked(true); // Open Add New Payee modal
   };
 
-  // Ensure only one button gets activated at a time
+  // Function to handle the Create New Payment button click
   const handleCreateNewPaymentButtonClick = () => {
-    setIsAddNewPayeeClicked(false);
-    setIsCreateNewPaymentClicked(true);
+    setIsAddNewPayeeClicked(false); // Close Add New Payee modal
+    setIsCreateNewPaymentClicked(true); // Open Create New Payment modal
   };
 
   return (
@@ -32,42 +32,38 @@ const AddAndCreateSection = ({ isEmpty }) => {
             onClick={handleAddNewPayeeButtonClick}
           >
             <img
-              className="card-img-top "
+              className="card-img-top"
               src={payeeIcon}
-              alt="Card image cap"
+              alt="Add new payee"
               style={{ height: "30px", width: "30px", marginRight: "10px" }}
             />
-            Save a payment reciever
+            Save a payment receiver
           </button>
         </div>
         <div>
-          {/* Conditional rendering "Create New Payment" button only if there exist a created budget plan for the month */}
-          {!isEmpty ? (
+          {/* Conditionally render the Create New Payment button only if there's a created budget plan for the month */}
+          {!isEmpty && (
             <button
               type="button"
               className="btn btn-warning"
               onClick={handleCreateNewPaymentButtonClick}
             >
               <img
-                className="card-img-top "
+                className="card-img-top"
                 src={newPayeeIcon}
-                alt="Card image cap"
+                alt="Create new payment"
                 style={{ height: "30px", width: "30px", marginRight: "10px" }}
               />
               Create New Payment
             </button>
-          ) : (
-            <></>
           )}
         </div>
       </div>
 
-      {/* Conditional rendering on "ADD NEW PAYEE" click */}
+      {/* Conditional rendering for modals */}
       {isAddNewPayeeClicked && (
         <AddNewPayee setIsAddNewPayeeClicked={setIsAddNewPayeeClicked} />
       )}
-
-      {/* Conditional rendering on "CREATE NEW PAYMENT" click */}
       {isCreateNewPaymentClicked && (
         <CreateNewPayment
           setIsCreateNewPaymentClicked={setIsCreateNewPaymentClicked}

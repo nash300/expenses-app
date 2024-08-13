@@ -12,32 +12,25 @@ const BudgetContext = createContext();
 
 // Create a provider component
 export const BudgetProvider = ({ children }) => {
-  //_________________________________________________________________
-  // STATUS OF THE USER
-  //-----------------------------------------------------------------
+  // User status state
   const [userData, setUserData] = useState([]);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-  //______________________________________
-  // SelectedDatePage.js
-  //--------------------------------------
+  // Selected date for filtering payments
   const [year, setYear] = useState();
   const [month, setMonth] = useState();
 
-  //______________________
-  //  Summary.js
-  //----------------------
+  // State for incomes and total income
   const [incomes, setIncomes] = useState([]);
   const [totalIncome, setTotalIncome] = useState(null);
 
-  //__________________________________________________________________
-  // CreateNewPayment.js
-  //------------------------------------------------------------------
-  const [payeeList, setPayeeList] = useState([]); // fetched payee list saved by the user.
+  // State for payee list
+  const [payeeList, setPayeeList] = useState([]);
 
-  // Fetch payee list
+  // Fetch payee list based on user ID
   const fetchPayeeList = useCallback(async () => {
     try {
+      console.log("Fetching payee list for user:", userData.user_id);
       const { data, error } = await supabase
         .from("Payee")
         .select("*")
@@ -46,29 +39,28 @@ export const BudgetProvider = ({ children }) => {
         throw error;
       }
       setPayeeList(data);
-      console.log("Payee-list received:", data);
+      console.log("Payee list fetched successfully:", data);
     } catch (error) {
-      alert("Something went wrong");
-      console.log("Error fetching payee-list", error);
+      console.error("Error fetching payee list:", error);
+      alert("Something went wrong while fetching the payee list.");
     }
   }, [userData.user_id]);
 
-  // Ensure fetchPayeeList is only called when user_id is defined
+  // Call fetchPayeeList when user ID changes
   useEffect(() => {
     if (userData.user_id) {
       fetchPayeeList();
     }
   }, [fetchPayeeList, userData.user_id]);
 
-  //__________________________________________________________________
-  // PaymentBoxSection.js
-  //------------------------------------------------------------------
-  const [allSavedPayments, setAllSavedPayments] = useState([]); // Fetched all payment data (THE COMPLETE HISTORY) when the component mounts
-  const [selectedMonthsPayments, setSelectedMonthsPayments] = useState([]); // Filtered payments based on selected month and year
+  // State for payments data
+  const [allSavedPayments, setAllSavedPayments] = useState([]);
+  const [selectedMonthsPayments, setSelectedMonthsPayments] = useState([]);
 
-  // fetches ALL payments made by the user (THE COMPLETE HISTORY)
+  // Fetch all saved payments
   const fetchAllSavedPayments = useCallback(async () => {
     try {
+      console.log("Fetching all saved payments for user:", userData.user_id);
       const { data, error } = await supabase
         .from("Payments")
         .select("*, Payee(*)")
@@ -79,39 +71,42 @@ export const BudgetProvider = ({ children }) => {
       }
 
       setAllSavedPayments(data);
+      console.log("All saved payments fetched successfully:", data);
     } catch (error) {
-      console.error("Error fetching data:", error);
+      console.error("Error fetching all saved payments:", error);
     }
-    console.log("fetched all saved payments successfully");
   }, [userData.user_id]);
 
-  // Ensure fetchAllSavedPayments is only called when user_id is defined
+  // Call fetchAllSavedPayments when user ID changes
   useEffect(() => {
     if (userData.user_id) {
       fetchAllSavedPayments();
     }
   }, [fetchAllSavedPayments, userData.user_id]);
 
-  // Filters payments based on year, month
-  // used in Summary.js
+  // Filter payments by year and month
   const filterPayments = (year, month) => {
-    const yearInt = parseInt(year, 10); // convert year into Int (Base 10)
-    const monthInt = parseInt(month, 10); // convert month into Int (Base 10)
+    const yearInt = parseInt(year, 10);
+    const monthInt = parseInt(month, 10);
 
+    console.log(`Filtering payments for year ${yearInt} and month ${monthInt}`);
     const filteredPaymentData = allSavedPayments.filter((item) => {
       return item.year === yearInt && item.month === monthInt;
     });
+
+    console.log("Filtered payments:", filteredPaymentData);
     return filteredPaymentData;
   };
 
-  // Automatically update the selected months payments whenever `allSavedPayments`, `year`, or `month` changes
+  // Update selected months payments when data or date changes
   useEffect(() => {
     setSelectedMonthsPayments(filterPayments(year, month));
   }, [allSavedPayments, year, month]);
 
-  // delets a payment record in the database and re-fetches new data
+  // Delete a payment record and refresh payments
   const deletePayment = async (paymentId) => {
     try {
+      console.log("Deleting payment with ID:", paymentId);
       const { error } = await supabase
         .from("Payments")
         .delete()
@@ -119,14 +114,13 @@ export const BudgetProvider = ({ children }) => {
 
       if (error) {
         throw error;
-      } else {
-        console.log("Payment record deleted");
       }
+      console.log("Payment record deleted successfully.");
+      fetchAllSavedPayments(); // Refresh payment data
     } catch (error) {
-      alert("Error deleting payment. Please try again");
-      console.log("error deleting a payee", error);
+      console.error("Error deleting payment:", error);
+      alert("Error deleting payment. Please try again.");
     }
-    fetchAllSavedPayments();
   };
 
   return (
@@ -149,7 +143,7 @@ export const BudgetProvider = ({ children }) => {
         fetchAllSavedPayments,
         allSavedPayments,
         setAllSavedPayments,
-        selectedMonthsPayments, 
+        selectedMonthsPayments,
         deletePayment,
         fetchPayeeList,
       }}

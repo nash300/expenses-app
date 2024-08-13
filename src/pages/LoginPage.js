@@ -1,69 +1,71 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import supabase from "../supabase";
-import userImage from "../utilities/icons/login-icon.jpg";
+import supabase from "../supabase"; // Supabase client for database operations
+import userImage from "../utilities/icons/login-icon.jpg"; // Login icon image
 
 function LoginPage({ handleLoginSuccess }) {
-  // Local states to track user inputs
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const [statusText, setStatusText] = useState("");
+  // Local state variables for username, password, and status message
+  const [username, setUsername] = useState(""); 
+  const [password, setPassword] = useState(""); 
+  const [statusText, setStatusText] = useState(""); 
 
-  const navigate = useNavigate();
+  const navigate = useNavigate(); // Hook to programmatically navigate
 
-  // -fetches data from the server, compare it with user input.
-  // -displays error msgs to the user if needed.
-  // -sends user info to the parent (App()).
-  // -automaticaly navigate to "/home".
-
+  // Handles login form submission
   const handleLogin = async (event) => {
-    event.preventDefault();
+    event.preventDefault(); // Prevent the default form submission behavior
 
     try {
-      // Query Supabase to fetch user information
+      // Query Supabase to fetch user information based on the provided username
       const { data, error } = await supabase
         .from("User")
         .select()
         .eq("user_name", username)
         .single();
 
-      // Error msg to the user
+      // Check for errors in fetching user data
       if (error) {
+        console.error("Supabase query error:", error); // Log error for debugging
         setStatusText("Invalid username or error fetching user.");
         return;
       }
+
+      // Check if the user exists
       if (!data) {
         setStatusText("User not found.");
         return;
       }
+
+      // Validate the password
       if (password !== data.password) {
         setStatusText("Incorrect password.");
         return;
       }
 
-      // If all checks pass...
-      handleLoginSuccess(data); // sending loged-in user data back to context
+      // If login is successful, send user data to the parent component and navigate to home
+      handleLoginSuccess(data); // Send logged-in user data to parent component
       navigate("/home"); // Redirect to home page
+      setStatusText(""); // Clear status text on successful login
 
-      // Error msg to the console
     } catch (error) {
-      console.error("Login error:", error);
+      // Catch any unexpected errors
+      console.error("Login error:", error); // Log error for debugging
       setStatusText("An unexpected error occurred.");
     }
   };
 
   return (
-    <div className="d-flex justify-content-center align-items-center min-vh-100 bg-light ">
-      <div className="card container shadow-lg  p-5 border-0" style={{ maxWidth: "400px" }}>
+    <div className="d-flex justify-content-center align-items-center min-vh-100 bg-light">
+      <div className="card container shadow-lg p-5 border-0" style={{ maxWidth: "400px" }}>
         <div className="text-center mb-4">
           <img
             src={userImage}
-            alt="Login Icon"
+            alt="Login Icon" // Descriptive alt text for accessibility
             style={{ height: "130px", width: "130px" }}
           />
           <h3 className="mt-3">Login</h3>
           {statusText && (
-            <div className="alert alert-danger mt-3">{statusText}</div>
+            <div className="alert alert-danger mt-3">{statusText}</div> // Display status message
           )}
         </div>
         <form onSubmit={handleLogin}>

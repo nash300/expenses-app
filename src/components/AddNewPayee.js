@@ -2,8 +2,8 @@ import { useState } from "react";
 import supabase from "../supabase";
 import { useBudget } from "../context files/BudgetProvider";
 
-const AddNewPayee = ({ setIsAddNewPayeeClicked, fetchPayeeList }) => {
-  const { userData,  } = useBudget();
+const AddNewPayee = ({ setIsAddNewPayeeClicked }) => {
+  const { userData, fetchPayeeList } = useBudget();
 
   // Local states
   const [payeeName, setPayeeName] = useState("");
