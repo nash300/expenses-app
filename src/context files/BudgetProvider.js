@@ -149,8 +149,7 @@ export const BudgetProvider = ({ children }) => {
         fetchAllSavedPayments,
         allSavedPayments,
         setAllSavedPayments,
-        selectedMonthsPayments, // Pass the filtered payments
-        filterPayments,
+        selectedMonthsPayments, 
         deletePayment,
         fetchPayeeList,
       }}
