@@ -4,7 +4,7 @@ import { useState } from "react";
 import AddNewPayee from "../components/AddNewPayee";
 import CreateNewPayment from "../components/CreateNewPayment";
 
-const AddAndCreateSection = ({ isEmpty }) => {
+const AddAndCreateSection = ({ isNoPayments }) => {
   // Local state to manage which modal is displayed
   const [isAddNewPayeeClicked, setIsAddNewPayeeClicked] = useState(false);
   const [isCreateNewPaymentClicked, setIsCreateNewPaymentClicked] =
@@ -23,8 +23,13 @@ const AddAndCreateSection = ({ isEmpty }) => {
   };
 
   return (
-    <div className="card d-flex justify-content-center shadow mt-2 fixed">
+    <div
+      className="card  d-flex justify-content-center shadow mb-3"
+      style={{ position: "sticky", top: "15px" }}
+    >
       <div className="card d-flex flex-row align-items-center justify-content-center m-1 p-2 bg-primary">
+        {/* new payee side*/}
+
         <div className="col">
           <button
             type="button"
@@ -40,9 +45,11 @@ const AddAndCreateSection = ({ isEmpty }) => {
             Save a payment receiver
           </button>
         </div>
+
+        {/* Conditionally render the Create New Payment button only if there's a created budget plan for the month */}
+
         <div>
-          {/* Conditionally render the Create New Payment button only if there's a created budget plan for the month */}
-          {!isEmpty && (
+          {!isNoPayments && (
             <button
               type="button"
               className="btn btn-warning"

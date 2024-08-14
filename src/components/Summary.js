@@ -33,53 +33,51 @@ const Summary = ({ selectedMonthsPayments }) => {
       : 0;
 
   return (
-    <div className="card m-4 shadow">
+    <div className="content">
       <div className="card-header text-center">
         <h3>Summary</h3>
       </div>
-      <div className="card shadow pt-1 p-3 m-2">
-        <div className="mb-3">
-          {/* Total Income */}
-          <div className="d-grid justify-content-between align-items-center  pt-2">
-            <p className="card-text mb-0 me-5">
-              Your total income for this month:
-            </p>
+      <div className=" card m-2 shadow p-4">
+        {/* Total Income */}
+
+        <div className="">
+          <div className="d-grid justify-content-between align-items-center mb-2">
+            <p className="card-text mb-0">Your total income for this month:</p>
             <h4 className="mb-0">{totalIncome} Kr</h4>
           </div>
         </div>
-        
+
+        {/* Total Expenses */}
 
         <div className="">
-  {/* Total Expenses */}
-  <div className="d-grid justify-content-between align-items-center border-top pt-2">
-    <p className="card-text mb-0">Total expenses:</p>
-    <h4 className="mb-0">{totalPaidAmount + totalUnpaidAmount} Kr</h4>
-  </div>
-  
-  {/* Progress Bar */}
-  <div
-    className="progress mt-2"
-    role="progressbar"
-    aria-label="Expenses Progress"
-    aria-valuenow={progressPercentage}
-    aria-valuemin="0"
-    aria-valuemax="100"
-  >
-    <div
-      className={`progress-bar ${progressPercentage > 100 ? 'bg-danger' : ''}`}
-      style={{ width: `${progressPercentage}%` }}
-    >
-      {Math.round(progressPercentage)}%
-    </div>
-  </div>
-</div>
+          <div className="d-grid justify-content-between align-items-center border-top pt-2">
+            <p className="card-text mb-0">Total expenses:</p>
+            <h4 className="mb-0">{totalPaidAmount + totalUnpaidAmount} Kr</h4>
+          </div>
 
-
-
+          <div
+            className="progress mt-2"
+            role="progressbar"
+            aria-label="Expenses Progress"
+            aria-valuenow={progressPercentage}
+            aria-valuemin="0"
+            aria-valuemax="100"
+          >
+            <div
+              className={`progress-bar ${
+                progressPercentage > 100 ? "bg-danger" : ""
+              }`}
+              style={{ width: `${progressPercentage}%` }}
+            >
+              {Math.round(progressPercentage)}%
+            </div>
+          </div>
+        </div>
       </div>
-      <div className="card shadow p-3 ">
+      <div className=" card m-2 shadow p-4 ">
         <div className="mb-3 shaddow">
           {/* Balance */}
+
           <div className="d-grid justify-content-between align-items-center  ">
             <p className="card-text mb-0  ">
               Amount left after paying all expenses:
@@ -89,6 +87,7 @@ const Summary = ({ selectedMonthsPayments }) => {
         </div>
         <div>
           {/* Remaining in Account */}
+
           <div className="d-grid justify-content-between align-items-center border-top pt-2 ">
             <p className="card-text mb-0 me-5">
               Now remaining in your account:

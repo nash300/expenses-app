@@ -8,18 +8,23 @@ const PaymentBoxSection = () => {
 
   // Filtering repeated payments
   const monthlyPayments = selectedMonthsPayments
-  .filter((payment) => payment.Payee.is_repeating) // Filter repeated payments
-  .sort((a, b) => a.Payee.payee_name.localeCompare(b.Payee.payee_name)); // Sort by payee name
+    .filter((payment) => payment.Payee.is_repeating) // Filter repeated payments
+    .sort((a, b) => a.Payee.payee_name.localeCompare(b.Payee.payee_name)); // Sort by payee name
 
   // Filtering one-time payments
   const oneTimePayments = selectedMonthsPayments
-    .filter((payment) => payment.Payee.category === "Bill" && !(payment.Payee.is_repeating))
+    .filter(
+      (payment) =>
+        payment.Payee.category === "Bill" && !payment.Payee.is_repeating
+    )
     .sort((a, b) => a.Payee.payee_name.localeCompare(b.Payee.payee_name)); // Sort payments by payee name
 
   return (
-    <div className="mt-3">
+    <div className="content ">
       {/* Section for Loans & Credits */}
-      <h4 className="mb-3">Monthly payments</h4>
+
+      <h4 className="mt-3">Monthly payments</h4>
+
       {monthlyPayments.length > 0 ? (
         monthlyPayments.map((payment) => (
           <PaymentBox
@@ -32,7 +37,7 @@ const PaymentBoxSection = () => {
             amountLeftToPay={payment.Payee.amount_left_to_pay}
             deletePayment={deletePayment}
             fetchAllSavedPayments={fetchAllSavedPayments}
-            payeeId = {payment.Payee.payee_id}
+            payeeId={payment.Payee.payee_id}
           />
         ))
       ) : (

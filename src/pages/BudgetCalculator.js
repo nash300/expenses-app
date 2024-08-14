@@ -39,7 +39,7 @@ const BudgetCalculator = () => {
   ];
 
   // Check if there are no payments for the selected month and year
-  const isEmpty = selectedMonthsPayments.length === 0;
+  const isNoPayments = selectedMonthsPayments.length === 0;
   console.log("selectedMonthsPayments:", selectedMonthsPayments);
 
   // Handler for creating a new budget plan
@@ -95,17 +95,31 @@ const BudgetCalculator = () => {
   };
 
   return (
-    <div className="container-fluid">
-      <section className="bg-info text-dark text-center justify-content-end rounded-bottom mb-2 p-2 mt-5 pt-4">
-        <h6 className="pe-4">
-          {monthOptions[month - 1]} {year}{" "}
-          {/* Display selected month and year */}
-        </h6>
+    <div
+      className="content "
+    >
+      {/* TOP SECTION- Display selected month and year */}
+      <section
+        className="container-fluid d-flex p-0 mb-1"
+        style={{ height: "auto" }}
+      >
+        <div className="container ">
+          <h6 className="d-flex">
+            {monthOptions[month - 1]} {year}{" "}
+          </h6>
+        </div>
       </section>
-      <div className="row justify-content-start">
-        <section className="col-3 mb-2">
-          {/* Display summary and income adder */}
-          <div>
+
+      {/* BOTTOM SECTION- The main section */}
+
+      <section
+        className="container-fluid d-flex col p-0 m-0"
+        style={{ height: "100vh", width: "100%" }}
+      >
+        {/*  LEFT- Display summary and income adder */}
+
+        <section className=" d-grid container p-0 m-0 col-3" style={{maxHeight: "90vh"}} >
+          <div className=" ">
             <Summary
               totalIncome={totalIncome}
               totalPaymentAmount={totalPaymentAmount}
@@ -116,10 +130,18 @@ const BudgetCalculator = () => {
             <IncomeAdder />
           </div>
         </section>
-        <section className="col-6 mb-2">
-          <AddAndCreateSection isEmpty={isEmpty} />
-          {/* Conditionally render alert or payment section based on whether payments exist */}
-          {isEmpty ? (
+
+        {/* MIDDLE  */}
+
+        <section className="d-grid container p-0 m-0 pb-5 col-6 overflow-scroll" style={{ overflowX: "hidden" }}>
+          {/* MIDDLE TOP  */}
+
+          <AddAndCreateSection isEmpty={isNoPayments} />
+          {/* Conditionally render payment section if payments exist */}
+
+          {/* Create new plan section */}
+
+          {isNoPayments ? (
             <div
               className="alert alert-danger justify-content-center align-items-center shadow p-5 m-5"
               role="alert"
@@ -128,7 +150,6 @@ const BudgetCalculator = () => {
                 You haven't created a budget plan for this month yet.
               </p>
               <div className="d-flex justify-content-center align-items-center col">
-                {/* Button to create a new budget plan */}
                 <button
                   type="button"
                   className="btn btn-warning shadow"
@@ -137,7 +158,7 @@ const BudgetCalculator = () => {
                   <img
                     className="card-img-top"
                     src={newPlanIcon}
-                    alt="Create New Plan Icon" // Updated alt text for clarity
+                    alt="Create New Plan Icon"
                     style={{
                       height: "30px",
                       width: "30px",
@@ -149,13 +170,15 @@ const BudgetCalculator = () => {
               </div>
             </div>
           ) : (
-            <PaymentBoxSection /> // Show payment section if budget records exist
+            <PaymentBoxSection /> // MIDDLE BOTTOM - Show payment section if budget records exist
           )}
         </section>
-        <section className="col-3 container d-flex  justify-content-center align-items-center p-auto m-auto">
+
+        {/*RIGHT - Show statistics based on mouse hover*/}
+        <section className="d-grid container p-0 m-0 col-3">
           {isHover && <Statistics />}
         </section>
-      </div>
+      </section>
     </div>
   );
 };

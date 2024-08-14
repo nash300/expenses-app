@@ -92,23 +92,24 @@ const PaymentBox = ({
 
   return (
     <div
-      className={`container row rounded-pill border p-1 mb-0 shadow-sm ${
+      className={`content d-flex rounded-end border  shadow-sm ${
         loading ? "opacity-90" : ""
-      } ${isChecked ? "alert alert-dark opacity-50 " : ""}`}
+      } ${isChecked ? "alert alert-dark opacity-10 " : ""}`}
+      style={{height: "70px"}}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
       {/* Payee Name and Paid Checkbox */}
       <section className="container col-md-2 d-flex align-items-center">
         <input
-          className="me-3"
+          className="me-3 row"
           type="checkbox"
           id="isPaid"
           checked={isChecked}
           onChange={handleIsPaidCheck}
           disabled={loading} // Disable while loading
         />
-        <div className="fw-semibold">{payeeName}</div>
+        <div className="fw-semibold row">{payeeName}</div>
       </section>
 
       {/* Payment Slider and Amount Display */}

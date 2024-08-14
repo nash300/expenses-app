@@ -1,0 +1,25 @@
+/* Reset some default browser styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Ensure the body, html, and #root take up the full viewport height */
+html, body, #root {
+  height: 100%;
+  overflow: hidden; /* Prevent scrollbars on the root level */
+}
+
+/* Make sure the app container takes up the full viewport height */
+.app-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+/* Allow the content to scroll if necessary */
+.content {
+  flex: 1;
+  overflow-y: auto;
+}

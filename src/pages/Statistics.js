@@ -60,7 +60,7 @@ const Statistics = () => {
 
   return (
     initialAmount > 0 && (
-      <div className="card shadow ">
+      <div className=" card shadow ">
         <div className="card-header bg-primary text-white text-center ">
           <h4>{payeeName}</h4>
         </div>
