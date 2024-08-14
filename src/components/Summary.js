@@ -33,8 +33,8 @@ const Summary = ({ selectedMonthsPayments }) => {
       : 0;
 
   return (
-    <div className="content">
-      <div className="card-header text-center">
+    <div className="content card d-grid mt-3 p-2">
+      <div className="card-header d-flex justify-content-between align-items-center bg-primary">
         <h3>Summary</h3>
       </div>
       <div className=" card m-2 shadow p-4">

@@ -3,10 +3,10 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-d
 import Navbar from "./components/Navbar";
 import LoginPage from "./pages/LoginPage";
 import Home from "./pages/Home";
-import Statistics from "./pages/Statistics";
 import BudgetCalculator from "./pages/BudgetCalculator";
 import SelectDatePage from "./pages/SelectDatePage";
 import { useBudget } from "./context files/BudgetProvider";
+import CreditLoanStatistics from "./components/CreditLoanStatistics";
 import "../src/Styles.css";
 
 
@@ -42,7 +42,7 @@ function App() {
               path="/statistics"
               element={
                 isLoggedIn ? (
-                  <Statistics userData={userData} />
+                  <CreditLoanStatistics userData={userData} />
                 ) : (
                   <Navigate to="/login" replace />
                 )

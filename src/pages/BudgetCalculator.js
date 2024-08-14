@@ -6,7 +6,8 @@ import Summary from "../components/Summary"; // Component to display summary of 
 import PaymentBoxSection from "../components/PaymentBoxSection"; // Component to show existing payments
 import newPlanIcon from "../utilities/icons/1 (108).png"; // Icon for creating a new plan
 import supabase from "../supabase"; // Supabase client for database operations
-import Statistics from "./Statistics";
+import HoverStatistics from "../components/HoverStatistics";
+import CreditLoanStatistics from "../components/CreditLoanStatistics";
 
 const BudgetCalculator = () => {
   // Destructure budget-related data and functions from the context
@@ -95,31 +96,19 @@ const BudgetCalculator = () => {
   };
 
   return (
-    <div
-      className="content "
-    >
-      {/* TOP SECTION- Display selected month and year */}
-      <section
-        className="container-fluid d-flex p-0 mb-1"
-        style={{ height: "auto" }}
-      >
-        <div className="container ">
-          <h6 className="d-flex">
-            {monthOptions[month - 1]} {year}{" "}
-          </h6>
+    <div className="content">
+      {/* TOP SECTION - Display selected month and year */}
+      <section className="container-fluid p-0 mb-2">
+        <div className="container">
+          <h6>{monthOptions[month - 1]} {year}</h6>
         </div>
       </section>
-
-      {/* BOTTOM SECTION- The main section */}
-
-      <section
-        className="container-fluid d-flex col p-0 m-0"
-        style={{ height: "100vh", width: "100%" }}
-      >
-        {/*  LEFT- Display summary and income adder */}
-
-        <section className=" d-grid container p-0 m-0 col-3" style={{maxHeight: "90vh"}} >
-          <div className=" ">
+  
+      {/* BOTTOM SECTION - The main section */}
+      <section className="container-fluid d-flex p-0 m-0" style={{ height: "100vh", width: "100%" }}>
+        {/* LEFT - Display summary and income adder */}
+        <section className="d-flex flex-column col-3 p-2">
+          <div className="mb-3">
             <Summary
               totalIncome={totalIncome}
               totalPaymentAmount={totalPaymentAmount}
@@ -130,57 +119,54 @@ const BudgetCalculator = () => {
             <IncomeAdder />
           </div>
         </section>
-
-        {/* MIDDLE  */}
-
-        <section className="d-grid container p-0 m-0 pb-5 col-6 overflow-scroll" style={{ overflowX: "hidden" }}>
-          {/* MIDDLE TOP  */}
-
+  
+        {/* MIDDLE */}
+        <section className="d-flex flex-column col-6 p-2 overflow-auto">
+          {/* MIDDLE TOP */}
           <AddAndCreateSection isEmpty={isNoPayments} />
+  
           {/* Conditionally render payment section if payments exist */}
-
-          {/* Create new plan section */}
-
           {isNoPayments ? (
-            <div
-              className="alert alert-danger justify-content-center align-items-center shadow p-5 m-5"
-              role="alert"
-            >
-              <p className="d-flex justify-content-center align-items-center">
-                You haven't created a budget plan for this month yet.
-              </p>
-              <div className="d-flex justify-content-center align-items-center col">
-                <button
-                  type="button"
-                  className="btn btn-warning shadow"
-                  onClick={handleCreateNewPlanButtonClick}
-                >
-                  <img
-                    className="card-img-top"
-                    src={newPlanIcon}
-                    alt="Create New Plan Icon"
-                    style={{
-                      height: "30px",
-                      width: "30px",
-                      marginRight: "10px",
-                    }}
-                  />
-                  Create New Plan
-                </button>
-              </div>
+            <div className="alert alert-danger d-flex flex-column align-items-center shadow p-4 my-5" role="alert">
+              <p>You haven't created a budget plan for this month yet.</p>
+              <button
+                type="button"
+                className="btn btn-warning shadow mt-2"
+                onClick={handleCreateNewPlanButtonClick}
+              >
+                <img
+                  src={newPlanIcon}
+                  alt="Create New Plan Icon"
+                  style={{
+                    height: "30px",
+                    width: "30px",
+                    marginRight: "10px",
+                  }}
+                />
+                Create New Plan
+              </button>
             </div>
           ) : (
             <PaymentBoxSection /> // MIDDLE BOTTOM - Show payment section if budget records exist
           )}
         </section>
-
-        {/*RIGHT - Show statistics based on mouse hover*/}
-        <section className="d-grid container p-0 m-0 col-3">
-          {isHover && <Statistics />}
+  
+        {/* RIGHT */}
+        <section className="d-drid  col-3 p-2">
+          {/* RIGHT TOP - Show general statistics */}
+          <div className="mb-3">
+            <CreditLoanStatistics />
+          </div>
+  
+          {/* RIGHT BOTTOM - Show hover statistics on hover */}
+          <div>
+            {isHover && <HoverStatistics />}
+          </div>
         </section>
       </section>
     </div>
   );
+  
 };
 
 export default BudgetCalculator;

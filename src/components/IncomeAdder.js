@@ -145,8 +145,8 @@ const IncomeAdder = () => {
   }, [totalIncome, setTotalIncome]);
 
   return (
-    <div className="card text-white shadow m-4">
-      <div className="card-header d-flex justify-content-between align-items-center ps-2 bg-primary">
+    <div className=" d-grid card text-white shadow p-4">
+      <div className="card-header d-flex justify-content-between align-items-center bg-primary">
         Add an Income
         <button
           type="button"
