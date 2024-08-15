@@ -205,6 +205,39 @@ const AddNewPayee = ({ setIsAddNewPayeeClicked }) => {
               </div>
             </section>
           )}
+        {isRepeatingPayment && paymentCategory === "Bill" && (
+          <section className=" container d-flex row col-5 m-auto">
+            <div className=" row alert alert-info ">
+              {/* Initial amount */}
+              <label htmlFor="remainingAmount">Amount per month *</label>
+              <div className="input-group">
+                <input
+                  type="number"
+                  className="form-control"
+                  id="remainingAmount"
+                  value={initialAmount}
+                  onChange={handleInitialAmountChange}
+                  required
+                />
+                <span className="input-group-text">Kr</span>
+              </div>
+            </div>
+
+            <div className="row alert alert-warning ">
+              {/* OCR section */}
+              <label htmlFor="ocrNumber">
+                <i>(OCR number)</i>
+              </label>
+              <input
+                type="text"
+                className="form-control"
+                id="ocrNumber"
+                value={ocrNumber}
+                onChange={handleOcrNumberChange}
+              />
+            </div>
+          </section>
+        )}
       </div>
       <section className="container">
         <div className="d-flex justify-content-end pb-3 pe-3">

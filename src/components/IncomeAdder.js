@@ -145,9 +145,9 @@ const IncomeAdder = () => {
   }, [totalIncome, setTotalIncome]);
 
   return (
-    <div className=" d-grid card text-white shadow p-4">
-      <div className="card-header d-flex justify-content-between align-items-center bg-primary">
-        Add an Income
+    <div className=" content card d-grid mt-3 p-2">
+      <div className="card-header d-flex justify-content-between align-items-center  text-white bg-primary">
+         <h5>Add an Income</h5>
         <button
           type="button"
           className="btn btn-warning"
@@ -169,7 +169,7 @@ const IncomeAdder = () => {
               </div>
               <button
                 type="button"
-                className="btn btn-secondary"
+                className="btn btn-dark"
                 onClick={() => handleMinusButtonClick(index)}
               >
                 <b>-</b>

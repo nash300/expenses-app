@@ -39,14 +39,10 @@ const HoverStatistics = () => {
   const years = Math.floor(monthsNeeded / 12); // Calculate full years
   const remainingMonths = monthsNeeded % 12; // Calculate remaining months
 
-
-  
-
-
   return (
-    <div className="content mt-auto mb-5">
+    <div className="content card d-grid mt-3 p-2">
       {/* Part 2: Conditional Rendering of Payment Details */}
-      <div>
+      <div className="">
         {initialAmount > 0 && (
           <div className="card shadow">
             <div className="card-header bg-primary text-white text-center">
@@ -59,9 +55,9 @@ const HoverStatistics = () => {
                   <p className="card-text mb-0 me-3">
                     Calculated time to pay off fully:
                   </p>
-                  <h3 className="card-text p-0 m-0">
+                  <h4 className="card-text p-0 m-0">
                     {years} years and {remainingMonths} months
-                  </h3>
+                  </h4>
                 </div>
               </div>
 
@@ -77,7 +73,7 @@ const HoverStatistics = () => {
                 {/* Average Payment Amount Per Month */}
                 <div className="d-grid justify-content-between align-items-center">
                   <p className="card-text mb-0 me-5">
-                    Average amount per month you have paid so far:
+                    Your average payment per month:
                   </p>
                   <h4 className="card-text mb-0">
                     {averagePaymentAmountPerMonth.toFixed(0)} Kr
@@ -89,7 +85,7 @@ const HoverStatistics = () => {
                 {/* Amount Left to Pay When Created */}
                 <div className="d-flex justify-content-between align-items-center border-top pt-3">
                   <p className="card-text mb-0">
-                    Amount left to pay when created:
+                    Initial Amount:
                   </p>
                   <p className="card-text mb-0">
                     {amountLeftToPayWhenCreated} Kr
@@ -122,7 +118,7 @@ const HoverStatistics = () => {
                 {/* Amount Left to Pay As of Today */}
                 <div className="d-flex justify-content-between align-items-center">
                   <p className="card-text mb-0">
-                    Amount left to pay as of today:
+                    left to pay:
                   </p>
                   <p className="card-text mb-0">
                     {amountLeftToPayAsPerToday} Kr

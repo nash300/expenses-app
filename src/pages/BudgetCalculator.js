@@ -121,7 +121,7 @@ const BudgetCalculator = () => {
         </section>
   
         {/* MIDDLE */}
-        <section className="d-flex flex-column col-6 p-2 overflow-auto">
+        <section className="d-flex flex-column col-6 overflow-auto" style={{marginTop: "8px"}}>
           {/* MIDDLE TOP */}
           <AddAndCreateSection isEmpty={isNoPayments} />
   
@@ -152,14 +152,14 @@ const BudgetCalculator = () => {
         </section>
   
         {/* RIGHT */}
-        <section className="d-drid  col-3 p-2">
+        <section className=" d-grid col-3 overflow-scroll p-0 m-0">
           {/* RIGHT TOP - Show general statistics */}
-          <div className="mb-3">
+          <div className="m-0">
             <CreditLoanStatistics />
           </div>
   
           {/* RIGHT BOTTOM - Show hover statistics on hover */}
-          <div>
+          <div className=" d-grid  ">
             {isHover && <HoverStatistics />}
           </div>
         </section>

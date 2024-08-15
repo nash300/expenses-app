@@ -8,7 +8,7 @@ const PaymentBoxSection = () => {
 
   // Filtering repeated payments
   const monthlyPayments = selectedMonthsPayments
-    .filter((payment) => payment.Payee.is_repeating) // Filter repeated payments
+    .filter((payment) => payment.Payee.is_repeating && payment.Payee.initial_amount) // Filter repeated payments
     .sort((a, b) => a.Payee.payee_name.localeCompare(b.Payee.payee_name)); // Sort by payee name
 
   // Filtering one-time payments
@@ -38,6 +38,7 @@ const PaymentBoxSection = () => {
             deletePayment={deletePayment}
             fetchAllSavedPayments={fetchAllSavedPayments}
             payeeId={payment.Payee.payee_id}
+            category ={payment.Payee.category}
           />
         ))
       ) : (

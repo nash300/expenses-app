@@ -12,6 +12,7 @@ const PaymentBox = ({
   initialAmount,
   fetchAllSavedPayments,
   payeeId,
+  category,
 }) => {
   const { updateIsHover, updatePayeeId } = useBudget();
 
@@ -92,15 +93,15 @@ const PaymentBox = ({
 
   return (
     <div
-      className={`content d-flex rounded-end border  shadow-sm ${
+      className={`content d-flex col rounded-end border ps-2 shadow-sm ${
         loading ? "opacity-90" : ""
-      } ${isChecked ? "alert alert-dark opacity-10 " : ""}`}
-      style={{height: "70px"}}
+      } ${isChecked ? " bg-warning-subtle opacity-10 " : ""}`}
+      style={{ height: "70px" }}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
       {/* Payee Name and Paid Checkbox */}
-      <section className="container col-md-2 d-flex align-items-center">
+      <section className="container col d-flex align-items-center">
         <input
           className="me-3 row"
           type="checkbox"
@@ -111,10 +112,10 @@ const PaymentBox = ({
         />
         <div className="fw-semibold row">{payeeName}</div>
       </section>
-
+  
       {/* Payment Slider and Amount Display */}
       <section className="container col-md-7 d-flex align-items-center">
-        {amountLeftToPay && initialAmount ? (
+        {initialAmount ? (
           <div className="container align-items-center">
             <div className="container d-flex align-items-center">
               <div className="me-1 align-items-center">Kr</div>
@@ -150,7 +151,7 @@ const PaymentBox = ({
           </div>
         )}
       </section>
-
+  
       {/* Delete Button */}
       <section className="container col-md-3 d-flex justify-content-end align-items-center">
         <button
@@ -163,6 +164,7 @@ const PaymentBox = ({
       </section>
     </div>
   );
+  
 };
 
 export default PaymentBox;
