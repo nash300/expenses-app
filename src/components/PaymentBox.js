@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import supabase from "../supabase";
-import { useBudget } from "../context files/BudgetProvider"; // Custom hook to access budget context
+import { useBudget } from "../context files/BudgetProvider"; 
 
 const PaymentBox = ({
   paymentId,
@@ -13,28 +13,50 @@ const PaymentBox = ({
   fetchAllSavedPayments,
   payeeId,
 }) => {
-  const { updateIsHover, updatePayeeId } = useBudget();
+  const { updateIsHover, updatePayeeId, allSavedPayments } = useBudget();
 
-  // Local states to manage slider and checkbox
+  /* -------------------------------------------------------------------------- */
+  /*    The following variables are used to estimate the start values sliderbars*/
+  /* -------------------------------------------------------------------------- */
+  const allPaymentsMadeToThisPayee = allSavedPayments.filter(
+    // Filter payments made to the specific payee
+    (p) => p.Payee.payee_id === payeeId
+  );
+  const accumulatedPaymentSum = allPaymentsMadeToThisPayee.reduce(
+    (sum, payment) => sum + (payment.sum || 0),
+    0
+  );
+  const numberOfTimesPaid = allPaymentsMadeToThisPayee.filter(
+    (p) => p.sum !== 0
+  ).length; // Filter payments with non-zero sum // Count the number of filtered payments
+  const averagePaymentAmountPerMonth =
+    numberOfTimesPaid > 0 ? accumulatedPaymentSum / numberOfTimesPaid : 0;
+  /* ------------------------------------ . ----------------------------------- */
+  /* -------------------------------------------------------------------------- */
+  /*                 Local states to manage slider and checkbox                 */
+  /* -------------------------------------------------------------------------- */
   const [sliderValue, setSliderValue] = useState(paymentSum); // Value to be sent to the server
-  const [localSliderValue, setLocalSliderValue] = useState(paymentSum); // For the input field display
+  const [localSliderValue, setLocalSliderValue] = useState(
+    !isPaid ? averagePaymentAmountPerMonth : paymentSum
+  );
   const [isChecked, setIsChecked] = useState(isPaid); // Checkbox state for "is_paid"
   const [loading, setLoading] = useState(false); // Loading state to prevent user interactions during updates
+  /* ------------------------------------ . ----------------------------------- */
 
-  // Handle changes in the numeric input field
+  /* ---------------- Handle changes in the numeric input field --------------- */
   const handleInputChange = (event) => {
     const newValue = Number(event.target.value);
     setLocalSliderValue(newValue);
     setSliderValue(newValue); // Immediate update to reflect in state
   };
 
-  // Handle changes in the slider
+  /* ---------------------- Handle changes in the slider ---------------------- */
   const handleSliderChange = (event) => {
     const newValue = Number(event.target.value);
     setLocalSliderValue(newValue);
   };
 
-  // Handle payment deletion
+  /* ------------------------- Handle payment deletion ------------------------ */
   const handleDeleteClick = async () => {
     setLoading(true);
     try {
@@ -45,12 +67,12 @@ const PaymentBox = ({
     }
   };
 
-  // Handle checkbox change (paid status)
+  /* ------------------ Handle checkbox change (paid status) ------------------ */
   const handleIsPaidCheck = (e) => {
     setIsChecked(e.target.checked);
   };
 
-  // Update the payment record in the database
+  /* ---------------- Update the payment record in the database --------------- */
   const updatePaymentInDatabase = async () => {
     setLoading(true);
     try {
@@ -71,16 +93,17 @@ const PaymentBox = ({
     }
   };
 
-  // Update sliderValue in state and database when slider action completes
+  /* -- Update sliderValue in state and database when slider action completes - */
   const handleSliderMouseUp = () => {
     setSliderValue(localSliderValue); // Update server value
   };
 
-  // Trigger database update when isChecked or sliderValue changes
+  /* ------ Trigger database update when isChecked or sliderValue changes ----- */
   useEffect(() => {
     updatePaymentInDatabase();
   }, [isChecked, sliderValue]);
 
+  /* -------------------------- Mouse hover functions ------------------------- */
   const handleMouseEnter = () => {
     updateIsHover(true);
     updatePayeeId(payeeId);
@@ -89,6 +112,7 @@ const PaymentBox = ({
   const handleMouseLeave = () => {
     updateIsHover(false);
   };
+  /* ------------------------------------ . ----------------------------------- */
 
   return (
     <div

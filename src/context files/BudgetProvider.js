@@ -12,22 +12,25 @@ const BudgetContext = createContext();
 
 // Create a provider component
 export const BudgetProvider = ({ children }) => {
-  // User status state
+  /* ---------------------------- User status state --------------------------- */
   const [userData, setUserData] = useState([]);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-  // Selected date for filtering payments
+  /* ------------------ Selected date for filtering payments ------------------ */
   const [year, setYear] = useState();
   const [month, setMonth] = useState();
 
-  // State for incomes and total income
+  /* ------------------- State for incomes and total income ------------------- */
   const [incomes, setIncomes] = useState([]);
   const [totalIncome, setTotalIncome] = useState(null);
 
-  // State for payee list
+  /* -------------------------- State for payee list -------------------------- */
+  // Used to render payee list in "CreateNewPayment.js"
   const [payeeList, setPayeeList] = useState([]);
 
-  // Fetch payee list based on user ID
+  /* -------------------------------------------------------------------------- */
+  /*                      Fetch payee list based on user ID                     */
+  /* -------------------------------------------------------------------------- */
   const fetchPayeeList = useCallback(async () => {
     try {
       console.log("Fetching payee list for user:", userData.user_id);
@@ -52,12 +55,15 @@ export const BudgetProvider = ({ children }) => {
       fetchPayeeList();
     }
   }, [fetchPayeeList, userData.user_id]);
+  /* ------------------------------------ . ----------------------------------- */
 
-  // State for payments data
+  /* -------------- State for payments data of a perticular user -------------- */
   const [allSavedPayments, setAllSavedPayments] = useState([]);
   const [selectedMonthsPayments, setSelectedMonthsPayments] = useState([]);
 
-  // Fetch all saved payments
+  /* -------------------------------------------------------------------------- */
+  /*                          Fetch all saved payments                          */
+  /* -------------------------------------------------------------------------- */
   const fetchAllSavedPayments = useCallback(async () => {
     try {
       console.log("Fetching all saved payments for user:", userData.user_id);
@@ -76,15 +82,16 @@ export const BudgetProvider = ({ children }) => {
       console.error("Error fetching all saved payments:", error);
     }
   }, [userData.user_id]);
+  /* ------------------------------------ . ----------------------------------- */
 
-  // Call fetchAllSavedPayments when user ID changes
+  /* ------------- Call fetchAllSavedPayments when user ID changes ------------ */
   useEffect(() => {
     if (userData.user_id) {
       fetchAllSavedPayments();
     }
   }, [fetchAllSavedPayments, userData.user_id]);
 
-  // Filter payments by year and month
+  /* ----------------- Filter payments by given year and month ---------------- */
   const filterPayments = (year, month) => {
     const yearInt = parseInt(year, 10);
     const monthInt = parseInt(month, 10);
@@ -98,12 +105,12 @@ export const BudgetProvider = ({ children }) => {
     return filteredPaymentData;
   };
 
-  // Update selected months payments when data or date changes
+  /* -------- Update selected months payments when data or date changes ------- */
   useEffect(() => {
     setSelectedMonthsPayments(filterPayments(year, month));
   }, [allSavedPayments, year, month]);
 
-  // Delete a payment record and refresh payments
+  /* -------------- Delete a payment record and refresh payments -------------- */
   const deletePayment = async (paymentId) => {
     try {
       console.log("Deleting payment with ID:", paymentId);
@@ -122,7 +129,8 @@ export const BudgetProvider = ({ children }) => {
       alert("Error deleting payment. Please try again.");
     }
   };
-  // Tracks mouse hovering state
+
+  /* ----------------------- Tracks mouse hovering state ---------------------- */
   const [isHover, setIsHover] = useState(false);
 
   const updateIsHover = (state) => {
@@ -130,6 +138,7 @@ export const BudgetProvider = ({ children }) => {
     console.log("is hover updated to ", state);
   };
 
+  /* ---------------- Tracks and updates payee_Id when changes ---------------- */
   const [payeeId, setPayeeId] = useState(null);
 
   const updatePayeeId = (id) => {
