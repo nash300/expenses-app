@@ -67,7 +67,7 @@ const AddNewPayee = ({ setIsAddNewPayeeClicked }) => {
             intrest_rate: parseFloat(intrestRate) || null, // Store null if no interest rate provided
             amount_left_to_pay: amountLeftToPay,
             ocr_number: ocrNumber,
-            initial_amount: initialAmount,
+            initial_amount: initialAmount || null,
           },
         ]);
 

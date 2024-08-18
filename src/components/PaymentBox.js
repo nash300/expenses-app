@@ -12,7 +12,6 @@ const PaymentBox = ({
   initialAmount,
   fetchAllSavedPayments,
   payeeId,
-  category,
 }) => {
   const { updateIsHover, updatePayeeId } = useBudget();
 
@@ -112,7 +111,7 @@ const PaymentBox = ({
         />
         <div className="fw-semibold row">{payeeName}</div>
       </section>
-  
+
       {/* Payment Slider and Amount Display */}
       <section className="container col-md-7 d-flex align-items-center">
         {initialAmount ? (
@@ -151,7 +150,7 @@ const PaymentBox = ({
           </div>
         )}
       </section>
-  
+
       {/* Delete Button */}
       <section className="container col-md-3 d-flex justify-content-end align-items-center">
         <button
@@ -164,7 +163,6 @@ const PaymentBox = ({
       </section>
     </div>
   );
-  
 };
 
 export default PaymentBox;

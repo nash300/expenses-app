@@ -3,11 +3,11 @@ import { useBudget } from "../context files/BudgetProvider"; // Custom hook to a
 
 const PaymentBoxSection = () => {
   // Destructure relevant data and functions from the budget context
-  const { selectedMonthsPayments, deletePayment, fetchAllSavedPayments } =
+  const { selectedMonthsPayments, deletePayment, fetchAllSavedPayments , allSavedPayments} =
     useBudget();
 
   // Filtering repeated payments
-  const monthlyPayments = selectedMonthsPayments
+  const repeatingPayments = selectedMonthsPayments
     .filter((payment) => payment.Payee.is_repeating && payment.Payee.initial_amount) // Filter repeated payments
     .sort((a, b) => a.Payee.payee_name.localeCompare(b.Payee.payee_name)); // Sort by payee name
 
@@ -25,8 +25,8 @@ const PaymentBoxSection = () => {
 
       <h4 className="mt-3">Monthly payments</h4>
 
-      {monthlyPayments.length > 0 ? (
-        monthlyPayments.map((payment) => (
+      {repeatingPayments.length > 0 ? (
+        repeatingPayments.map((payment) => (
           <PaymentBox
             key={payment.payment_id}
             paymentId={payment.payment_id}

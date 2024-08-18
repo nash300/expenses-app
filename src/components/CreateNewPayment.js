@@ -3,7 +3,8 @@ import { useState } from "react";
 import { useBudget } from "../context files/BudgetProvider";
 
 const CreateNewPayment = ({ setIsCreateNewPaymentClicked }) => {
-  const { userData, year, month, payeeList, fetchAllSavedPayments } = useBudget();
+  const { userData, year, month, payeeList, fetchAllSavedPayments } =
+    useBudget();
 
   // Local states for form inputs
   const [selectedPayee, setSelectedPayee] = useState("");
@@ -32,7 +33,8 @@ const CreateNewPayment = ({ setIsCreateNewPaymentClicked }) => {
 
   // Handle saving the new payment
   const handleSaveClick = async () => {
-    if (selectedPayee && amount) { // Check for required fields
+    if (selectedPayee && amount) {
+      // Check for required fields
       try {
         // Insert new payment record into Supabase
         const { data, error } = await supabase.from("Payments").insert([
@@ -72,7 +74,7 @@ const CreateNewPayment = ({ setIsCreateNewPaymentClicked }) => {
       <div className="form-row p-5 pt-2">
         {/* Payee Selection */}
         <div className="form-group col-5 mb-3">
-          <label htmlFor="payeeName">Select payee *</label>
+          <label htmlFor="payeeName">Select Bank/Payee *</label>
           <select
             id="payeeName"
             value={selectedPayee}
@@ -83,26 +85,13 @@ const CreateNewPayment = ({ setIsCreateNewPaymentClicked }) => {
             <option value="">Select Here</option>
 
             {/* Group for one-time payments */}
-            <optgroup label="One-Time Payments">
-              {payeeList
-                .filter((payee) => !payee.is_repeating)
-                .map((payee) => (
-                  <option key={payee.payee_id} value={payee.payee_id}>
-                    {payee.payee_name}
-                  </option>
-                ))}
-            </optgroup>
-
-            {/* Group for repeating payments */}
-            <optgroup label="Repeating Payments">
-              {payeeList
-                .filter((payee) => payee.is_repeating)
-                .map((payee) => (
-                  <option key={payee.payee_id} value={payee.payee_id}>
-                    {payee.payee_name}
-                  </option>
-                ))}
-            </optgroup>
+            {payeeList
+              .filter((payee) => !payee.is_repeating)
+              .map((payee) => (
+                <option key={payee.payee_id} value={payee.payee_id}>
+                  {payee.payee_name}
+                </option>
+              ))}
           </select>
         </div>
 
@@ -160,4 +149,3 @@ const CreateNewPayment = ({ setIsCreateNewPaymentClicked }) => {
 };
 
 export default CreateNewPayment;
-

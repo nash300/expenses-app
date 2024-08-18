@@ -42,7 +42,7 @@ const AddAndCreateSection = ({ isNoPayments }) => {
               alt="Add new payee"
               style={{ height: "30px", width: "30px", marginRight: "10px" }}
             />
-            Save a payment receiver
+            Save Payment Receivers
           </button>
         </div>
 
@@ -61,7 +61,7 @@ const AddAndCreateSection = ({ isNoPayments }) => {
                 alt="Create new payment"
                 style={{ height: "30px", width: "30px", marginRight: "10px" }}
               />
-              Create New Payment
+              Create One-Time Payment
             </button>
           )}
         </div>
