@@ -49,7 +49,7 @@ export const BudgetProvider = ({ children }) => {
     }
   }, [userData.user_id]);
 
-  // Call fetchPayeeList when user ID changes
+   /* ---------------- Call fetchPayeeList when user ID changes ---------------- */
   useEffect(() => {
     if (userData.user_id) {
       fetchPayeeList();
@@ -57,7 +57,7 @@ export const BudgetProvider = ({ children }) => {
   }, [fetchPayeeList, userData.user_id]);
   /* ------------------------------------ . ----------------------------------- */
 
-  /* -------------- State for payments data of a perticular user -------------- */
+  /* -------------- State for payments data of a particular user -------------- */
   const [allSavedPayments, setAllSavedPayments] = useState([]);
   const [selectedMonthsPayments, setSelectedMonthsPayments] = useState([]);
 

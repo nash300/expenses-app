@@ -9,7 +9,7 @@ const AddNewPayee = ({ setIsAddNewPayeeClicked }) => {
   const [payeeName, setPayeeName] = useState("");
   const [paymentCategory, setPaymentCategory] = useState("");
   const [isRepeatingPayment, setIsRepeatingPayment] = useState(false);
-  const [intrestRate, setIntrestRate] = useState();
+  const [interestRate, setInterestRate] = useState();
   const [amountLeftToPay, setAmountLeftToPay] = useState();
   const [initialAmount, setInitialAmount] = useState();
   const [ocrNumber, setOcrNumber] = useState();
@@ -34,8 +34,8 @@ const AddNewPayee = ({ setIsAddNewPayeeClicked }) => {
     setIsRepeatingPayment(e.target.checked);
   };
 
-  const handleIntrestRateChange = (e) => {
-    setIntrestRate(e.target.value);
+  const handleInterestRateChange = (e) => {
+    setInterestRate(e.target.value);
   };
 
   const handleInitialAmountChange = (e) => {
@@ -47,7 +47,7 @@ const AddNewPayee = ({ setIsAddNewPayeeClicked }) => {
     setPaymentCategory("");
     setPayeeName("");
     setIsRepeatingPayment(false);
-    setIntrestRate(0);
+    setInterestRate(0);
     setInitialAmount(null);
   };
 
@@ -57,14 +57,16 @@ const AddNewPayee = ({ setIsAddNewPayeeClicked }) => {
 
     if (payeeName && paymentCategory) {
       try {
-        // Insert the data into the Supabase table
+         /* -------------------------------------------------------------------------- */
+         /*                   Insert the data into the Supabase table                  */
+         /* -------------------------------------------------------------------------- */
         const { error } = await supabase.from("Payee").insert([
           {
             user_id: userData.user_id,
             payee_name: payeeName,
             category: paymentCategory,
             is_repeating: isRepeatingPayment,
-            intrest_rate: parseFloat(intrestRate) || null, // Store null if no interest rate provided
+            interest_rate: parseFloat(interestRate) || null, // Store null if no interest rate provided
             amount_left_to_pay: amountLeftToPay,
             ocr_number: ocrNumber,
             initial_amount: initialAmount || null,
@@ -176,16 +178,16 @@ const AddNewPayee = ({ setIsAddNewPayeeClicked }) => {
 
               <div className="row alert alert-warning ">
                 {/* Interest rate  */}
-                <label htmlFor="intrestRate">
-                  <i>Annual intrest rate </i>
+                <label htmlFor="interestRate">
+                  <i>Annual interest rate </i>
                 </label>
                 <div className="input-group">
                   <input
                     type="number"
                     className="form-control"
-                    id="intrestRate"
-                    value={intrestRate}
-                    onChange={handleIntrestRateChange}
+                    id="interestRate"
+                    value={interestRate}
+                    onChange={handleInterestRateChange}
                   />
                   <span className="input-group-text">%</span>
                 </div>

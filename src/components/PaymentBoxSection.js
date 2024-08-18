@@ -34,11 +34,12 @@ const PaymentBoxSection = () => {
             paymentSum={payment.sum}
             initialAmount={payment.Payee.initial_amount}
             isPaid={payment.is_paid}
-            amountLeftToPay={payment.Payee.amount_left_to_pay}
+            amountLeftToPay={payment.Payee.amount_left_to_pay} 
             deletePayment={deletePayment}
             fetchAllSavedPayments={fetchAllSavedPayments}
             payeeId={payment.Payee.payee_id}
             category ={payment.Payee.category}
+            isRepeating = {payment.Payee.is_repeating}
           />
         ))
       ) : (

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import supabase from "../supabase";
-import { useBudget } from "../context files/BudgetProvider"; 
+import { useBudget } from "../context files/BudgetProvider";
 
 const PaymentBox = ({
   paymentId,
@@ -15,8 +15,10 @@ const PaymentBox = ({
 }) => {
   const { updateIsHover, updatePayeeId, allSavedPayments } = useBudget();
 
+  console.log("amountLeftToPay" , amountLeftToPay)
+
   /* -------------------------------------------------------------------------- */
-  /*    The following variables are used to estimate the start values sliderbars*/
+  /*    The following variables are used to estimate the start values sliders   */
   /* -------------------------------------------------------------------------- */
   const allPaymentsMadeToThisPayee = allSavedPayments.filter(
     // Filter payments made to the specific payee
@@ -31,16 +33,33 @@ const PaymentBox = ({
   ).length; // Filter payments with non-zero sum // Count the number of filtered payments
   const averagePaymentAmountPerMonth =
     numberOfTimesPaid > 0 ? accumulatedPaymentSum / numberOfTimesPaid : 0;
+    const amountLeftToPayWhenCreated =
+    allPaymentsMadeToThisPayee.length > 1
+      ? allPaymentsMadeToThisPayee[1].Payee.amount_left_to_pay
+      : 0;
+  const amountLeftToPayAsPerToday =
+    amountLeftToPayWhenCreated - accumulatedPaymentSum;
+    console.log("amountLeftToPayAsPerToday", amountLeftToPayAsPerToday)
+  
   /* ------------------------------------ . ----------------------------------- */
+
   /* -------------------------------------------------------------------------- */
   /*                 Local states to manage slider and checkbox                 */
   /* -------------------------------------------------------------------------- */
-  const [sliderValue, setSliderValue] = useState(paymentSum); // Value to be sent to the server
+
+  /* --------------------- Value to be sent to the server --------------------- */
+  const [sliderValue, setSliderValue] = useState(paymentSum);
+
+  /* ----------------- temporary holding values for slider's ---------------- */
   const [localSliderValue, setLocalSliderValue] = useState(
     !isPaid ? averagePaymentAmountPerMonth : paymentSum
   );
-  const [isChecked, setIsChecked] = useState(isPaid); // Checkbox state for "is_paid"
-  const [loading, setLoading] = useState(false); // Loading state to prevent user interactions during updates
+
+  /* ---------------------- Checkbox state for "is_paid" ---------------------- */
+  const [isChecked, setIsChecked] = useState(isPaid);
+
+  /* -------- Loading state to prevent user interactions during updates ------- */
+  const [loading, setLoading] = useState(false);
   /* ------------------------------------ . ----------------------------------- */
 
   /* ---------------- Handle changes in the numeric input field --------------- */
@@ -153,11 +172,12 @@ const PaymentBox = ({
               />
             </div>
             <div>
+              {/* Sliders */}
               <input
                 type="range"
                 className="form-range"
                 min={0}
-                max={amountLeftToPay}
+                max={initialAmount} 
                 step={1}
                 value={localSliderValue}
                 onChange={handleSliderChange}
