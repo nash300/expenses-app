@@ -10,7 +10,7 @@ function HomeMenuPage() {
   // Handler function to navigate to the Budget Calculator page
   const handleBudgetCalculatorClick = () => {
     console.log("Navigating to /select-date"); // Log for debugging
-    navigate("/select-date"); // Programmatically navigate to /select-date
+    navigate("/select-date"); // Programmatically navigate to /select-date.
   };
 
   // Handler function to navigate to the Statistics page
