@@ -15,44 +15,12 @@ const PaymentBox = ({
 }) => {
   const { updateIsHover, updatePayeeId, allSavedPayments } = useBudget();
 
-  console.log("amountLeftToPay" , amountLeftToPay)
-
-  /* -------------------------------------------------------------------------- */
-  /*    The following variables are used to estimate the start values sliders   */
-  /* -------------------------------------------------------------------------- */
-  const allPaymentsMadeToThisPayee = allSavedPayments.filter(
-    // Filter payments made to the specific payee
-    (p) => p.Payee.payee_id === payeeId
-  );
-  const accumulatedPaymentSum = allPaymentsMadeToThisPayee.reduce(
-    (sum, payment) => sum + (payment.sum || 0),
-    0
-  );
-  const numberOfTimesPaid = allPaymentsMadeToThisPayee.filter(
-    (p) => p.sum !== 0
-  ).length; // Filter payments with non-zero sum // Count the number of filtered payments
-  const averagePaymentAmountPerMonth =
-    numberOfTimesPaid > 0 ? accumulatedPaymentSum / numberOfTimesPaid : 0;
-    const amountLeftToPayWhenCreated =
-    allPaymentsMadeToThisPayee.length > 1
-      ? allPaymentsMadeToThisPayee[1].Payee.amount_left_to_pay
-      : 0;
-  const amountLeftToPayAsPerToday =
-    amountLeftToPayWhenCreated - accumulatedPaymentSum;
-    console.log("amountLeftToPayAsPerToday", amountLeftToPayAsPerToday)
-  
-  /* ------------------------------------ . ----------------------------------- */
-
-  /* -------------------------------------------------------------------------- */
-  /*                 Local states to manage slider and checkbox                 */
-  /* -------------------------------------------------------------------------- */
-
   /* --------------------- Value to be sent to the server --------------------- */
   const [sliderValue, setSliderValue] = useState(paymentSum);
 
   /* ----------------- temporary holding values for slider's ---------------- */
   const [localSliderValue, setLocalSliderValue] = useState(
-    !isPaid ? averagePaymentAmountPerMonth : paymentSum
+    !isPaid ? paymentSum : paymentSum
   );
 
   /* ---------------------- Checkbox state for "is_paid" ---------------------- */
@@ -60,39 +28,46 @@ const PaymentBox = ({
 
   /* -------- Loading state to prevent user interactions during updates ------- */
   const [loading, setLoading] = useState(false);
-  /* ------------------------------------ . ----------------------------------- */
 
   /* ---------------- Handle changes in the numeric input field --------------- */
   const handleInputChange = (event) => {
     const newValue = Number(event.target.value);
-    setLocalSliderValue(newValue);
-    setSliderValue(newValue); // Immediate update to reflect in state
+    setLocalSliderValue(newValue); // Update the local value for the slider input
   };
 
   /* ---------------------- Handle changes in the slider ---------------------- */
   const handleSliderChange = (event) => {
     const newValue = Number(event.target.value);
-    setLocalSliderValue(newValue);
+    setLocalSliderValue(newValue); // Keep the slider state local until the user is done
+  };
+
+  /* -- Update sliderValue in state and database when slider action completes - */
+  const handleSliderMouseUp = () => {
+    setSliderValue(localSliderValue); // Only update the server value when sliding is done
+  };
+
+  const handleInputBlur = () => {
+    setSliderValue(localSliderValue); // Update the server value when user finishes typing
   };
 
   /* ------------------------- Handle payment deletion ------------------------ */
   const handleDeleteClick = async () => {
     setLoading(true);
     try {
-      await deletePayment(paymentId);
+      await deletePayment(paymentId); // Call the deletePayment function to delete the payment
       console.log(`Payment ${paymentId} deleted successfully.`);
+      fetchAllSavedPayments(); // Refetch payments after deletion
+    } catch (error) {
+      console.error("Error deleting payment:", error);
     } finally {
       setLoading(false);
     }
   };
 
-  /* ------------------ Handle checkbox change (paid status) ------------------ */
-  const handleIsPaidCheck = (e) => {
-    setIsChecked(e.target.checked);
-  };
-
   /* ---------------- Update the payment record in the database --------------- */
   const updatePaymentInDatabase = async () => {
+    if (loading) return; // Prevent multiple updates
+
     setLoading(true);
     try {
       const { data, error } = await supabase
@@ -112,14 +87,11 @@ const PaymentBox = ({
     }
   };
 
-  /* -- Update sliderValue in state and database when slider action completes - */
-  const handleSliderMouseUp = () => {
-    setSliderValue(localSliderValue); // Update server value
-  };
-
   /* ------ Trigger database update when isChecked or sliderValue changes ----- */
   useEffect(() => {
-    updatePaymentInDatabase();
+    if (sliderValue !== paymentSum || isChecked !== isPaid) {
+      updatePaymentInDatabase(); // Only update if there's a real change
+    }
   }, [isChecked, sliderValue]);
 
   /* -------------------------- Mouse hover functions ------------------------- */
@@ -131,7 +103,6 @@ const PaymentBox = ({
   const handleMouseLeave = () => {
     updateIsHover(false);
   };
-  /* ------------------------------------ . ----------------------------------- */
 
   return (
     <div
@@ -149,7 +120,7 @@ const PaymentBox = ({
           type="checkbox"
           id="isPaid"
           checked={isChecked}
-          onChange={handleIsPaidCheck}
+          onChange={(e) => setIsChecked(e.target.checked)}
           disabled={loading} // Disable while loading
         />
         <div className="fw-semibold row">{payeeName}</div>
@@ -166,7 +137,7 @@ const PaymentBox = ({
                 type="number"
                 value={localSliderValue}
                 onChange={handleInputChange}
-                onBlur={handleSliderMouseUp} // Update on blur
+                onBlur={handleInputBlur} // Update on blur
                 style={{ width: "100px" }}
                 disabled={loading || isChecked} // Disable while loading or checked
               />
@@ -177,7 +148,7 @@ const PaymentBox = ({
                 type="range"
                 className="form-range"
                 min={0}
-                max={initialAmount} 
+                max={initialAmount}
                 step={1}
                 value={localSliderValue}
                 onChange={handleSliderChange}
@@ -199,7 +170,7 @@ const PaymentBox = ({
       <section className="container col-md-3 d-flex justify-content-end align-items-center">
         <button
           className="btn btn-outline-danger"
-          onClick={handleDeleteClick}
+          onClick={handleDeleteClick} // Call the delete function
           disabled={loading || isChecked} // Disable while loading or checked
         >
           {loading ? "Processing..." : "Delete"}
